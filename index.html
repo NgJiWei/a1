@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprachheft — A1 Deutsch Trainer</title>
+<meta name="description" content="A German A1 course: vocabulary, grammar lessons and practice quizzes, installable as an app.">
+<meta name="theme-color" content="#1E2A44">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sprachheft">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper: #EAE7DD;
+  --paper-raised: #F4F2EA;
+  --ink: #1E2A44;
+  --ink-soft: #4A5670;
+  --line: #C9C4B4;
+  --yellow: #F0AE1E;
+  --yellow-deep: #C98A0B;
+  --red: #B23A2E;
+  --green: #3D7A5C;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    linear-gradient(var(--paper) 1px, transparent 1px) 0 0/100% 32px,
+    var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--yellow); color:var(--ink);}
+a{color:inherit;}
+
+button{
+  font-family:var(--sans);
+  cursor:pointer;
+  border:1.5px solid var(--ink);
+  background:var(--paper-raised);
+  color:var(--ink);
+  border-radius:3px;
+}
+button:focus-visible, [tabindex]:focus-visible, input:focus-visible{
+  outline:3px solid var(--yellow-deep);
+  outline-offset:2px;
+}
+
+/* ---------- App shell ---------- */
+#app{
+  display:flex;
+  min-height:100vh;
+  max-width:1280px;
+  margin:0 auto;
+}
+
+/* ---------- Sidebar: card-index tabs ---------- */
+#sidebar{
+  width:220px;
+  flex-shrink:0;
+  padding:20px 0 20px 16px;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  height:100vh;
+  overflow-y:auto;
+}
+.brand{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:1.05rem;
+  letter-spacing:0.01em;
+  padding:6px 14px 14px 4px;
+  border-bottom:2px solid var(--ink);
+  margin-bottom:10px;
+}
+.brand small{
+  display:block;
+  font-family:var(--serif);
+  font-weight:400;
+  font-style:italic;
+  font-size:0.78rem;
+  color:var(--ink-soft);
+  margin-top:2px;
+}
+.tab-list{list-style:none; margin:0; padding:0;}
+.tab-item{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:9px 10px 9px 12px;
+  margin-bottom:3px;
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  border-right:none;
+  border-radius:4px 0 0 4px;
+  font-family:var(--sans);
+  font-size:0.83rem;
+  font-weight:500;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  transform:translateX(6px);
+  transition:transform .15s ease, background .15s ease;
+}
+.tab-item .num{
+  font-family:var(--mono);
+  font-size:0.75rem;
+  color:var(--ink-soft);
+  min-width:1.4em;
+}
+.tab-item:hover{transform:translateX(0px);}
+.tab-item.active{
+  background:var(--paper-raised);
+  color:var(--ink);
+  transform:translateX(0px);
+  box-shadow:-3px 3px 0 rgba(30,42,68,0.08);
+}
+.tab-item.active .num{color:var(--yellow-deep);}
+.tab-item.home{margin-bottom:14px;}
+
+/* ---------- Main ---------- */
+#main{
+  flex:1;
+  min-width:0;
+  padding:28px 36px 60px 28px;
+}
+
+/* ---------- Home dashboard ---------- */
+.home-header{margin-bottom:22px;}
+.home-header h1{
+  font-family:var(--sans);
+  font-size:1.9rem;
+  margin:0 0 6px 0;
+  font-weight:700;
+}
+.home-header p{
+  margin:0;
+  color:var(--ink-soft);
+  max-width:60ch;
+  line-height:1.5;
+}
+.home-stats{
+  display:flex; gap:22px; margin-top:14px; flex-wrap:wrap;
+}
+.stat{
+  font-family:var(--mono);
+}
+.stat .n{font-size:1.5rem; font-weight:600; display:block;}
+.stat .l{font-size:0.72rem; color:var(--ink-soft);}
+
+.chapter-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+  gap:14px;
+  margin-top:22px;
+}
+.chapter-card{
+  background:var(--paper-raised);
+  border:1.5px solid var(--ink);
+  border-radius:4px;
+  padding:14px 14px 12px 14px;
+  text-align:left;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:140px;
+}
+.chapter-card:hover{box-shadow:4px 4px 0 rgba(30,42,68,0.10);}
+.chapter-card .cnum{
+  font-family:var(--mono);
+  font-size:0.72rem;
+  color:var(--ink-soft);
+}
+.chapter-card .ctitle-de{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:1rem;
+  line-height:1.25;
+}
+.chapter-card .ctitle-en{
+  font-size:0.82rem;
+  color:var(--ink-soft);
+  font-style:italic;
+}
+.chapter-card .cfoot{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.stamp{
+  width:44px;height:44px;border-radius:50%;
+  border:2px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:0.72rem;font-weight:600;
+  transform:rotate(-8deg);
+  flex-shrink:0;
+  background:var(--paper);
+}
+.stamp.done{border-color:var(--green); color:var(--green); background:#E3EFE8;}
+.stamp.mid{border-color:var(--yellow-deep); color:var(--yellow-deep);}
+.quota-pill{
+  font-family:var(--mono);
+  font-size:0.7rem;
+  color:var(--ink-soft);
+}
+
+/* ---------- Chapter view ---------- */
+.chapter-head{
+  border-bottom:2px solid var(--ink);
+  padding-bottom:14px;
+  margin-bottom:18px;
+}
+.chapter-eyebrow{
+  font-family:var(--mono);
+  font-size:0.78rem;
+  color:var(--yellow-deep);
+}
+.chapter-head h1{
+  font-family:var(--sans);
+  font-size:1.65rem;
+  margin:2px 0 4px 0;
+}
+.chapter-head .sub{color:var(--ink-soft); font-style:italic;}
+.chapter-head .goal-line{
+  margin:12px 0 0 0; max-width:64ch; color:var(--ink); font-size:0.95rem; line-height:1.5;
+  background:var(--paper-raised); border-left:4px solid var(--yellow); padding:10px 14px; border-radius:0 4px 4px 0;
+}
+
+.subtabs{
+  display:flex; gap:0; margin-bottom:20px; border-bottom:1.5px solid var(--line);
+}
+.subtab{
+  font-family:var(--sans);
+  font-size:0.85rem;
+  font-weight:500;
+  padding:9px 18px;
+  background:none;
+  border:none;
+  border-bottom:3px solid transparent;
+  color:var(--ink-soft);
+  border-radius:0;
+}
+.subtab.active{color:var(--ink); border-bottom-color:var(--yellow);}
+
+.section-title{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:0.95rem;
+  margin:26px 0 4px 0;
+}
+.section-note{color:var(--ink-soft); font-size:0.85rem; margin:0 0 12px 0;}
+
+/* Vocabulary category block */
+.vocab-cat{margin-bottom:26px;}
+.vocab-cat-head{
+  display:flex; align-items:baseline; gap:10px; margin-bottom:10px;
+}
+.vocab-cat-head h3{
+  font-family:var(--sans); font-size:0.98rem; margin:0; font-weight:600;
+}
+.vocab-cat-head .count{
+  font-family:var(--mono); font-size:0.75rem; color:var(--ink-soft);
+}
+.vocab-cat-head .scope{
+  font-size:0.78rem; color:var(--ink-soft); font-style:italic;
+}
+.card-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+  gap:10px;
+}
+.vcard{
+  perspective:800px;
+  height:82px;
+}
+.vcard-inner{
+  position:relative; width:100%; height:100%;
+  transition:transform .35s cubic-bezier(.4,.1,.2,1);
+  transform-style:preserve-3d;
+}
+.vcard.flipped .vcard-inner{transform:rotateY(180deg);}
+.vcard-face{
+  position:absolute; inset:0;
+  backface-visibility:hidden;
+  border:1.5px solid var(--ink);
+  border-radius:3px;
+  background:var(--paper-raised);
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  padding:6px;
+  font-family:var(--mono);
+  font-size:0.86rem;
+  line-height:1.25;
+}
+.vcard-face.back{
+  transform:rotateY(180deg);
+  background:#F1E7C9;
+  font-family:var(--serif);
+  font-style:italic;
+}
+.vcard::before{
+  content:"";
+  position:absolute; left:8px; top:-1px;
+  width:16px; height:6px;
+  background:var(--paper);
+  border:1.5px solid var(--ink); border-top:none;
+  border-radius:0 0 4px 4px;
+  z-index:2;
+}
+
+/* Grammar */
+.gram-card{
+  border:1.5px solid var(--ink);
+  border-left:5px solid var(--ink);
+  background:var(--paper-raised);
+  border-radius:3px;
+  padding:14px 16px;
+  margin-bottom:12px;
+}
+.gram-card h4{
+  font-family:var(--sans); margin:0 0 6px 0; font-size:0.95rem;
+}
+.gram-card p{margin:0 0 8px 0; line-height:1.55;}
+.gram-card .ex{
+  font-family:var(--mono); font-size:0.85rem; color:var(--ink-soft);
+  border-left:2px solid var(--line); padding-left:10px; line-height:1.8;
+}
+.gram-table{
+  border-collapse:collapse; margin:10px 0 14px 0; font-family:var(--mono); font-size:0.85rem;
+}
+.gram-table td{
+  border:1px solid var(--line); padding:5px 12px; background:var(--paper);
+}
+.mono-q{font-family:var(--mono); font-size:1.05rem !important;}
+.excl-box{
+  border:1.5px dashed var(--red);
+  border-radius:3px;
+  padding:12px 16px;
+  background:#F6EAE8;
+  margin-top:16px;
+}
+.excl-box h4{
+  font-family:var(--sans); color:var(--red); margin:0 0 8px 0; font-size:0.88rem;
+}
+.excl-box ul{margin:0; padding-left:18px; columns:2; column-gap:24px;}
+.excl-box li{margin-bottom:4px; font-size:0.87rem; color:#7a2e26;}
+
+.func-list{list-style:none; margin:0; padding:0;}
+.func-list li{
+  display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--line);
+  align-items:baseline;
+}
+.func-list .de{font-family:var(--mono); font-size:0.87rem; color:var(--ink);}
+.func-list .en{color:var(--ink-soft); font-size:0.83rem;}
+
+/* Practice */
+.practice-menu{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;}
+.practice-menu button{
+  font-size:0.85rem; padding:10px 16px; font-weight:500;
+}
+.practice-menu button.primary{background:var(--yellow); border-color:var(--ink);}
+.quiz-box{
+  border:1.5px solid var(--ink); border-radius:4px; background:var(--paper-raised);
+  padding:22px; max-width:560px;
+}
+.quiz-progress{
+  font-family:var(--mono); font-size:0.75rem; color:var(--ink-soft); margin-bottom:10px;
+}
+.quiz-q{font-family:var(--sans); font-size:1.1rem; font-weight:600; margin-bottom:16px;}
+.quiz-opts{display:flex; flex-direction:column; gap:8px;}
+.quiz-opt{
+  text-align:left; padding:11px 14px; font-size:0.92rem; font-family:var(--serif);
+  background:var(--paper);
+}
+.quiz-opt:hover{background:#fff;}
+.quiz-opt.correct{background:#DDEEE4; border-color:var(--green); color:var(--green);}
+.quiz-opt.wrong{background:#F6DEDA; border-color:var(--red); color:var(--red);}
+.quiz-opt[disabled]{cursor:default;}
+.quiz-footer{margin-top:16px; display:flex; justify-content:space-between; align-items:center;}
+.quiz-result{
+  text-align:center; padding:20px 0;
+}
+.quiz-result .big-stamp{
+  width:110px; height:110px; border-radius:50%; border:3px solid var(--green);
+  color:var(--green); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  margin:0 auto 16px auto; transform:rotate(-6deg); font-family:var(--mono);
+}
+.quiz-result .big-stamp span{font-size:1.7rem; font-weight:700; line-height:1;}
+.checklist{margin-top:26px;}
+.check-item{
+  display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line);
+}
+.check-item input{width:17px; height:17px; accent-color:var(--green);}
+.check-item label{font-size:0.9rem; cursor:pointer;}
+
+.small-btn{font-size:0.78rem; padding:5px 10px;}
+
+footer.appfoot{
+  margin-top:40px; padding-top:16px; border-top:1px solid var(--line);
+  font-size:0.75rem; color:var(--ink-soft); font-family:var(--mono);
+}
+
+@media (max-width: 820px){
+  #app{flex-direction:column;}
+  #sidebar{
+    width:100%; height:auto; position:relative; padding:14px;
+    display:flex; flex-direction:column;
+  }
+  .tab-list{display:flex; flex-wrap:wrap; gap:4px;}
+  .tab-item{transform:none; border-radius:4px; border-right:1.5px solid var(--ink); width:auto;}
+  #main{padding:20px;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <nav id="sidebar">
+    <div class="brand">Sprachheft <small>A1 Deutsch Trainer</small></div>
+    <ul class="tab-list" id="tabList"></ul>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script id="data-script">
+const CHAPTERS = [
+{
+  id:1, titleDe:"Hallo!", titleEn:"Greetings & Introductions", quota:50,
+  goal:"By the end of this chapter you can greet someone, introduce yourself, and ask their name, where they're from, and how they're doing.",
+  categories:[
+    {name:"Greetings & politeness chunks", scope:"Core social formulas", items:[
+      {de:"Hallo",en:"hi / hello"},{de:"Guten Morgen",en:"good morning"},{de:"Guten Tag",en:"good day / hello"},
+      {de:"Guten Abend",en:"good evening"},{de:"Gute Nacht",en:"good night"},{de:"Tschüss",en:"bye"},
+      {de:"Auf Wiedersehen",en:"goodbye (formal)"},{de:"bitte / danke",en:"please / thank you"}
+    ]},
+    {name:"Personal introduction lexemes", scope:"Name, origin, profession only", items:[
+      {de:"der Name",en:"name"},{de:"der Vorname",en:"first name"},{de:"der Nachname",en:"last name"},
+      {de:"das Land",en:"country"},{de:"die Stadt",en:"city"},{de:"die Sprache",en:"language"},
+      {de:"der Beruf",en:"profession"},{de:"heißen",en:"to be called"},{de:"kommen",en:"to come"},{de:"wohnen",en:"to live"}
+    ]},
+    {name:"Countries & languages", scope:"High-frequency only", items:[
+      {de:"Deutschland",en:"Germany"},{de:"Deutsch",en:"German"},{de:"England",en:"England"},
+      {de:"Englisch",en:"English"},{de:"Frankreich",en:"France"},{de:"Französisch",en:"French"}
+    ]},
+    {name:"Numbers 0–20", scope:"Cardinal numbers only", items:[
+      {de:"null",en:"0"},{de:"eins",en:"1"},{de:"zwei",en:"2"},{de:"drei",en:"3"},{de:"vier",en:"4"},
+      {de:"fünf",en:"5"},{de:"sechs",en:"6"},{de:"sieben",en:"7"},{de:"acht",en:"8"},{de:"neun",en:"9"},
+      {de:"zehn",en:"10"},{de:"elf",en:"11"},{de:"zwölf",en:"12"},{de:"dreizehn",en:"13"},{de:"vierzehn",en:"14"},
+      {de:"fünfzehn",en:"15"},{de:"sechzehn",en:"16"},{de:"siebzehn",en:"17"},{de:"achtzehn",en:"18"},
+      {de:"neunzehn",en:"19"},{de:"zwanzig",en:"20"}
+    ]},
+    {name:"Essential question/answer chunks", scope:"Fixed introductory questions", items:[
+      {de:"Wie heißen Sie?",en:"what's your name? (formal)"},{de:"Woher kommen Sie?",en:"where are you from? (formal)"},
+      {de:"Wie geht es Ihnen?",en:"how are you? (formal)"},{de:"Wie geht's?",en:"how's it going? (informal)"},
+      {de:"Bitte buchstabieren Sie das.",en:"please spell that"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich heiße …",en:"say their name"},{de:"Ich komme aus …",en:"say where they come from"},
+    {de:"Ich wohne in …",en:"say where they live"},{de:"Wie heißen Sie? / Wie heißt du?",en:"ask someone's name"},
+    {de:"Woher kommen Sie? / Woher kommst du?",en:"ask where someone comes from"},
+    {de:"Wie geht es Ihnen? / Wie geht's?",en:"ask how someone is"},
+    {de:"Bitte buchstabieren Sie das.",en:"spell a name or word"},{de:"Das ist …",en:"introduce another person"}
+  ],
+  grammar:[
+    {title:"ich, du, sie… — talking about people", teach:"Every German sentence needs a subject — the person doing the action. These are the words for 'I', 'you', 'he/she/it' and so on. Learn them first, because you'll use them in every single sentence from now on.", table:[["ich","I"],["du","you (informal)"],["er / sie / es","he / she / it"],["wir","we"],["ihr","you all (informal)"],["sie / Sie","they / you (formal)"]], examples:["ich wohne — I live","du kommst — you come","sie heißt — her name is"]},
+    {title:"sein and haben — 'to be' and 'to have'", teach:"These two verbs are irregular, which means they don't follow the normal pattern — you simply have to memorise each form. You'll use them constantly, so it's worth learning this table by heart before moving on.", table:[["ich bin / ich habe","I am / I have"],["du bist / du hast","you are / you have"],["er/sie/es ist / hat","he/she/it is / has"],["wir sind / haben","we are / we have"],["ihr seid / habt","you all are / have"],["sie/Sie sind / haben","they/you are / have"]], examples:["Ich bin müde. — I am tired.","Ich habe ein Buch. — I have a book."]},
+    {title:"Regular verbs in the present tense", teach:"Most German verbs are regular. Take off the -en ending to find the stem, then add the right ending for the subject you're using: -e, -st, -t, -en, -t, -en.", table:[["ich wohn-e","du wohn-st"],["er/sie/es wohn-t","wir wohn-en"],["ihr wohn-t","sie/Sie wohn-en"]], examples:["wohnen → ich wohne, du wohnst, wir wohnen","kommen → ich komme, du kommst"]},
+    {title:"Asking questions with a question word", teach:"To ask 'who, what, where, where from, how', put the question word first, then the verb, then the subject. This word order stays fixed no matter what the question word is.", table:null, examples:["Wie heißt du? — What's your name?","Woher kommst du? — Where are you from?","Wo wohnst du? — Where do you live?"]},
+    {title:"Yes/no questions", teach:"If there's no question word, just swap the subject and verb around so the verb comes first. Your voice rises at the end, just like in English.", table:null, examples:["Kommst du aus Spanien? — Are you from Spain?","Wohnst du in Berlin? — Do you live in Berlin?"]},
+    {title:"The nominative case", teach:"'Case' just means the job a noun is doing in the sentence. Nominative is the case for the subject — the person or thing doing the action. In this chapter every noun you use is nominative, so der/die/das always stay in this basic form.", table:null, examples:["Der Mann heißt Peter.","Die Frau kommt aus Italien.","Das Kind spielt."]},
+  ],
+  drills:[
+    {q:"Ich ___ Anna. (heißen)", options:["heiße","heißt","heißen","heißen wir"], answer:"heiße"},
+    {q:"___ du aus Deutschland?", options:["Kommst","Komme","Kommen","Kommt"], answer:"Kommst"},
+    {q:"Wie ___ es Ihnen?", options:["geht","gehen","gehst","gehe"], answer:"geht"},
+    {q:"Ich ___ 25 Jahre alt. (sein)", options:["bin","bist","ist","sind"], answer:"bin"},
+    {q:"___ heißen Sie? (asking a name, formal)", options:["Wie","Wo","Was","Wer"], answer:"Wie"},
+  ],
+  comingLater:["Talking about the past","Accusative and Dative case","Describing people in detail","Formal writing"]
+},
+{
+  id:2, titleDe:"Dinge & Menschen", titleEn:"Things & People", quota:50,
+  goal:"By the end of this chapter you can name everyday objects with the right article, say what you own, and introduce your family.",
+  categories:[
+    {name:"Classroom objects", scope:"Basic learning objects only", items:[
+      {de:"das Buch",en:"book"},{de:"das Heft",en:"notebook"},{de:"der Stift",en:"pen"},{de:"der Bleistift",en:"pencil"},
+      {de:"der Kuli",en:"ballpoint pen"},{de:"das Papier",en:"paper"},{de:"die Tasche",en:"bag"},{de:"der Tisch",en:"table"},
+      {de:"der Stuhl",en:"chair"},{de:"die Tafel",en:"board"},{de:"das Lineal",en:"ruler"},{de:"der Radiergummi",en:"eraser"}
+    ]},
+    {name:"Everyday household objects", scope:"Simple objects, not appliances/tools", items:[
+      {de:"die Lampe",en:"lamp"},{de:"der Schlüssel",en:"key"},{de:"das Handy",en:"phone"},{de:"die Uhr",en:"clock/watch"},
+      {de:"der Spiegel",en:"mirror"},{de:"die Tasse",en:"cup"},{de:"der Teller",en:"plate"},{de:"das Messer",en:"knife"},
+      {de:"die Gabel",en:"fork"},{de:"der Löffel",en:"spoon"},{de:"das Kissen",en:"pillow"},{de:"die Decke",en:"blanket"}
+    ]},
+    {name:"Colours", scope:"Basic colours only", items:[
+      {de:"rot",en:"red"},{de:"blau",en:"blue"},{de:"grün",en:"green"},{de:"gelb",en:"yellow"},
+      {de:"schwarz",en:"black"},{de:"weiß",en:"white"},{de:"braun",en:"brown"},{de:"orange",en:"orange"}
+    ]},
+    {name:"Immediate family", scope:"No extended family", items:[
+      {de:"die Mutter",en:"mother"},{de:"der Vater",en:"father"},{de:"die Eltern",en:"parents"},
+      {de:"die Schwester",en:"sister"},{de:"der Bruder",en:"brother"},{de:"das Kind",en:"child"},
+      {de:"der Mann",en:"man/husband"},{de:"die Frau",en:"woman/wife"},{de:"der Freund",en:"friend (m)"},{de:"die Freundin",en:"friend (f)"}
+    ]},
+    {name:"Basic object adjectives", scope:"Simple descriptors only", items:[
+      {de:"groß",en:"big"},{de:"klein",en:"small"},{de:"neu",en:"new"},{de:"alt",en:"old"},{de:"schön",en:"nice/pretty"}
+    ]},
+    {name:"Identification chunks", scope:"Fixed question/answer frames", items:[
+      {de:"Was ist das?",en:"what is that?"},{de:"Das ist ein/eine …",en:"that is a …"},{de:"Ist das dein/deine …?",en:"is that your …?"}
+    ]}
+  ],
+  functions:[
+    {de:"Was ist das? – Das ist ein Buch.",en:"identify objects"},{de:"Ich habe ein Heft.",en:"say what they have"},
+    {de:"Ist das dein Stift?",en:"ask about ownership"},{de:"Das ist meine Mutter.",en:"introduce family members"},
+    {de:"Die Tasche ist blau.",en:"describe simple colours"},{de:"Ich habe keine Geschwister.",en:"negate nouns"}
+  ],
+  grammar:[
+    {title:"der, die, das — noun gender", teach:"Every German noun has a gender — masculine, feminine or neuter — and you can't guess it from meaning alone. The trick is to always learn a noun together with its article, right from the start, rather than learning the word alone and adding the article later.", table:[["der (masculine)","der Tisch, der Mann"],["die (feminine)","die Lampe, die Frau"],["das (neuter)","das Buch, das Kind"]], examples:["der Stift — the pen","die Tasche — the bag","das Heft — the notebook"]},
+    {title:"ein, eine — 'a/an'", teach:"Just like English 'a/an', but ein/eine still change with gender: ein for masculine and neuter, eine for feminine. There's no plural form of 'a/an' in German, just like in English.", table:null, examples:["ein Stift — a pen","eine Tasche — a bag","ein Buch — a book"]},
+    {title:"Plurals aren't predictable", teach:"Unlike English, you can't just add -s. German plurals follow several patterns, so the safest approach is to learn each noun's plural form as you meet it, rather than guessing.", table:null, examples:["das Buch → die Bücher","der Stuhl → die Stühle","die Tasche → die Taschen"]},
+    {title:"kein / keine — saying 'no' or 'not any'", teach:"To say you don't have something, you can't use nicht with a noun — you use kein/keine instead. It follows the same gender pattern as ein/eine.", table:null, examples:["Ich habe keinen Bruder. — I don't have a brother.","Ich habe keine Geschwister. — I have no siblings."]},
+    {title:"mein, dein — 'my' and 'your'", teach:"Possessives work exactly like ein/eine — they change their ending to match the gender of the noun that follows.", table:null, examples:["mein Buch — my book","meine Tasche — my bag","dein Vater — your father"]},
+  ],
+  drills:[
+    {q:"___ Tisch ist neu. (der/die/das)", options:["Der","Die","Das","Den"], answer:"Der"},
+    {q:"Ich habe ___ Bruder. (a — masculine)", options:["einen","eine","ein","kein"], answer:"einen"},
+    {q:"Was ist das? – Das ist ___ Heft.", options:["ein","eine","einen","der"], answer:"ein"},
+    {q:"Ich habe ___ Geschwister. (none)", options:["keine","kein","nicht","keinen"], answer:"keine"},
+    {q:"Das ist ___ Mutter. (my)", options:["meine","mein","meinen","dein"], answer:"meine"},
+  ],
+  comingLater:["Accusative case (the object of a sentence)","Dative case","Detailed descriptions with adjective endings"]
+},
+{
+  id:3, titleDe:"Zeit & Tagesablauf", titleEn:"Time & Daily Routine", quota:55,
+  goal:"By the end of this chapter you can tell the time, talk about your daily routine, and say how often you do things.",
+  categories:[
+    {name:"Days of the week", scope:"Monday–Sunday", items:[
+      {de:"Montag",en:"Monday"},{de:"Dienstag",en:"Tuesday"},{de:"Mittwoch",en:"Wednesday"},{de:"Donnerstag",en:"Thursday"},
+      {de:"Freitag",en:"Friday"},{de:"Samstag",en:"Saturday"},{de:"Sonntag",en:"Sunday"}
+    ]},
+    {name:"Months", scope:"January–December", items:[
+      {de:"Januar",en:"January"},{de:"Februar",en:"February"},{de:"März",en:"March"},{de:"April",en:"April"},
+      {de:"Mai",en:"May"},{de:"Juni",en:"June"},{de:"Juli",en:"July"},{de:"August",en:"August"},
+      {de:"September",en:"September"},{de:"Oktober",en:"October"},{de:"November",en:"November"},{de:"Dezember",en:"December"}
+    ]},
+    {name:"Seasons", scope:"Four seasons only", items:[
+      {de:"der Frühling",en:"spring"},{de:"der Sommer",en:"summer"},{de:"der Herbst",en:"autumn"},{de:"der Winter",en:"winter"}
+    ]},
+    {name:"Day parts / time words", scope:"Basic set only", items:[
+      {de:"der Morgen",en:"morning"},{de:"der Mittag",en:"midday"},{de:"der Abend",en:"evening"},
+      {de:"die Nacht",en:"night"},{de:"heute",en:"today"},{de:"morgen",en:"tomorrow"}
+    ]},
+    {name:"Required time numbers", scope:"Limited set for telling time", items:[
+      {de:"einundzwanzig",en:"21"},{de:"zweiundzwanzig",en:"22"},{de:"dreiundzwanzig",en:"23"},{de:"vierundzwanzig",en:"24"},
+      {de:"dreißig",en:"30"},{de:"vierzig",en:"40"},{de:"fünfzig",en:"50"},{de:"hundert",en:"100"}
+    ]},
+    {name:"Daily routine verbs", scope:"Basic routine actions only", items:[
+      {de:"aufstehen",en:"to get up"},{de:"frühstücken",en:"to have breakfast"},{de:"arbeiten",en:"to work"},
+      {de:"lernen",en:"to learn/study"},{de:"schlafen",en:"to sleep"},{de:"duschen",en:"to shower"},
+      {de:"essen",en:"to eat"},{de:"trinken",en:"to drink"},{de:"fernsehen",en:"to watch TV"},{de:"aufräumen",en:"to tidy up"}
+    ]},
+    {name:"Frequency adverbs", scope:"Core four only", items:[
+      {de:"immer",en:"always"},{de:"oft",en:"often"},{de:"manchmal",en:"sometimes"},{de:"nie",en:"never"}
+    ]},
+    {name:"Time chunks", scope:"Fixed time expressions only", items:[
+      {de:"Wie spät ist es?",en:"what time is it?"},{de:"Es ist … Uhr.",en:"it is … o'clock"},
+      {de:"um … Uhr",en:"at … o'clock"},{de:"am Wochenende",en:"at the weekend"}
+    ]}
+  ],
+  functions:[
+    {de:"Wie spät ist es?",en:"ask the time"},{de:"Es ist neun Uhr.",en:"say the time"},
+    {de:"Ich stehe um sieben Uhr auf.",en:"say when something happens"},{de:"Am Montag arbeite ich.",en:"talk about days"},
+    {de:"Im Winter ist es kalt.",en:"talk about months/seasons"},{de:"Ich lerne oft Deutsch.",en:"describe routine frequency"}
+  ],
+  grammar:[
+    {title:"Telling the time", teach:"German uses Uhr after the hour, and the pattern for the half-hour is different from English — halb neun means 'half before nine', i.e. 8:30, not 9:30. Start with full and half hours before tackling quarter hours.", table:null, examples:["Es ist neun Uhr. — It's nine o'clock.","Es ist halb neun. — It's 8:30.","Wie spät ist es? — What time is it?"]},
+    {title:"Separable verbs", teach:"Some verbs, like aufstehen (to get up), split into two parts: the prefix (auf-) jumps to the very end of the sentence, while the base verb (steh-) gets conjugated normally in position two.", table:null, examples:["Ich stehe um sieben Uhr auf. — I get up at seven.","Er räumt sein Zimmer auf. — He tidies his room."]},
+    {title:"am, um, im — time prepositions", teach:"Each time preposition has its own job: am for days, um for clock times, im for months and seasons. Mixing these up is one of the most common beginner mistakes, so it's worth drilling them separately.", table:[["am Montag","on Monday"],["um neun Uhr","at nine o'clock"],["im Winter","in winter"]], examples:["Am Montag arbeite ich.","Ich stehe um sieben Uhr auf.","Im Winter ist es kalt."]},
+    {title:"Word order: time expressions", teach:"When a time expression starts the sentence, the verb still has to stay in second position — so the subject moves after the verb instead.", table:null, examples:["Am Montag arbeite ich. (not: Am Montag ich arbeite.)"]},
+    {title:"Frequency words: immer, oft, manchmal, nie", teach:"These words usually sit right after the conjugated verb, describing how often you do something.", table:null, examples:["Ich lerne oft Deutsch. — I often study German.","Ich bin nie müde. — I'm never tired."]},
+  ],
+  drills:[
+    {q:"Ich stehe um sieben Uhr ___. (aufstehen)", options:["auf","an","aufgestehen","aufstehe"], answer:"auf"},
+    {q:"___ Montag arbeite ich.", options:["Am","Um","Im","An"], answer:"Am"},
+    {q:"Der Film beginnt ___ acht Uhr.", options:["um","am","im","an"], answer:"um"},
+    {q:"___ Winter ist es kalt.", options:["Im","Am","Um","In"], answer:"Im"},
+    {q:"Ich lerne ___ Deutsch. (often)", options:["oft","nie","manchmal","immer nie"], answer:"oft"},
+  ],
+  comingLater:["The full number system beyond time-telling","Ordinal numbers (first, second…)","Talking about the future"]
+},
+{
+  id:4, titleDe:"Essen & Trinken", titleEn:"Food & Drink", quota:70,
+  goal:"By the end of this chapter you can order food and drink, ask the price, and say what you like and don't like.",
+  categories:[
+    {name:"Basic foods", scope:"Common staple foods only", items:[
+      {de:"das Brot",en:"bread"},{de:"die Butter",en:"butter"},{de:"der Käse",en:"cheese"},{de:"der Schinken",en:"ham"},
+      {de:"das Ei",en:"egg"},{de:"der Reis",en:"rice"},{de:"die Nudeln",en:"pasta"},{de:"die Kartoffel",en:"potato"},
+      {de:"das Gemüse",en:"vegetables"},{de:"das Obst",en:"fruit"},{de:"der Apfel",en:"apple"},{de:"die Banane",en:"banana"},
+      {de:"die Tomate",en:"tomato"},{de:"die Gurke",en:"cucumber"},{de:"der Salat",en:"salad/lettuce"},{de:"das Fleisch",en:"meat"},
+      {de:"der Fisch",en:"fish"},{de:"das Hähnchen",en:"chicken"},{de:"die Suppe",en:"soup"},{de:"der Kuchen",en:"cake"},
+      {de:"die Schokolade",en:"chocolate"},{de:"der Zucker",en:"sugar"},{de:"das Salz",en:"salt"},{de:"der Pfeffer",en:"pepper"}
+    ]},
+    {name:"Drinks", scope:"Common beverages only", items:[
+      {de:"das Wasser",en:"water"},{de:"der Kaffee",en:"coffee"},{de:"der Tee",en:"tea"},{de:"die Milch",en:"milk"},
+      {de:"der Saft",en:"juice"},{de:"der Wein",en:"wine"},{de:"das Bier",en:"beer"},{de:"die Limonade",en:"lemonade"}
+    ]},
+    {name:"Meals & restaurant words", scope:"Core dining vocabulary", items:[
+      {de:"das Frühstück",en:"breakfast"},{de:"das Mittagessen",en:"lunch"},{de:"das Abendessen",en:"dinner"},
+      {de:"die Speisekarte",en:"menu"},{de:"die Rechnung",en:"bill"},{de:"das Restaurant",en:"restaurant"},
+      {de:"der Kellner",en:"waiter"},{de:"die Bestellung",en:"order"}
+    ]},
+    {name:"Quantities & packaging", scope:"Basic units only", items:[
+      {de:"die Flasche",en:"bottle"},{de:"das Kilo",en:"kilo"},{de:"das Stück",en:"piece"},
+      {de:"das Paket",en:"packet"},{de:"das Glas",en:"glass"},{de:"die Tasse",en:"cup"}
+    ]},
+    {name:"Taste / food adjectives", scope:"Simple taste descriptors only", items:[
+      {de:"lecker",en:"tasty"},{de:"süß",en:"sweet"},{de:"sauer",en:"sour"},{de:"salzig",en:"salty"},{de:"scharf",en:"spicy"},{de:"frisch",en:"fresh"}
+    ]},
+    {name:"Food / shopping verbs", scope:"Basic eating/drinking/buying verbs", items:[
+      {de:"essen",en:"to eat"},{de:"trinken",en:"to drink"},{de:"kaufen",en:"to buy"},{de:"kosten",en:"to cost"},
+      {de:"nehmen",en:"to take"},{de:"bestellen",en:"to order"},{de:"mögen",en:"to like"},{de:"brauchen",en:"to need"}
+    ]},
+    {name:"Restaurant / shop chunks", scope:"Fixed ordering & buying phrases", items:[
+      {de:"Ich möchte …, bitte.",en:"I'd like …, please"},{de:"Was kostet das?",en:"how much is that?"},
+      {de:"Ich habe Hunger.",en:"I'm hungry"},{de:"Ich habe Durst.",en:"I'm thirsty"},{de:"Ich mag …",en:"I like …"},
+      {de:"Ich mag kein/keine …",en:"I don't like …"},{de:"Ich nehme …",en:"I'll take/have …"},
+      {de:"Die Rechnung, bitte.",en:"the bill, please"},{de:"Zahlen, bitte.",en:"check, please"},{de:"Guten Appetit!",en:"enjoy your meal!"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich möchte ein Brot, bitte.",en:"say what they want"},{de:"Was kostet das?",en:"ask for the price"},
+    {de:"Ich habe Hunger/Durst.",en:"say they are hungry or thirsty"},{de:"Ich mag Kaffee. Ich mag keine Milch.",en:"express likes and dislikes"},
+    {de:"Ich nehme das Mittagessen.",en:"order food"},{de:"Die Rechnung, bitte.",en:"ask for the bill"}
+  ],
+  grammar:[
+    {title:"The accusative case", teach:"The accusative marks the direct object — the thing being acted on. Only the masculine article changes: der becomes den. Feminine, neuter and plural stay the same as nominative.", table:[["masculine: der → den","Ich möchte den Kaffee."],["feminine: die → die","Ich möchte die Suppe."],["neuter: das → das","Ich möchte das Brot."]], examples:["Ich nehme den Salat.","Ich möchte einen Kaffee."]},
+    {title:"möchten — 'would like'", teach:"möchten is the polite way to say what you want, much softer than wollen. It's irregular, so learn the forms directly.", table:[["ich möchte","wir möchten"],["du möchtest","ihr möchtet"],["er/sie/es möchte","sie/Sie möchten"]], examples:["Ich möchte ein Wasser, bitte."]},
+    {title:"mögen — 'to like'", teach:"mögen is used for general likes and dislikes, not for ordering. Combine it with kein/keine to say you don't like something.", table:null, examples:["Ich mag Käse. — I like cheese.","Ich mag keine Milch. — I don't like milk."]},
+    {title:"nicht vs. kein", teach:"Use nicht to negate a verb or adjective, and kein/keine to negate a noun that would otherwise take ein/eine. Getting this pair right is one of the most useful A1 skills.", table:null, examples:["Das schmeckt nicht gut.","Ich habe keinen Hunger."]},
+    {title:"Talking about quantities", teach:"Quantity words combine directly with the noun that follows — no extra article is needed in between.", table:null, examples:["eine Flasche Wasser","ein Kilo Äpfel","ein Stück Kuchen"]},
+  ],
+  drills:[
+    {q:"Ich möchte ___ Kaffee, bitte. (der → accusative)", options:["den","der","dem","die"], answer:"den"},
+    {q:"Ich ___ Käse, aber keine Milch. (mögen)", options:["mag","möchte","habe","bin"], answer:"mag"},
+    {q:"Ich habe ___ Hunger. (none)", options:["keinen","kein","nicht","keine"], answer:"keinen"},
+    {q:"___ du auch einen Kaffee? (möchten)", options:["Möchtest","Möchte","Mögen","Magst"], answer:"Möchtest"},
+    {q:"Das schmeckt ___ gut. (not)", options:["nicht","kein","keine","nichts"], answer:"nicht"},
+  ],
+  comingLater:["The dative case","Recipes and cooking methods","Complex restaurant complaints"]
+},
+{
+  id:5, titleDe:"Freizeit, Hobbys & Wetter", titleEn:"Free Time, Hobbies & Weather", quota:50,
+  goal:"By the end of this chapter you can talk about your hobbies, say what you can do, describe the weather, and respond to a simple invitation.",
+  categories:[
+    {name:"Hobby & sport nouns", scope:"Common hobbies/sports only", items:[
+      {de:"der Fußball",en:"football"},{de:"das Tennis",en:"tennis"},{de:"das Schwimmen",en:"swimming"},
+      {de:"das Fahrrad",en:"bicycle"},{de:"die Musik",en:"music"},{de:"das Buch",en:"book"},{de:"der Sport",en:"sport"},
+      {de:"das Kino",en:"cinema"},{de:"das Tanzen",en:"dancing"},{de:"das Singen",en:"singing"},
+      {de:"das Malen",en:"painting"},{de:"das Kochen",en:"cooking"},{de:"das Lesen",en:"reading"},{de:"das Reisen",en:"travelling"}
+    ]},
+    {name:"Leisure places / partners", scope:"Simple set only", items:[
+      {de:"der Park",en:"park"},{de:"das Café",en:"café"},{de:"die Freunde",en:"friends"},{de:"das Konzert",en:"concert"},
+      {de:"der Sportverein",en:"sports club"},{de:"das Museum",en:"museum"},{de:"der See",en:"lake"},{de:"der Wald",en:"forest"}
+    ]},
+    {name:"Weather words", scope:"Basic weather only", items:[
+      {de:"die Sonne",en:"sun"},{de:"der Regen",en:"rain"},{de:"der Wind",en:"wind"},{de:"der Schnee",en:"snow"},
+      {de:"die Wolke",en:"cloud"},{de:"warm",en:"warm"},{de:"kalt",en:"cold"},{de:"sonnig",en:"sunny"},
+      {de:"regnerisch",en:"rainy"},{de:"windig",en:"windy"}
+    ]},
+    {name:"Hobby verbs", scope:"Common activity verbs only", items:[
+      {de:"spielen",en:"to play"},{de:"schwimmen",en:"to swim"},{de:"lesen",en:"to read"},{de:"malen",en:"to paint"},{de:"tanzen",en:"to dance"}
+    ]},
+    {name:"Activity / weather adjectives", scope:"Simple evaluation words only", items:[
+      {de:"gut",en:"good"},{de:"schlecht",en:"bad"},{de:"schön",en:"nice"},{de:"langweilig",en:"boring"},{de:"interessant",en:"interesting"}
+    ]},
+    {name:"Communicative chunks", scope:"Fixed hobby/weather phrases", items:[
+      {de:"Was machst du in deiner Freizeit?",en:"what do you do in your free time?"},{de:"Ich spiele gern Fußball.",en:"I like playing football"},
+      {de:"Ich kann schwimmen.",en:"I can swim"},{de:"Heute ist es sonnig.",en:"today it's sunny"},
+      {de:"Es regnet.",en:"it's raining"},{de:"Hast du Lust?",en:"do you feel like it?"},{de:"Ja, gern.",en:"yes, gladly"},{de:"Nein, leider nicht.",en:"no, unfortunately not"}
+    ]}
+  ],
+  functions:[
+    {de:"Was machst du in deiner Freizeit?",en:"ask about free time"},{de:"Ich spiele gern Fußball.",en:"talk about hobbies"},
+    {de:"Ich kann schwimmen.",en:"talk about ability"},{de:"Heute ist es sonnig.",en:"describe weather"},
+    {de:"Es regnet.",en:"say it is raining"},{de:"Hast du Lust? Ja, gern. / Nein, leider nicht.",en:"invite or respond simply"}
+  ],
+  grammar:[
+    {title:"Modal verbs: können, wollen, müssen", teach:"Modal verbs describe ability, desire or obligation. They're conjugated in position two like any verb, but they send the main action — the infinitive — all the way to the end of the sentence.", table:[["ich kann","I can"],["ich will","I want to"],["ich muss","I must"]], examples:["Ich kann schwimmen.","Ich muss heute arbeiten."]},
+    {title:"The 'sentence bracket'", teach:"This is the pattern behind every modal-verb sentence: the conjugated modal sits in position two, and the infinitive verb waits at the very end, bracketing everything else in between.", table:null, examples:["Ich kann [heute leider nicht] kommen.","Ich will [am Wochenende] Fußball spielen."]},
+    {title:"gern — saying you like doing something", teach:"Put gern right after the verb to say you enjoy an activity. It doesn't change form, which makes it an easy, high-value word to use often.", table:null, examples:["Ich spiele gern Tennis. — I like playing tennis.","Ich lese gern. — I like reading."]},
+    {title:"Weather with es", teach:"Weather expressions use the impersonal subject es — there's no real 'it' being referred to, it's just how the sentence is built.", table:null, examples:["Es regnet. — It's raining.","Es ist sonnig. — It's sunny."]},
+  ],
+  drills:[
+    {q:"Ich ___ schwimmen. (can)", options:["kann","will","muss","bin"], answer:"kann"},
+    {q:"Ich spiele ___ Fußball. (like to)", options:["gern","kann","gut","viel"], answer:"gern"},
+    {q:"___ regnet heute. ", options:["Es","Er","Das","Sie"], answer:"Es"},
+    {q:"Ich muss heute ___. (arbeiten)", options:["arbeiten","arbeite","arbeitet","arbeitest"], answer:"arbeiten"},
+    {q:"Hast du Lust? – Ja, ___!", options:["gern","kann","gut","muss"], answer:"gern"},
+  ],
+  comingLater:["dürfen and sollen as full verbs","Giving complex opinions","The conditional (Konjunktiv II)"]
+},
+{
+  id:6, titleDe:"Urlaub & Vergangenes", titleEn:"Holidays & The Past", quota:50,
+  goal:"By the end of this chapter you can talk about what you did last weekend or on holiday, using the past tense.",
+  categories:[
+    {name:"Holiday destinations / accommodation", scope:"Core set only", items:[
+      {de:"das Hotel",en:"hotel"},{de:"der Strand",en:"beach"},{de:"das Meer",en:"sea"},{de:"die Stadt",en:"city"},
+      {de:"das Museum",en:"museum"},{de:"der Urlaub",en:"holiday"},{de:"die Reise",en:"trip"},{de:"der Berg",en:"mountain"},
+      {de:"der See",en:"lake"},{de:"das Zimmer",en:"room"},{de:"die Insel",en:"island"},{de:"das Zelt",en:"tent"}
+    ]},
+    {name:"Transport for holidays", scope:"Basic transport words only", items:[
+      {de:"das Auto",en:"car"},{de:"der Zug",en:"train"},{de:"das Flugzeug",en:"plane"},{de:"das Schiff",en:"ship"},
+      {de:"der Bus",en:"bus"},{de:"das Fahrrad",en:"bicycle"}
+    ]},
+    {name:"Holiday activity verbs", scope:"Common holiday actions only", items:[
+      {de:"fahren",en:"to drive/travel"},{de:"fliegen",en:"to fly"},{de:"schwimmen",en:"to swim"},{de:"besichtigen",en:"to visit/sightsee"},
+      {de:"fotografieren",en:"to photograph"},{de:"wandern",en:"to hike"},{de:"übernachten",en:"to stay overnight"},
+      {de:"packen",en:"to pack"},{de:"buchen",en:"to book"},{de:"entspannen",en:"to relax"},{de:"baden",en:"to bathe"},{de:"spazieren gehen",en:"to go for a walk"}
+    ]},
+    {name:"Past / time expressions", scope:"Core set only", items:[
+      {de:"gestern",en:"yesterday"},{de:"letzte Woche",en:"last week"},{de:"am Wochenende",en:"at the weekend"},
+      {de:"im Urlaub",en:"on holiday"},{de:"letztes Jahr",en:"last year"},{de:"vor zwei Tagen",en:"two days ago"},
+      {de:"letzten Sommer",en:"last summer"},{de:"letzten Monat",en:"last month"}
+    ]},
+    {name:"Holiday adjectives", scope:"Simple evaluation adjectives only", items:[
+      {de:"schön",en:"nice"},{de:"toll",en:"great"},{de:"langweilig",en:"boring"},{de:"anstrengend",en:"tiring"},
+      {de:"teuer",en:"expensive"},{de:"billig",en:"cheap"},{de:"sonnig",en:"sunny"},{de:"warm",en:"warm"}
+    ]},
+    {name:"Past chunks", scope:"Fixed past-question frames", items:[
+      {de:"Wo warst du gestern?",en:"where were you yesterday?"},{de:"Was hast du gemacht?",en:"what did you do?"},
+      {de:"Wie war der Urlaub?",en:"how was the holiday?"},{de:"Ich bin … geblieben.",en:"I stayed …"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich habe am Wochenende Fußball gespielt.",en:"talk about a past weekend"},{de:"Wir sind nach Berlin gefahren.",en:"talk about travel"},
+    {de:"Der Urlaub war schön.",en:"evaluate a holiday"},{de:"Wo warst du gestern?",en:"ask where someone was"},
+    {de:"Ich habe viele Fotos gemacht.",en:"say what they did"},{de:"Ich bin zu Hause geblieben.",en:"say they stayed somewhere"}
+  ],
+  grammar:[
+    {title:"The Perfect tense with haben", teach:"This is how most verbs form the past in spoken German. Take haben, conjugate it in position two, and put the past participle (usually ge- + stem + -t or -en) at the end of the sentence.", table:null, examples:["Ich habe Fußball gespielt.","Wir haben Fotos gemacht."]},
+    {title:"The Perfect tense with sein", teach:"A smaller group of verbs — mostly verbs of motion or change of state, like fahren, gehen, bleiben — use sein instead of haben.", table:null, examples:["Ich bin nach Berlin gefahren.","Ich bin zu Hause geblieben."]},
+    {title:"Regular vs. irregular participles", teach:"Regular verbs form the participle predictably: ge- + stem + -t. Irregular verbs often change their vowel too, and just have to be memorised one by one.", table:[["spielen → gespielt","regular"],["machen → gemacht","regular"],["fahren → gefahren","irregular"],["bleiben → geblieben","irregular"]], examples:[]},
+    {title:"war and hatte — the two exceptions", teach:"Almost everything uses the Perfect tense at A1, but war (was) and hatte (had) are used in their simple past form instead, because they're so frequent it would sound clumsy otherwise.", table:null, examples:["Der Urlaub war schön.","Ich hatte keine Zeit."]},
+  ],
+  drills:[
+    {q:"Ich habe Fußball ___. (spielen)", options:["gespielt","spielen","gespielen","spielte"], answer:"gespielt"},
+    {q:"Ich ___ nach Berlin gefahren.", options:["bin","habe","war","hatte"], answer:"bin"},
+    {q:"Der Urlaub ___ schön.", options:["war","ist","hat","habe"], answer:"war"},
+    {q:"Wir ___ viele Fotos gemacht.", options:["haben","sind","war","hatten"], answer:"haben"},
+    {q:"Ich bin zu Hause ___. (bleiben)", options:["geblieben","bleiben","geblieb","blieb"], answer:"geblieben"},
+  ],
+  comingLater:["The full simple past (Präteritum)","Passive voice","Detailed travel-booking vocabulary"]
+},
+{
+  id:7, titleDe:"Wohnen & Zuhause", titleEn:"Living & Housing", quota:60,
+  goal:"By the end of this chapter you can describe your home, say what's in each room, and say where things are.",
+  categories:[
+    {name:"Rooms & housing types", scope:"Core set only", items:[
+      {de:"die Wohnung",en:"flat"},{de:"das Haus",en:"house"},{de:"das Zimmer",en:"room"},{de:"die Küche",en:"kitchen"},
+      {de:"das Badezimmer",en:"bathroom"},{de:"das Wohnzimmer",en:"living room"},{de:"das Schlafzimmer",en:"bedroom"},
+      {de:"der Balkon",en:"balcony"},{de:"der Garten",en:"garden"},{de:"der Flur",en:"hallway"},{de:"der Keller",en:"basement"},{de:"die Garage",en:"garage"}
+    ]},
+    {name:"Furniture & household items", scope:"Basic set only", items:[
+      {de:"das Sofa",en:"sofa"},{de:"der Tisch",en:"table"},{de:"der Stuhl",en:"chair"},{de:"das Bett",en:"bed"},
+      {de:"der Schrank",en:"cupboard/wardrobe"},{de:"das Regal",en:"shelf"},{de:"der Fernseher",en:"TV"},{de:"die Lampe",en:"lamp"},
+      {de:"der Teppich",en:"carpet"},{de:"der Herd",en:"stove"},{de:"der Kühlschrank",en:"fridge"},
+      {de:"die Waschmaschine",en:"washing machine"},{de:"der Spiegel",en:"mirror"},{de:"das Fenster",en:"window"}
+    ]},
+    {name:"Rental / search words", scope:"Basic set only", items:[
+      {de:"die Miete",en:"rent"},{de:"frei",en:"free/vacant"},{de:"teuer",en:"expensive"},{de:"billig",en:"cheap"},
+      {de:"suchen",en:"to search"},{de:"finden",en:"to find"},{de:"der Vermieter",en:"landlord"},{de:"der Vertrag",en:"contract"}
+    ]},
+    {name:"Household chores", scope:"Basic chores only", items:[
+      {de:"putzen",en:"to clean"},{de:"kochen",en:"to cook"},{de:"waschen",en:"to wash"},{de:"aufräumen",en:"to tidy"},
+      {de:"staubsaugen",en:"to vacuum"},{de:"bügeln",en:"to iron"},{de:"einkaufen",en:"to shop"},{de:"abtrocknen",en:"to dry (dishes)"}
+    ]},
+    {name:"Location / home chunks", scope:"Fixed location phrases only", items:[
+      {de:"Ich wohne in …",en:"I live in …"},{de:"Die Wohnung hat …",en:"the flat has …"},
+      {de:"Im Wohnzimmer gibt es …",en:"in the living room there is …"},{de:"Der Tisch steht in …",en:"the table stands in …"},
+      {de:"Ich suche ein Zimmer.",en:"I'm looking for a room"},{de:"Wo ist …?",en:"where is …?"},
+      {de:"Das Zimmer ist …",en:"the room is …"},{de:"Es gibt …",en:"there is/are …"}
+    ]},
+    {name:"Housing adjectives", scope:"Simple description adjectives only", items:[
+      {de:"hell",en:"bright"},{de:"dunkel",en:"dark"},{de:"gemütlich",en:"cosy"},{de:"groß",en:"big"},{de:"klein",en:"small"},
+      {de:"ruhig",en:"quiet"},{de:"laut",en:"loud"},{de:"modern",en:"modern"},{de:"alt",en:"old"},{de:"renoviert",en:"renovated"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich wohne in einer Wohnung.",en:"say where they live"},{de:"Die Wohnung hat drei Zimmer.",en:"describe accommodation"},
+    {de:"Im Wohnzimmer gibt es ein Sofa.",en:"say what exists in a home"},{de:"Der Tisch steht in der Küche.",en:"say where something is"},
+    {de:"Ich suche ein Zimmer.",en:"describe housing preferences"},{de:"Die Wohnung ist hell und gemütlich.",en:"describe a flat"}
+  ],
+  grammar:[
+    {title:"The dative case for location", teach:"When you say where something is (not moving anywhere, just sitting there), the preposition takes the dative case, and der/die/das change to dem/der/dem.", table:[["der → dem","in dem Zimmer → im Zimmer"],["die → der","in der Küche"],["das → dem","in dem Haus → im Haus"]], examples:["Der Tisch steht in der Küche.","Das Bild hängt an der Wand."]},
+    {title:"es gibt + accusative", teach:"es gibt is a fixed phrase meaning 'there is/are', and it's always followed by the accusative case, no matter what comes after it.", table:null, examples:["Es gibt einen Balkon.","Im Wohnzimmer gibt es ein Sofa."]},
+    {title:"Describing a room simply", teach:"To describe what a room or flat is like, just put an adjective straight after sein — no ending needed at A1.", table:null, examples:["Die Wohnung ist hell.","Das Zimmer ist klein."]},
+  ],
+  drills:[
+    {q:"Der Tisch steht in ___ Küche. (die → dative)", options:["der","die","dem","den"], answer:"der"},
+    {q:"Es gibt ___ Balkon. (ein → accusative)", options:["einen","ein","eine","dem"], answer:"einen"},
+    {q:"Im Wohnzimmer ___ es ein Sofa.", options:["gibt","gibst","geben","hat"], answer:"gibt"},
+    {q:"Die Wohnung ist ___. (bright)", options:["hell","hellen","helle","hells"], answer:"hell"},
+    {q:"Das Bild hängt an ___ Wand. (die → dative)", options:["der","die","dem","den"], answer:"der"},
+  ],
+  comingLater:["Two-way prepositions with motion (wohin?)","Genitive case","Rental contracts and legal terms"]
+},
+{
+  id:8, titleDe:"Kleidung & Einkaufen", titleEn:"Clothing & Shopping", quota:55,
+  goal:"By the end of this chapter you can shop for clothes, ask about size and price, and say whether something fits.",
+  categories:[
+    {name:"Basic clothing items", scope:"Common garments only", items:[
+      {de:"die Jacke",en:"jacket"},{de:"die Hose",en:"trousers"},{de:"das Hemd",en:"shirt"},{de:"das T-Shirt",en:"t-shirt"},
+      {de:"der Pullover",en:"sweater"},{de:"das Kleid",en:"dress"},{de:"der Rock",en:"skirt"},{de:"die Schuhe",en:"shoes"},
+      {de:"die Socken",en:"socks"},{de:"die Unterwäsche",en:"underwear"},{de:"der Mantel",en:"coat"},{de:"die Jeans",en:"jeans"},
+      {de:"die Bluse",en:"blouse"},{de:"der Anzug",en:"suit"},{de:"die Krawatte",en:"tie"},{de:"die Mütze",en:"cap"},
+      {de:"die Handschuhe",en:"gloves"},{de:"der Schal",en:"scarf"},{de:"die Sandalen",en:"sandals"},{de:"die Stiefel",en:"boots"}
+    ]},
+    {name:"Basic accessories", scope:"Core set only", items:[
+      {de:"der Hut",en:"hat"},{de:"der Gürtel",en:"belt"},{de:"die Tasche",en:"bag"},{de:"die Brille",en:"glasses"}
+    ]},
+    {name:"Clothing adjectives / fit", scope:"Simple fit descriptors only", items:[
+      {de:"eng",en:"tight"},{de:"weit",en:"loose"},{de:"warm",en:"warm"},{de:"kühl",en:"cool"},
+      {de:"bequem",en:"comfortable"},{de:"passt",en:"fits"},{de:"zu groß",en:"too big"},{de:"zu klein",en:"too small"}
+    ]},
+    {name:"Shopping / clothing verbs", scope:"Core verbs only", items:[
+      {de:"tragen",en:"to wear"},{de:"kaufen",en:"to buy"},{de:"anprobieren",en:"to try on"},{de:"kosten",en:"to cost"},
+      {de:"nehmen",en:"to take"},{de:"suchen",en:"to look for"},{de:"passen",en:"to fit"},{de:"anziehen",en:"to put on"}
+    ]},
+    {name:"Size / price / checkout words", scope:"Core set only", items:[
+      {de:"die Größe",en:"size"},{de:"die Nummer",en:"number"},{de:"der Preis",en:"price"},{de:"die Kasse",en:"till"},{de:"das Geschenk",en:"gift"}
+    ]},
+    {name:"Shopping chunks", scope:"Fixed shopping phrases only", items:[
+      {de:"Ich suche eine Jacke.",en:"I'm looking for a jacket"},{de:"Welche Größe haben Sie?",en:"what size do you have?"},
+      {de:"Kann ich das anprobieren?",en:"can I try that on?"},{de:"Das passt.",en:"that fits"},{de:"Das passt nicht.",en:"that doesn't fit"},
+      {de:"Wie viel kostet das?",en:"how much does that cost?"},{de:"Ich nehme das Hemd.",en:"I'll take the shirt"},
+      {de:"Haben Sie das in …?",en:"do you have that in …?"},{de:"Nur schauen, danke.",en:"just looking, thanks"},{de:"Das ist zu teuer.",en:"that's too expensive"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich suche eine Jacke.",en:"say what they are looking for"},{de:"Welche Größe haben Sie?",en:"ask about size"},
+    {de:"Kann ich das anprobieren?",en:"ask to try something on"},{de:"Das passt. / Das passt nicht.",en:"say whether something fits"},
+    {de:"Wie viel kostet das?",en:"ask for the price"},{de:"Ich nehme das Hemd.",en:"buy an item"}
+  ],
+  grammar:[
+    {title:"Accusative in the shop", teach:"Buying and choosing things uses the same accusative pattern from Chapter 4 — watch the masculine article change to den.", table:null, examples:["Ich nehme den Pullover.","Ich möchte die Jacke."]},
+    {title:"dieser / diese / dieses — 'this'", teach:"Just like der/die/das, dieser changes its ending to match the noun's gender.", table:[["dieser Mantel","this coat"],["diese Jacke","this jacket"],["dieses Hemd","this shirt"]], examples:["Dieser Mantel ist schön."]},
+    {title:"welcher — 'which'", teach:"Used to ask which one, and it follows the same gender pattern as dieser.", table:null, examples:["Welche Größe haben Sie?","Welcher Mantel gefällt dir?"]},
+    {title:"Polite requests with können", teach:"Können Sie…? or Kann ich…? softens a request, which is especially useful in a shop.", table:null, examples:["Kann ich das anprobieren?","Können Sie mir helfen?"]},
+  ],
+  drills:[
+    {q:"Ich nehme ___ Pullover. (der → accusative)", options:["den","der","dem","die"], answer:"den"},
+    {q:"___ Größe haben Sie? (which)", options:["Welche","Dieser","Diese","Was"], answer:"Welche"},
+    {q:"___ Jacke ist schön. (this — feminine)", options:["Diese","Dieser","Dieses","Die"], answer:"Diese"},
+    {q:"___ ich das anprobieren?", options:["Kann","Können","Kannst","Ist"], answer:"Kann"},
+    {q:"Das passt ___. (not)", options:["nicht","kein","keine","nichts"], answer:"nicht"},
+  ],
+  comingLater:["Comparatives and superlatives (bigger, biggest)","Fabrics and patterns","Online shopping vocabulary"]
+},
+{
+  id:9, titleDe:"Orientierung in der Stadt", titleEn:"Orientation & Directions", quota:50,
+  goal:"By the end of this chapter you can ask for and give simple directions, and name key places around town.",
+  categories:[
+    {name:"City places", scope:"Core public places only", items:[
+      {de:"der Bahnhof",en:"train station"},{de:"der Flughafen",en:"airport"},{de:"das Hotel",en:"hotel"},
+      {de:"das Restaurant",en:"restaurant"},{de:"der Supermarkt",en:"supermarket"},{de:"die Apotheke",en:"pharmacy"},
+      {de:"das Krankenhaus",en:"hospital"},{de:"die Bank",en:"bank"},{de:"die Post",en:"post office"},
+      {de:"die Schule",en:"school"},{de:"der Park",en:"park"},{de:"das Museum",en:"museum"},{de:"die Kirche",en:"church"},{de:"der Markt",en:"market"}
+    ]},
+    {name:"Transport vehicles / stops", scope:"Core set only", items:[
+      {de:"der Bus",en:"bus"},{de:"der Zug",en:"train"},{de:"die U-Bahn",en:"underground"},{de:"das Taxi",en:"taxi"},
+      {de:"das Fahrrad",en:"bicycle"},{de:"die Haltestelle",en:"stop"},{de:"der Bahnsteig",en:"platform"},{de:"das Gleis",en:"track"}
+    ]},
+    {name:"Direction words", scope:"Core set only", items:[
+      {de:"links",en:"left"},{de:"rechts",en:"right"},{de:"geradeaus",en:"straight ahead"},{de:"die Ecke",en:"corner"},
+      {de:"die Straße",en:"street"},{de:"die Ampel",en:"traffic light"},{de:"die Brücke",en:"bridge"},
+      {de:"die Karte",en:"map"},{de:"die Kreuzung",en:"crossroads"},{de:"gegenüber",en:"opposite"},{de:"die Richtung",en:"direction"}
+    ]},
+    {name:"Direction / transport verbs", scope:"Core verbs only", items:[
+      {de:"gehen",en:"to go/walk"},{de:"laufen",en:"to walk/run"},{de:"fahren",en:"to drive/travel"},{de:"nehmen",en:"to take"},
+      {de:"umsteigen",en:"to change (transport)"},{de:"halten",en:"to stop"},{de:"suchen",en:"to look for"},{de:"abbiegen",en:"to turn"}
+    ]},
+    {name:"Polite direction chunks", scope:"Fixed direction phrases only", items:[
+      {de:"Entschuldigung, wie komme ich zum Bahnhof?",en:"excuse me, how do I get to the station?"},
+      {de:"Gehen Sie geradeaus.",en:"go straight ahead"},{de:"Biegen Sie links ab.",en:"turn left"},
+      {de:"Der/Die … ist rechts.",en:"the … is on the right"},{de:"Nehmen Sie den Bus.",en:"take the bus"},
+      {de:"Wo ist die nächste Haltestelle?",en:"where's the nearest stop?"},{de:"Wie weit ist das?",en:"how far is that?"},
+      {de:"Ist das weit von hier?",en:"is that far from here?"},{de:"Vielen Dank für die Hilfe.",en:"thanks a lot for the help"}
+    ]}
+  ],
+  functions:[
+    {de:"Entschuldigung, wie komme ich zum Bahnhof?",en:"ask for directions"},{de:"Gehen Sie geradeaus.",en:"give simple directions"},
+    {de:"Biegen Sie links ab.",en:"say where to turn"},{de:"Der Bahnhof ist rechts.",en:"say where a place is"},
+    {de:"Nehmen Sie den Bus.",en:"suggest transport"},{de:"Wo ist die nächste Haltestelle?",en:"ask for the nearest stop"}
+  ],
+  grammar:[
+    {title:"The polite imperative", teach:"To give an instruction or direction politely, put the Sie-form of the verb first, before the subject.", table:null, examples:["Gehen Sie geradeaus. — Go straight ahead.","Nehmen Sie den Bus. — Take the bus.","Biegen Sie links ab. — Turn left."]},
+    {title:"Motion toward a place: wohin?", teach:"When you're describing movement toward a destination (not just sitting somewhere), certain prepositions take the accusative case instead of the dative.", table:null, examples:["Gehen Sie in die Stadt.","Ich gehe auf den Markt."]},
+    {title:"Location review: wo?", teach:"Static location still uses the dative case you met in Chapter 7 — useful for saying where a place is in town.", table:null, examples:["Der Bahnhof ist neben der Bank.","Die Apotheke ist gegenüber der Post."]},
+    {title:"Polite help requests", teach:"Können Sie mir helfen? is a ready-made phrase for approaching a stranger politely to ask for directions.", table:null, examples:["Können Sie mir helfen?","Entschuldigung, wie komme ich zum Bahnhof?"]},
+  ],
+  drills:[
+    {q:"___ Sie geradeaus. (gehen — polite command)", options:["Gehen","Gehst","Geht","Gehe"], answer:"Gehen"},
+    {q:"Gehen Sie in ___ Stadt. (die → accusative)", options:["die","der","dem","den"], answer:"die"},
+    {q:"Der Bahnhof ist neben ___ Bank. (die → dative)", options:["der","die","dem","den"], answer:"der"},
+    {q:"___ Sie den Bus. (nehmen — polite command)", options:["Nehmen","Nimmst","Nimmt","Nehmt"], answer:"Nehmen"},
+    {q:"Wie komme ich ___ Bahnhof? (zu dem →)", options:["zum","zur","zu","zur dem"], answer:"zum"},
+  ],
+  comingLater:["Complex, multi-step directions","Regional transport tickets and tariffs","Detailed landmark descriptions"]
+},
+{
+  id:10, titleDe:"Gesundheit & Körper", titleEn:"Health & Body", quota:40,
+  goal:"By the end of this chapter you can say what hurts, describe basic symptoms, and understand simple medical advice.",
+  categories:[
+    {name:"External body parts", scope:"Only parts needed for common pain/injury", items:[
+      {de:"der Kopf",en:"head"},{de:"das Auge",en:"eye"},{de:"das Ohr",en:"ear"},{de:"die Nase",en:"nose"},
+      {de:"der Mund",en:"mouth"},{de:"der Hals",en:"throat"},{de:"der Bauch",en:"stomach"},{de:"der Rücken",en:"back"},
+      {de:"der Arm",en:"arm"},{de:"die Hand",en:"hand"},{de:"das Bein",en:"leg"},{de:"der Fuß",en:"foot"}
+    ]},
+    {name:"Common symptoms / illnesses", scope:"Core symptom set only", items:[
+      {de:"Kopfschmerzen",en:"headache"},{de:"Bauchschmerzen",en:"stomach ache"},{de:"Halsschmerzen",en:"sore throat"},
+      {de:"Rückenschmerzen",en:"backache"},{de:"Zahnschmerzen",en:"toothache"},{de:"das Fieber",en:"fever"},
+      {de:"der Husten",en:"cough"},{de:"die Erkältung",en:"cold"},{de:"die Grippe",en:"flu"},{de:"die Übelkeit",en:"nausea"},
+      {de:"der Durchfall",en:"diarrhoea"},{de:"der Schmerz",en:"pain"}
+    ]},
+    {name:"Doctor / pharmacy words", scope:"Core set only", items:[
+      {de:"der Arzt",en:"doctor"},{de:"die Apotheke",en:"pharmacy"},{de:"das Rezept",en:"prescription"},
+      {de:"die Tablette",en:"tablet"},{de:"das Medikament",en:"medicine"},{de:"der Termin",en:"appointment"}
+    ]},
+    {name:"Basic health actions", scope:"Core verbs only", items:[
+      {de:"wehtun",en:"to hurt"},{de:"nehmen",en:"to take"},{de:"trinken",en:"to drink"},{de:"schlafen",en:"to sleep"},{de:"helfen",en:"to help"}
+    ]},
+    {name:"Essential phrases / chunks", scope:"Fixed doctor/patient phrases only", items:[
+      {de:"Ich habe Kopfschmerzen.",en:"I have a headache"},{de:"Mein Bauch tut weh.",en:"my stomach hurts"},
+      {de:"Was fehlt Ihnen?",en:"what's wrong with you?"},{de:"Ich habe Fieber.",en:"I have a fever"},
+      {de:"Sie sollen viel Wasser trinken.",en:"you should drink a lot of water"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich habe Kopfschmerzen.",en:"say what hurts"},{de:"Mein Bauch tut weh.",en:"say where they have pain"},
+    {de:"Was fehlt Ihnen?",en:"answer a doctor's question"},{de:"Ich habe Fieber.",en:"say they have fever"},
+    {de:"Nehmen Sie diese Tabletten.",en:"understand basic instructions"},{de:"Sie sollen viel Wasser trinken.",en:"give/receive simple advice"}
+  ],
+  grammar:[
+    {title:"sollen — giving advice", teach:"sollen is a modal verb (like können and müssen from Chapter 5) used specifically for advice — 'you should'. The main verb still goes to the end.", table:null, examples:["Sie sollen viel trinken. — You should drink a lot.","Du sollst mehr schlafen."]},
+    {title:"The imperative for instructions", teach:"Doctors and pharmacists give instructions the same polite way you learned in Chapter 9 — verb first.", table:null, examples:["Nehmen Sie diese Tabletten.","Trinken Sie viel Wasser."]},
+    {title:"Saying what hurts — two patterns", teach:"German has two common ways to talk about pain: naming the symptom directly with haben, or using the phrase tut weh with the body part.", table:null, examples:["Ich habe Kopfschmerzen. — I have a headache.","Mein Bauch tut weh. — My stomach hurts."]},
+  ],
+  drills:[
+    {q:"Sie ___ viel Wasser trinken. (should)", options:["sollen","können","müssen","wollen"], answer:"sollen"},
+    {q:"___ Sie diese Tabletten. (nehmen — command)", options:["Nehmen","Nimm","Nimmt","Nehmt"], answer:"Nehmen"},
+    {q:"Mein Kopf tut ___.", options:["weh","schmerzen","krank","wehtun"], answer:"weh"},
+    {q:"Ich habe ___. (a headache)", options:["Kopfschmerzen","Kopfschmerz","Kopf weh","Kopfschmerze"], answer:"Kopfschmerzen"},
+    {q:"Was ___ Ihnen? (fehlen — what's wrong)", options:["fehlt","fehlen","fehle","fehlst"], answer:"fehlt"},
+  ],
+  comingLater:["Internal organs and detailed anatomy","Chronic illnesses","Formal doctor's letters"]
+},
+{
+  id:11, titleDe:"Termine & Kommunikation", titleEn:"Appointments & Communication", quota:35,
+  goal:"By the end of this chapter you can make and cancel an appointment, and write a short email or leave a phone message.",
+  categories:[
+    {name:"Appointment / time management words", scope:"Core set only", items:[
+      {de:"der Termin",en:"appointment"},{de:"die Zeit",en:"time"},{de:"das Datum",en:"date"},{de:"die Woche",en:"week"},
+      {de:"heute",en:"today"},{de:"morgen",en:"tomorrow"},{de:"die Uhrzeit",en:"clock time"},{de:"der Kalender",en:"calendar"}
+    ]},
+    {name:"Communication / media words", scope:"Core set only", items:[
+      {de:"das Telefon",en:"telephone"},{de:"das Handy",en:"mobile phone"},{de:"die E-Mail",en:"email"},{de:"der Brief",en:"letter"},
+      {de:"die Nachricht",en:"message"},{de:"anrufen",en:"to call"},{de:"die Adresse",en:"address"},{de:"die Nummer",en:"number"}
+    ]},
+    {name:"Appointment verbs", scope:"Core verbs only", items:[
+      {de:"anrufen",en:"to call"},{de:"schreiben",en:"to write"},{de:"absagen",en:"to cancel"},{de:"bestätigen",en:"to confirm"},
+      {de:"kommen",en:"to come"},{de:"warten",en:"to wait"},{de:"fragen",en:"to ask"},{de:"antworten",en:"to answer"}
+    ]},
+    {name:"Telephone / email chunks", scope:"Fixed appointment/contact phrases only", items:[
+      {de:"Ich brauche einen Termin.",en:"I need an appointment"},{de:"Wann haben Sie Zeit?",en:"when do you have time?"},
+      {de:"Am Montag um zehn Uhr passt es.",en:"Monday at ten works"},{de:"Ich muss den Termin absagen.",en:"I have to cancel the appointment"},
+      {de:"Bitte rufen Sie mich an.",en:"please call me"},{de:"Ich schreibe eine E-Mail.",en:"I'm writing an email"},
+      {de:"Es geht um meinen Termin.",en:"it's about my appointment"},{de:"Kann ich einen Termin bekommen?",en:"can I get an appointment?"},
+      {de:"Auf Wiederhören.",en:"goodbye (on the phone)"},{de:"Einen Moment, bitte.",en:"one moment, please"},{de:"Ich rufe später noch mal an.",en:"I'll call again later"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich brauche einen Termin.",en:"say they need an appointment"},{de:"Wann haben Sie Zeit?",en:"ask when someone is available"},
+    {de:"Am Montag um zehn Uhr passt es.",en:"confirm a time"},{de:"Ich muss den Termin absagen.",en:"cancel an appointment"},
+    {de:"Bitte rufen Sie mich an.",en:"ask someone to call"},{de:"Ich schreibe eine E-Mail.",en:"say they are writing an email"},
+    {de:"Es geht um meinen Termin.",en:"say what the message is about"}
+  ],
+  grammar:[
+    {title:"weil — 'because'", teach:"weil introduces a reason, and it sends the conjugated verb all the way to the end of its clause — a completely different word order from a main clause.", table:null, examples:["Ich sage ab, weil ich krank bin.","Ich komme später, weil ich arbeite."]},
+    {title:"dass — 'that'", teach:"dass works exactly like weil grammatically: the verb goes to the end. It's used to report what someone thinks or says.", table:null, examples:["Ich glaube, dass der Termin passt.","Ich weiß, dass du kommst."]},
+    {title:"Spotting the pattern: verb-final clauses", teach:"Both weil and dass belong to a family of 'subordinate clause' connectors. Whenever you see one of these, expect the verb to jump to the very end.", table:null, examples:["…, weil ich am Montag arbeite.","…, dass sie Zeit hat."]},
+  ],
+  drills:[
+    {q:"Ich sage ab, weil ich krank ___. (verb at the end)", options:["bin","bin ich","ich bin",""], answer:"bin"},
+    {q:"Ich glaube, dass der Termin ___. (passen)", options:["passt","passt er","er passt","passte"], answer:"passt"},
+    {q:"Bitte ___ Sie mich an. (anrufen — command)", options:["rufen","ruft","ruf","rufst"], answer:"rufen"},
+    {q:"Ich ___ eine E-Mail. (schreiben)", options:["schreibe","schreibt","schreiben","geschrieben"], answer:"schreibe"},
+    {q:"Es geht ___ meinen Termin. (about)", options:["um","für","von","über"], answer:"um"},
+  ],
+  comingLater:["Reported speech (Konjunktiv I)","Formal business correspondence","Detailed internet/social-media vocabulary"]
+},
+{
+  id:12, titleDe:"Feste & Einladungen", titleEn:"Festivals & Invitations", quota:35,
+  goal:"By the end of this chapter you can invite someone, accept or decline politely, and give good wishes for a celebration.",
+  categories:[
+    {name:"Festivals / events", scope:"Core set only", items:[
+      {de:"der Geburtstag",en:"birthday"},{de:"Weihnachten",en:"Christmas"},{de:"Ostern",en:"Easter"},{de:"Silvester",en:"New Year's Eve"},
+      {de:"die Party",en:"party"},{de:"das Fest",en:"festival/celebration"},{de:"die Feier",en:"celebration"},{de:"der Feiertag",en:"public holiday"}
+    ]},
+    {name:"Celebration objects / people", scope:"Core set only", items:[
+      {de:"das Geschenk",en:"gift"},{de:"der Kuchen",en:"cake"},{de:"die Kerze",en:"candle"},{de:"der Luftballon",en:"balloon"},
+      {de:"der Gast",en:"guest"},{de:"die Einladung",en:"invitation"},{de:"die Karte",en:"card"},{de:"die Blumen",en:"flowers"}
+    ]},
+    {name:"Celebration verbs", scope:"Core verbs only", items:[
+      {de:"feiern",en:"to celebrate"},{de:"einladen",en:"to invite"},{de:"schenken",en:"to give as a gift"},
+      {de:"gratulieren",en:"to congratulate"},{de:"kommen",en:"to come"},{de:"bringen",en:"to bring"},{de:"wünschen",en:"to wish"}
+    ]},
+    {name:"Wishes / invitation chunks", scope:"Fixed congratulation/invitation phrases only", items:[
+      {de:"Ich lade dich zu meiner Party ein.",en:"I'm inviting you to my party"},{de:"Kommst du?",en:"are you coming?"},
+      {de:"Herzlichen Glückwunsch!",en:"congratulations!"},{de:"Danke für die Einladung.",en:"thanks for the invitation"},
+      {de:"Leider kann ich nicht kommen.",en:"unfortunately I can't come"},{de:"Ich wünsche dir alles Gute.",en:"I wish you all the best"},
+      {de:"Wir feiern Weihnachten.",en:"we celebrate Christmas"},{de:"Frohe Weihnachten!",en:"merry Christmas!"},
+      {de:"Frohes neues Jahr!",en:"happy new year!"},{de:"Alles Gute zum Geburtstag!",en:"happy birthday!"},
+      {de:"Ich hätte gern …",en:"I would like …"},{de:"Könnten Sie bitte …?",en:"could you please …?"}
+    ]}
+  ],
+  functions:[
+    {de:"Ich lade dich zu meiner Party ein.",en:"invite someone"},{de:"Kommst du?",en:"ask if someone can come"},
+    {de:"Herzlichen Glückwunsch!",en:"congratulate someone"},{de:"Danke für die Einladung.",en:"thank for an invitation"},
+    {de:"Leider kann ich nicht kommen.",en:"decline politely"},{de:"Ich wünsche dir alles Gute.",en:"give good wishes"},
+    {de:"Wir feiern Weihnachten.",en:"mention a festival"}
+  ],
+  grammar:[
+    {title:"Separable verbs again: einladen", teach:"Just like aufstehen in Chapter 3, einladen splits — ein- jumps to the end of the sentence.", table:null, examples:["Ich lade dich zu meiner Party ein.","Wir laden euch ein."]},
+    {title:"Four fixed polite chunks", teach:"German has a full conditional mood (Konjunktiv II) for politeness, but at A1 you only need four ready-made forms — learn them as fixed phrases rather than a grammar rule.", table:[["Ich hätte gern…","I would like…"],["Ich wäre…","I would be…"],["Ich könnte…","I could…"],["Ich würde…","I would…"]], examples:["Ich hätte gern ein Stück Kuchen.","Könnten Sie bitte kommen?"]},
+    {title:"werden for the future (just recognise it)", teach:"You'll sometimes see werden + infinitive used to talk about the future. At A1 you only need to recognise it when you hear or read it — you don't have to produce it yourself yet.", table:null, examples:["Wir werden feiern. — We will celebrate."]},
+  ],
+  drills:[
+    {q:"Ich lade dich zu meiner Party ___. (einladen)", options:["ein","an","auf","aus"], answer:"ein"},
+    {q:"Ich ___ gern ein Stück Kuchen. (hätte — I'd like)", options:["hätte","habe","hatte","haben"], answer:"hätte"},
+    {q:"___ Sie bitte kommen? (could)", options:["Könnten","Können","Konnten","Kann"], answer:"Könnten"},
+    {q:"Herzlichen ___! (congratulations)", options:["Glückwunsch","Glück","Wunsch","Feier"], answer:"Glückwunsch"},
+    {q:"Wir ___ Weihnachten. (feiern)", options:["feiern","feiert","feierst","gefeiert"], answer:"feiern"},
+  ],
+  comingLater:["The full Konjunktiv II system","Regional festival traditions","Formal wedding invitations"]
+},
+];
+
+const PASSIVE_VOCAB = [
+  {de:"weniger bekannte Speisen",en:"less common menu foods",note:"you'll see these on menus, but don't need to produce them"},
+  {de:"die Baumwolle",en:"cotton",note:"fabric name, recognise it while reading"},
+  {de:"die Seide",en:"silk",note:"fabric name, recognise it while reading"},
+  {de:"das Polyester",en:"polyester",note:"fabric name, recognise it while reading"},
+  {de:"regionale Grüße",en:"regional greetings",note:"e.g. Grüezi, Servus — good to recognise, no need to use them yet"},
+  {de:"Flughafenschilder",en:"airport signs",note:"e.g. Ankunft, Abflug, Gepäck — reading recognition only"},
+  {de:"weniger übliche Hobbys",en:"less common hobbies",note:"e.g. Angeln, Reiten — just for exposure"},
+  {de:"innere Körperteile",en:"internal body parts",note:"only if they appear in a simplified doctor text"},
+  {de:"detaillierte Wettervorhersage",en:"detailed weather-forecast vocabulary",note:"for listening/reading exposure only"}
+];
+</script>
+<script id="app-script">
+/* ---------------- State ---------------- */
+const state = {
+  view: "home",
+  subtab: "vocab",
+  progress: {},
+  quiz: null,        // vocab quiz session
+  drillQuiz: null     // grammar drill quiz session
+};
+CHAPTERS.forEach(c => { state.progress[c.id] = { quizPct: null, drillPct: null, checklist: {} }; });
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function pick(arr,n){ return shuffle(arr).slice(0,n); }
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ---------------- Sidebar ---------------- */
+function renderSidebar(){
+  const list = document.getElementById("tabList");
+  let html = `<li><button class="tab-item home ${state.view==='home'?'active':''}" onclick="goHome()"><span class="num">⌂</span>Übersicht</button></li>`;
+  CHAPTERS.forEach(c=>{
+    html += `<li><button class="tab-item ${state.view===c.id?'active':''}" onclick="goChapter(${c.id})">
+      <span class="num">${String(c.id).padStart(2,'0')}</span>${esc(c.titleDe)}
+    </button></li>`;
+  });
+  list.innerHTML = html;
+}
+
+/* ---------------- Navigation ---------------- */
+function goHome(){ state.view="home"; render(); }
+function goChapter(id){ state.view=id; state.subtab="vocab"; state.quiz=null; state.drillQuiz=null; render(); window.scrollTo(0,0); }
+function setSubtab(t){ state.subtab=t; state.quiz=null; state.drillQuiz=null; render(); }
+
+/* ---------------- Progress helpers ---------------- */
+function chapterProgressPct(c){
+  const p = state.progress[c.id];
+  const checklistTotal = c.functions.length;
+  const checklistDone = Object.values(p.checklist).filter(Boolean).length;
+  const checklistPct = checklistTotal ? (checklistDone/checklistTotal) : 0;
+  const quizPct = p.quizPct===null ? 0 : p.quizPct/100;
+  const drillPct = p.drillPct===null ? 0 : p.drillPct/100;
+  return Math.round(((checklistPct*0.34)+(quizPct*0.33)+(drillPct*0.33))*100);
+}
+
+/* ---------------- Home ---------------- */
+function renderHome(){
+  const totalItems = CHAPTERS.reduce((s,c)=>s+c.categories.reduce((a,cat)=>a+cat.items.length,0),0);
+  const avgProgress = Math.round(CHAPTERS.reduce((s,c)=>s+chapterProgressPct(c),0)/CHAPTERS.length);
+  let cards = CHAPTERS.map(c=>{
+    const pct = chapterProgressPct(c);
+    const stampClass = pct>=80?'done':(pct>0?'mid':'');
+    return `<button class="chapter-card" onclick="goChapter(${c.id})">
+      <span class="cnum">Kapitel ${String(c.id).padStart(2,'0')}</span>
+      <span class="ctitle-de">${esc(c.titleDe)}</span>
+      <span class="ctitle-en">${esc(c.titleEn)}</span>
+      <span class="cfoot">
+        <span class="quota-pill">${c.quota} Wörter</span>
+        <span class="stamp ${stampClass}">${pct}%</span>
+      </span>
+    </button>`;
+  }).join("");
+  document.getElementById("main").innerHTML = `
+    <div class="home-header">
+      <h1>Willkommen bei Sprachheft</h1>
+      <p>Your German A1 course: 12 chapters that build on each other. In every chapter you'll learn new words, get a short grammar lesson with practice, and check off what you can already say.</p>
+      <div class="home-stats">
+        <div class="stat"><span class="n">${totalItems}</span><span class="l">words to learn</span></div>
+        <div class="stat"><span class="n">12</span><span class="l">chapters</span></div>
+        <div class="stat"><span class="n">${avgProgress}%</span><span class="l">your progress</span></div>
+      </div>
+    </div>
+    <div class="section-title">Words you'll meet but don't need to produce</div>
+    <p class="section-note">These show up in listening or reading, just so nothing feels totally unfamiliar — you're never tested on them.</p>
+    <div class="excl-box" style="border-color:var(--ink-soft); background:var(--paper-raised); border-style:solid;">
+      <ul style="columns:2;">
+        ${PASSIVE_VOCAB.map(p=>`<li style="color:var(--ink-soft);"><strong style="font-family:var(--mono); color:var(--ink);">${esc(p.de)}</strong> — ${esc(p.en)}</li>`).join("")}
+      </ul>
+    </div>
+    <div class="section-title">Chapters</div>
+    <div class="chapter-grid">${cards}</div>
+    <footer class="appfoot">Sprachheft · A1 Deutsch Trainer · your progress is saved for this session</footer>
+  `;
+}
+
+/* ---------------- Chapter shell ---------------- */
+function renderChapter(){
+  const c = CHAPTERS.find(x=>x.id===state.view);
+  const main = document.getElementById("main");
+  main.innerHTML = `
+    <div class="chapter-head">
+      <div class="chapter-eyebrow">Kapitel ${String(c.id).padStart(2,'0')} · ${c.quota} Wörter</div>
+      <h1>${esc(c.titleDe)}</h1>
+      <div class="sub">${esc(c.titleEn)}</div>
+      <p class="goal-line">${esc(c.goal)}</p>
+    </div>
+    <div class="subtabs">
+      <button class="subtab ${state.subtab==='vocab'?'active':''}" onclick="setSubtab('vocab')">Wortschatz</button>
+      <button class="subtab ${state.subtab==='grammar'?'active':''}" onclick="setSubtab('grammar')">Grammatik</button>
+      <button class="subtab ${state.subtab==='practice'?'active':''}" onclick="setSubtab('practice')">Übung</button>
+    </div>
+    <div id="subtabContent"></div>
+  `;
+  const target = document.getElementById("subtabContent");
+  if(state.subtab==="vocab") target.innerHTML = vocabHTML(c);
+  else if(state.subtab==="grammar") target.innerHTML = grammarHTML(c);
+  else target.innerHTML = practiceHTML(c);
+  if(state.subtab==="practice") wirePractice(c);
+  if(state.subtab==="grammar") wireGrammarDrill(c);
+}
+
+/* ---------------- Vocabulary tab ---------------- */
+function vocabHTML(c){
+  return c.categories.map((cat)=>`
+    <div class="vocab-cat">
+      <div class="vocab-cat-head">
+        <h3>${esc(cat.name)}</h3>
+        <span class="count">${cat.items.length} Wörter</span>
+      </div>
+      <div class="card-row">
+        ${cat.items.map((it)=>`
+          <div class="vcard" onclick="this.classList.toggle('flipped')">
+            <div class="vcard-inner">
+              <div class="vcard-face front">${esc(it.de)}</div>
+              <div class="vcard-face back">${esc(it.en)}</div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+}
+
+/* ---------------- Grammar tab: real lessons ---------------- */
+function grammarHTML(c){
+  return `
+    <div class="section-title">What's new in this chapter</div>
+    <p class="section-note">Read each short lesson, look at the examples, then try the practice quiz at the bottom of this page.</p>
+    ${c.grammar.map(g=>`
+      <div class="gram-card">
+        <h4>${esc(g.title)}</h4>
+        <p>${esc(g.teach)}</p>
+        ${g.table ? `<table class="gram-table"><tbody>
+          ${g.table.map(row=>`<tr><td>${esc(row[0])}</td><td>${esc(row[1])}</td></tr>`).join("")}
+        </tbody></table>` : ""}
+        ${g.examples.length ? `<div class="ex">${g.examples.map(e=>esc(e)).join("<br>")}</div>` : ""}
+      </div>
+    `).join("")}
+    <div class="section-title">Grammatik-Check</div>
+    <p class="section-note">A short quiz on exactly what you just read — nothing from later chapters.</p>
+    <div class="practice-menu">
+      <button class="primary" id="startDrillBtn">Grammatik-Check starten (${c.drills.length} Fragen)</button>
+    </div>
+    <div id="drillArea"></div>
+    <div class="excl-box" style="margin-top:28px;">
+      <h4>Coming in a later chapter</h4>
+      <ul>${c.comingLater.map(e=>`<li>${esc(e)}</li>`).join("")}</ul>
+    </div>
+  `;
+}
+
+function wireGrammarDrill(c){
+  const btn = document.getElementById("startDrillBtn");
+  if(btn) btn.onclick = ()=>{ state.drillQuiz = buildDrillQuiz(c); renderDrillQuiz(c); };
+  if(state.drillQuiz) renderDrillQuiz(c);
+}
+function buildDrillQuiz(c){
+  const questions = shuffle(c.drills).map(d=>({
+    prompt: d.q, correct: d.answer, options: shuffle(d.options)
+  }));
+  return { questions, index:0, score:0, answered:false };
+}
+function renderDrillQuiz(c){
+  const area = document.getElementById("drillArea");
+  if(!area) return;
+  const q = state.drillQuiz;
+  if(q.index >= q.questions.length){
+    const pct = Math.round((q.score/q.questions.length)*100);
+    state.progress[c.id].drillPct = pct;
+    area.innerHTML = `
+      <div class="quiz-box quiz-result">
+        <div class="big-stamp"><span>${pct}%</span>GRAMMATIK</div>
+        <p>${q.score} von ${q.questions.length} richtig.</p>
+        <button onclick="state.drillQuiz=buildDrillQuiz(CHAPTERS.find(x=>x.id===${c.id})); renderDrillQuiz(CHAPTERS.find(x=>x.id===${c.id}))">Nochmal üben</button>
+      </div>`;
+    return;
+  }
+  const cur = q.questions[q.index];
+  area.innerHTML = `
+    <div class="quiz-box">
+      <div class="quiz-progress">Frage ${q.index+1} / ${q.questions.length} · Punkte: ${q.score}</div>
+      <div class="quiz-q mono-q">${esc(cur.prompt)}</div>
+      <div class="quiz-opts">
+        ${cur.options.map(opt=>`<button class="quiz-opt" data-opt="${esc(opt)}" onclick="answerDrill(${c.id}, this)">${esc(opt)}</button>`).join("")}
+      </div>
+      <div class="quiz-footer">
+        <span class="quiz-progress" id="drillFeedback"></span>
+        <button class="small-btn" id="drillNextBtn" style="display:none" onclick="nextDrillQuestion(${c.id})">Weiter →</button>
+      </div>
+    </div>`;
+}
+function answerDrill(cid, btnEl){
+  const q = state.drillQuiz;
+  if(q.answered) return;
+  q.answered = true;
+  const chosen = btnEl.getAttribute("data-opt");
+  const cur = q.questions[q.index];
+  document.querySelectorAll("#drillArea .quiz-opt").forEach(o=>{
+    o.setAttribute("disabled","true");
+    if(o.getAttribute("data-opt")===cur.correct) o.classList.add("correct");
+    else if(o===btnEl) o.classList.add("wrong");
+  });
+  if(chosen===cur.correct){ q.score++; document.getElementById("drillFeedback").textContent="Richtig!"; }
+  else { document.getElementById("drillFeedback").textContent="Nicht ganz — richtig markiert."; }
+  document.getElementById("drillNextBtn").style.display="inline-block";
+}
+function nextDrillQuestion(cid){
+  const c = CHAPTERS.find(x=>x.id===cid);
+  state.drillQuiz.index++;
+  state.drillQuiz.answered = false;
+  renderDrillQuiz(c);
+}
+
+/* ---------------- Practice tab (vocab quiz + can-do checklist) ---------------- */
+function practiceHTML(c){
+  return `
+    <div class="section-title">Wortschatz-Quiz</div>
+    <p class="section-note">Multiple choice on this chapter's vocabulary.</p>
+    <div class="practice-menu">
+      <button class="primary" id="startQuizBtn">Quiz starten (${Math.round(c.categories.reduce((s,ca)=>s+ca.items.length,0)*0.6)} Fragen)</button>
+    </div>
+    <div id="quizArea"></div>
+    <div class="checklist">
+      <div class="section-title">Was du jetzt sagen kannst</div>
+      <p class="section-note">Tick these off as you get comfortable saying them.</p>
+      ${c.functions.map((f,i)=>{
+        const checked = !!state.progress[c.id].checklist[i];
+        return `<div class="check-item">
+          <input type="checkbox" id="chk-${c.id}-${i}" ${checked?'checked':''} onchange="toggleCheck(${c.id},${i},this.checked)">
+          <label for="chk-${c.id}-${i}"><span style="font-family:var(--mono); font-size:0.88rem;">${esc(f.de)}</span> — ${esc(f.en)}</label>
+        </div>`;
+      }).join("")}
+    </div>
+  `;
+}
+function toggleCheck(cid,i,val){
+  state.progress[cid].checklist[i]=val;
+}
+
+/* ---------------- Vocab quiz engine ---------------- */
+function buildQuiz(c){
+  const allItems = c.categories.flatMap(cat=>cat.items);
+  const qCount = Math.max(6, Math.round(allItems.length*0.6));
+  const chosen = pick(allItems, Math.min(qCount, allItems.length));
+  const questions = chosen.map(it=>{
+    const wrongPool = allItems.filter(x=>x.en!==it.en);
+    const wrongs = pick(wrongPool,3).map(x=>x.en);
+    const options = shuffle([it.en, ...wrongs]);
+    return { prompt: it.de, correct: it.en, options };
+  });
+  return { questions, index:0, score:0, answered:false };
+}
+function wirePractice(c){
+  const btn = document.getElementById("startQuizBtn");
+  if(btn) btn.onclick = ()=>{ state.quiz = buildQuiz(c); renderQuiz(c); };
+  if(state.quiz) renderQuiz(c);
+}
+function renderQuiz(c){
+  const area = document.getElementById("quizArea");
+  const q = state.quiz;
+  if(q.index >= q.questions.length){
+    const pct = Math.round((q.score/q.questions.length)*100);
+    state.progress[c.id].quizPct = pct;
+    area.innerHTML = `
+      <div class="quiz-box quiz-result">
+        <div class="big-stamp"><span>${pct}%</span>KAPITEL ${String(c.id).padStart(2,'0')}</div>
+        <p>${q.score} von ${q.questions.length} richtig.</p>
+        <button onclick="state.quiz=buildQuiz(CHAPTERS.find(x=>x.id===${c.id})); renderQuiz(CHAPTERS.find(x=>x.id===${c.id}))">Nochmal üben</button>
+      </div>
+    `;
+    return;
+  }
+  const cur = q.questions[q.index];
+  area.innerHTML = `
+    <div class="quiz-box">
+      <div class="quiz-progress">Frage ${q.index+1} / ${q.questions.length} · Punkte: ${q.score}</div>
+      <div class="quiz-q">${esc(cur.prompt)}</div>
+      <div class="quiz-opts">
+        ${cur.options.map(opt=>`<button class="quiz-opt" data-opt="${esc(opt)}" onclick="answerQuiz(${c.id}, this)">${esc(opt)}</button>`).join("")}
+      </div>
+      <div class="quiz-footer">
+        <span class="quiz-progress" id="quizFeedback"></span>
+        <button class="small-btn" id="nextBtn" style="display:none" onclick="nextQuizQuestion(${c.id})">Weiter →</button>
+      </div>
+    </div>
+  `;
+}
+function answerQuiz(cid, btnEl){
+  const q = state.quiz;
+  if(q.answered) return;
+  q.answered = true;
+  const chosen = btnEl.getAttribute("data-opt");
+  const cur = q.questions[q.index];
+  document.querySelectorAll("#quizArea .quiz-opt").forEach(o=>{
+    o.setAttribute("disabled","true");
+    if(o.getAttribute("data-opt")===cur.correct) o.classList.add("correct");
+    else if(o===btnEl) o.classList.add("wrong");
+  });
+  if(chosen===cur.correct){ q.score++; document.getElementById("quizFeedback").textContent="Richtig!"; }
+  else { document.getElementById("quizFeedback").textContent="Nicht ganz — richtig markiert."; }
+  document.getElementById("nextBtn").style.display="inline-block";
+}
+function nextQuizQuestion(cid){
+  const c = CHAPTERS.find(x=>x.id===cid);
+  state.quiz.index++;
+  state.quiz.answered = false;
+  renderQuiz(c);
+}
+
+/* ---------------- Render root ---------------- */
+function render(){
+  renderSidebar();
+  if(state.view==="home") renderHome();
+  else renderChapter();
+}
+render();
+
+/* ---------------- PWA: register service worker ---------------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{ /* offline install optional, fails gracefully on file:// */ });
+  });
+}
+
+</script>
+</body>
+</html>
