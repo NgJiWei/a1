@@ -6,9 +6,9 @@
 <title>Sprachheft — A1 Deutsch Trainer</title>
 <meta name="description" content="A German A1 course: vocabulary, grammar lessons and practice quizzes, installable as an app.">
 <meta name="theme-color" content="#1E2A44">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sprachheft">
@@ -130,6 +130,43 @@ button:focus-visible, [tabindex]:focus-visible, input:focus-visible{
 }
 .tab-item.active .num{color:var(--yellow-deep);}
 .tab-item.home{margin-bottom:14px;}
+.tab-item.back-level{
+  background:transparent; border-style:dashed; color:var(--ink-soft); margin-bottom:10px;
+}
+
+/* ---------- CEFR picker ---------- */
+.cefr-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+  gap:16px;
+  margin-top:24px;
+}
+.cefr-card{
+  background:var(--paper-raised);
+  border:1.5px solid var(--ink);
+  border-radius:6px;
+  padding:20px 18px 16px 18px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:170px;
+}
+.cefr-card:not(.disabled):hover{box-shadow:5px 5px 0 rgba(30,42,68,0.10); transform:translate(-1px,-1px);}
+.cefr-card.disabled{opacity:0.55; cursor:default;}
+.cefr-letter{
+  font-family:var(--mono); font-weight:600; font-size:1.8rem; color:var(--yellow-deep);
+}
+.cefr-title{font-family:var(--sans); font-weight:600; font-size:1.05rem;}
+.cefr-blurb{color:var(--ink-soft); font-size:0.85rem; line-height:1.4;}
+.cefr-foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.cefr-words{font-family:var(--mono); font-size:0.72rem; color:var(--ink-soft);}
+.cefr-badge{
+  font-family:var(--sans); font-size:0.75rem; font-weight:600; padding:4px 10px; border-radius:20px;
+  border:1.5px solid var(--ink);
+}
+.cefr-badge.go{background:var(--yellow); color:var(--ink);}
+.cefr-badge.soon{background:transparent; color:var(--ink-soft); border-color:var(--line);}
 
 /* ---------- Main ---------- */
 #main{
@@ -437,7 +474,7 @@ footer.appfoot{
 </div>
 
 <script id="data-script">
-const CHAPTERS = [
+const CHAPTERS_A1 = [
 {
   id:1, titleDe:"Hallo!", titleEn:"Greetings & Introductions", quota:50,
   goal:"By the end of this chapter you can greet someone, introduce yourself, and ask their name, where they're from, and how they're doing.",
@@ -1059,7 +1096,7 @@ const CHAPTERS = [
 },
 ];
 
-const PASSIVE_VOCAB = [
+const PASSIVE_VOCAB_A1 = [
   {de:"weniger bekannte Speisen",en:"less common menu foods",note:"you'll see these on menus, but don't need to produce them"},
   {de:"die Baumwolle",en:"cotton",note:"fabric name, recognise it while reading"},
   {de:"die Seide",en:"silk",note:"fabric name, recognise it while reading"},
@@ -1070,17 +1107,391 @@ const PASSIVE_VOCAB = [
   {de:"innere Körperteile",en:"internal body parts",note:"only if they appear in a simplified doctor text"},
   {de:"detaillierte Wettervorhersage",en:"detailed weather-forecast vocabulary",note:"for listening/reading exposure only"}
 ];
+
+const CHAPTERS_A2 = [
+{
+  id:1, titleDe:"Alltag & Medien", titleEn:"Daily Life & Media", quota:50,
+  goal:"By the end of this chapter you can talk about your daily tech habits, explain a simple tech problem, and give basic instructions.",
+  categories:[
+    {name:"Digital life & devices", scope:"Core devices and terms only", items:[{de:"das Smartphone",en:"smartphone"},{de:"der Laptop",en:"laptop"},{de:"das Passwort",en:"password"},{de:"der Bildschirm",en:"screen"},{de:"das Internet",en:"internet"},{de:"die App",en:"app"},{de:"der Akku",en:"battery"},{de:"das WLAN",en:"wifi"},{de:"die Kamera",en:"camera"},{de:"der Kopfhörer",en:"headphones"},{de:"die SIM-Karte",en:"SIM card"},{de:"die Cloud",en:"cloud"}]},
+    {name:"Daily habits & routines", scope:"Waking up, commuting, relaxing", items:[{de:"aufwachen",en:"to wake up"},{de:"einschlafen",en:"to fall asleep"},{de:"pendeln",en:"to commute"},{de:"scrollen",en:"to scroll"},{de:"sich beeilen",en:"to hurry"},{de:"sich entspannen",en:"to relax"},{de:"sich ausruhen",en:"to rest"},{de:"joggen",en:"to jog"},{de:"meditieren",en:"to meditate"},{de:"saubermachen",en:"to clean up"}]},
+    {name:"Media consumption verbs", scope:"download, upload, share, stream", items:[{de:"herunterladen",en:"to download"},{de:"hochladen",en:"to upload"},{de:"löschen",en:"to delete"},{de:"teilen",en:"to share"},{de:"klicken",en:"to click"},{de:"streamen",en:"to stream"},{de:"posten",en:"to post"},{de:"kommentieren",en:"to comment"},{de:"liken",en:"to like"},{de:"speichern",en:"to save"}]},
+    {name:"Tech/media adjectives", scope:"broken, slow, fast, online", items:[{de:"kaputt",en:"broken"},{de:"langsam",en:"slow"},{de:"schnell",en:"fast"},{de:"leer",en:"empty"},{de:"voll",en:"full"},{de:"online",en:"online"},{de:"offline",en:"offline"},{de:"praktisch",en:"practical"}]},
+    {name:"Essential tech chunks", scope:"Fixed phrases for tech support & habits", items:[{de:"Mein Akku ist leer.",en:"my battery is dead"},{de:"Das WLAN ist langsam.",en:"the wifi is slow"},{de:"Du musst das Passwort eingeben.",en:"you have to enter the password"},{de:"Ich habe keinen Empfang.",en:"I have no signal"},{de:"Kannst du mir helfen?",en:"can you help me?"},{de:"Wie ist dein Benutzername?",en:"what's your username?"},{de:"Ich habe eine Nachricht bekommen.",en:"I got a message"},{de:"Das Video lädt nicht.",en:"the video won't load"},{de:"Ich muss mein Handy aufladen.",en:"I need to charge my phone"},{de:"Klicken Sie hier.",en:"click here"}]},
+  ],
+  functions:[
+    {de:"Ich verbringe zwei Stunden am Tag im Internet.", en:"describe daily media habits"},
+    {de:"Mein Akku ist leer.", en:"explain a technical problem"},
+    {de:"Das WLAN ist langsam.", en:"explain a technical problem"},
+    {de:"Du musst das Passwort eingeben.", en:"give basic tech instructions"},
+  ],
+  grammar:[
+    {title:"Reflexive verbs — sich ärgern, sich freuen, sich erinnern", teach:"Some verbs need a reflexive pronoun that refers back to the subject — the action is done 'to yourself'. The pronoun changes with the subject, just like a normal pronoun would.", table:[["ich freue mich","wir freuen uns"],["du freust dich","ihr freut euch"],["er/sie/es freut sich","sie/Sie freuen sich"]], examples:["Ich ärgere mich über das langsame WLAN.","Ich habe mich an das neue Passwort erinnert. (Perfekt)"]},
+    {title:"Pronominal adverbs — darauf, damit, davon", teach:"Instead of using a preposition with 'it' (which German doesn't do for things), fuse da(r)- with the preposition. Use the -r- when the preposition starts with a vowel.", table:null, examples:["Ich warte darauf. — I'm waiting for it.","Er spricht davon. — He talks about it.","Ich schreibe damit. — I write with it."]},
+    {title:"Connectors: deshalb, trotzdem, dann", teach:"These small words link two ideas. deshalb (therefore) and trotzdem (nevertheless) both push the verb straight after them, since they count as the 'first position' in the sentence; dann (then) simply sequences actions.", table:null, examples:["Der Akku ist leer, deshalb lade ich ihn auf.","Es regnet, trotzdem gehe ich joggen.","Ich dusche, dann frühstücke ich."]},
+  ],
+  drills:[
+    {q:"Ich ___ mich über das langsame Internet.", options:["ärgere","ärgerst","ärgert","ärgern"], answer:"ärgere"},
+    {q:"Er spricht oft ___. (about it)", options:["davon","darauf","damit","dafür"], answer:"davon"},
+    {q:"Der Akku ist leer, ___ lade ich ihn auf.", options:["deshalb","trotzdem","obwohl","dann"], answer:"deshalb"},
+    {q:"Es regnet, ___ gehe ich joggen.", options:["trotzdem","deshalb","weil","dass"], answer:"trotzdem"},
+    {q:"Ich habe mich an den Termin ___. (erinnern)", options:["erinnert","erinnere","erinnerte","erinnern"], answer:"erinnert"},
+  ],
+  comingLater:["Coding/programming vocabulary","Complex social media algorithms","Konjunktiv II for hypothetical tech situations"]
+},
+{
+  id:2, titleDe:"Beruf & Arbeit", titleEn:"Work & Professions", quota:60,
+  goal:"By the end of this chapter you can talk about your job and work tasks, describe your career so far, and understand a simple job ad.",
+  categories:[
+    {name:"Professions & workplaces", scope:"Common jobs and workplaces", items:[{de:"der Ingenieur / die Ingenieurin",en:"engineer"},{de:"der Verkäufer / die Verkäuferin",en:"salesperson"},{de:"der Techniker / die Technikerin",en:"technician"},{de:"das Büro",en:"office"},{de:"die Fabrik",en:"factory"},{de:"das Krankenhaus",en:"hospital"},{de:"das Homeoffice",en:"home office"},{de:"der Kollege / die Kollegin",en:"colleague"},{de:"der Chef / die Chefin",en:"boss"},{de:"die Firma",en:"company"},{de:"der Arbeitsplatz",en:"workplace"},{de:"die Abteilung",en:"department"},{de:"der Arbeitgeber",en:"employer"},{de:"der Arbeitnehmer",en:"employee"},{de:"die Branche",en:"industry"}]},
+    {name:"Work tasks & duties", scope:"emails, meetings, deadlines", items:[{de:"die E-Mail",en:"email"},{de:"das Meeting",en:"meeting"},{de:"der Kunde / die Kundin",en:"customer"},{de:"das Projekt",en:"project"},{de:"die Frist",en:"deadline"},{de:"die Aufgabe",en:"task"},{de:"der Bericht",en:"report"},{de:"die Präsentation",en:"presentation"},{de:"die Besprechung",en:"discussion/meeting"},{de:"die Pause",en:"break"},{de:"die Überstunde",en:"overtime"},{de:"der Termin",en:"appointment"},{de:"die Verantwortung",en:"responsibility"},{de:"die Zusammenarbeit",en:"cooperation"},{de:"die Organisation",en:"organisation"}]},
+    {name:"Job search & applications", scope:"CV, interview, salary, contract", items:[{de:"der Lebenslauf",en:"CV"},{de:"das Vorstellungsgespräch",en:"job interview"},{de:"das Gehalt",en:"salary"},{de:"der Vertrag",en:"contract"},{de:"die Erfahrung",en:"experience"},{de:"die Bewerbung",en:"application"},{de:"die Qualifikation",en:"qualification"},{de:"die Referenz",en:"reference"},{de:"die Kündigung",en:"resignation/dismissal"},{de:"die Beförderung",en:"promotion"},{de:"die Stellenanzeige",en:"job ad"},{de:"die Fähigkeit",en:"skill"}]},
+    {name:"Work adjectives", scope:"stressful, exciting, full/part-time", items:[{de:"stressig",en:"stressful"},{de:"langweilig",en:"boring"},{de:"spannend",en:"exciting"},{de:"Vollzeit",en:"full-time"},{de:"Teilzeit",en:"part-time"},{de:"anstrengend",en:"exhausting"},{de:"flexibel",en:"flexible"},{de:"verantwortlich",en:"responsible"}]},
+    {name:"Professional chunks", scope:"Fixed phrases for emails & workplace", items:[{de:"Ich arbeite seit drei Jahren als …",en:"I've worked as … for three years"},{de:"Ich muss oft Überstunden machen.",en:"I often have to work overtime"},{de:"Können wir einen Termin vereinbaren?",en:"can we arrange an appointment?"},{de:"Ich schicke Ihnen die Unterlagen.",en:"I'll send you the documents"},{de:"Mit freundlichen Grüßen",en:"kind regards"},{de:"Ich bin für … zuständig.",en:"I'm responsible for …"},{de:"Wann ist die Frist?",en:"when's the deadline?"},{de:"Ich habe eine Frage zum Projekt.",en:"I have a question about the project"},{de:"Das Meeting beginnt um …",en:"the meeting starts at …"},{de:"Vielen Dank für Ihre Bewerbung.",en:"thank you for your application"}]},
+  ],
+  functions:[
+    {de:"Ich arbeite seit drei Jahren als …", en:"describe career history and current job"},
+    {de:"Ich muss oft Überstunden machen.", en:"talk about workplace stress and duties"},
+    {de:"Ich habe eine Stelle als … gefunden.", en:"talk about a job you found"},
+  ],
+  grammar:[
+    {title:"Präteritum — the written past", teach:"For CVs, biographies and written stories, German prefers the Präteritum over the spoken Perfekt. Regular verbs add -te endings to the stem; a set of ~20 common irregular verbs change their stem and just have to be memorised.", table:[["ich arbeit-ete","wir arbeit-eten"],["du arbeit-etest","ihr arbeit-etet"],["er/sie/es arbeit-ete","sie/Sie arbeit-eten"]], examples:["gehen → ging","sehen → sah","kommen → kam","nehmen → nahm"]},
+    {title:"um…zu vs. damit — expressing purpose", teach:"Both mean 'in order to', but um…zu is only used when the subject doing the main action is the same person who benefits from the purpose. If the subjects are different, you need damit instead.", table:null, examples:["Ich lerne Deutsch, um in Deutschland zu arbeiten. (same subject)","Ich schicke dir das Dokument, damit du es lesen kannst. (different subjects)"]},
+    {title:"seit, vor, bis — talking about time", teach:"seit (since/for) describes something that started in the past and continues now — always with the dative. vor (ago) also takes the dative. bis (until) marks an endpoint and is usually used without a case-changing article.", table:null, examples:["Ich arbeite seit drei Jahren hier.","Vor zwei Jahren habe ich angefangen.","Ich bleibe bis Freitag."]},
+  ],
+  drills:[
+    {q:"Ich ___ letztes Jahr in Berlin. (arbeiten)", options:["arbeitete","arbeite","gearbeitet","arbeiten"], answer:"arbeitete"},
+    {q:"Er ___ nach Hause. (gehen, Präteritum)", options:["ging","gegangen","geht","gehte"], answer:"ging"},
+    {q:"Ich lerne Deutsch, ___ in Deutschland zu arbeiten.", options:["um","damit","weil","dass"], answer:"um"},
+    {q:"Ich arbeite ___ drei Jahren hier.", options:["seit","vor","bis","ab"], answer:"seit"},
+    {q:"Ich bleibe ___ Freitag.", options:["bis","seit","vor","ab"], answer:"bis"},
+  ],
+  comingLater:["Corporate legal jargon","Complex negotiation vocabulary","Obscure strong verbs in Präteritum","Konjunktiv I for reported speech in business news"]
+},
+{
+  id:3, titleDe:"Einkaufen & Konsum", titleEn:"Shopping & Consumerism", quota:55,
+  goal:"By the end of this chapter you can shop online, complain about a faulty product, and compare two items.",
+  categories:[
+    {name:"Online shopping & delivery", scope:"Core online-shopping terms", items:[{de:"der Warenkorb",en:"shopping cart"},{de:"die Lieferung",en:"delivery"},{de:"die Sendungsverfolgung",en:"package tracking"},{de:"die Rücksendung",en:"return shipment"},{de:"die Quittung",en:"receipt"},{de:"die Bestellung",en:"order"},{de:"der Versand",en:"shipping"},{de:"die Lieferzeit",en:"delivery time"},{de:"das Paket",en:"package"},{de:"der Absender",en:"sender"},{de:"der Empfänger",en:"recipient"},{de:"die Zahlungsmethode",en:"payment method"}]},
+    {name:"Electronics & appliances", scope:"Common devices only", items:[{de:"der Fernseher",en:"TV"},{de:"die Waschmaschine",en:"washing machine"},{de:"die Kamera",en:"camera"},{de:"das Kabel",en:"cable"},{de:"der Akku",en:"battery"},{de:"der Kühlschrank",en:"fridge"},{de:"die Mikrowelle",en:"microwave"},{de:"der Staubsauger",en:"vacuum cleaner"},{de:"der Drucker",en:"printer"},{de:"der Lautsprecher",en:"speaker"},{de:"die Fernbedienung",en:"remote control"},{de:"der Stecker",en:"plug"}]},
+    {name:"Complaints & returns", scope:"Core complaint vocabulary", items:[{de:"kaputt",en:"broken"},{de:"beschädigt",en:"damaged"},{de:"die falsche Größe",en:"the wrong size"},{de:"die Rückerstattung",en:"refund"},{de:"die Garantie",en:"warranty"},{de:"der Umtausch",en:"exchange"},{de:"der Fehler",en:"fault/error"},{de:"reklamieren",en:"to complain formally"},{de:"zurückschicken",en:"to send back"},{de:"ersetzen",en:"to replace"},{de:"der Mangel",en:"defect"},{de:"die Reklamation",en:"complaint"}]},
+    {name:"Market & bargaining words", scope:"stall, fresh, discount, cash", items:[{de:"der Stand",en:"market stall"},{de:"frisch",en:"fresh"},{de:"der Rabatt",en:"discount"},{de:"bar",en:"cash"},{de:"die Karte",en:"card"},{de:"handeln",en:"to haggle"},{de:"günstig",en:"affordable"},{de:"das Angebot",en:"offer"},{de:"reduziert",en:"reduced"}]},
+    {name:"Shopping chunks", scope:"Fixed phrases for complaints & returns", items:[{de:"Der Reißverschluss ist kaputt.",en:"the zipper is broken"},{de:"Ich möchte das umtauschen.",en:"I'd like to exchange this"},{de:"Dieser Laptop ist teurer, aber besser.",en:"this laptop is more expensive, but better"},{de:"Haben Sie eine Quittung?",en:"do you have a receipt?"},{de:"Ich möchte mein Geld zurück.",en:"I'd like my money back"},{de:"Das Produkt war beschädigt.",en:"the product was damaged"},{de:"Wie lange dauert die Lieferung?",en:"how long does delivery take?"},{de:"Gibt es Rabatt?",en:"is there a discount?"},{de:"Kann ich das reklamieren?",en:"can I make a complaint about this?"},{de:"Das ist leider defekt.",en:"unfortunately this is faulty"}]},
+  ],
+  functions:[
+    {de:"Der Reißverschluss ist kaputt.", en:"complain about a defective product"},
+    {de:"Ich möchte das umtauschen.", en:"return an item and ask for a refund"},
+    {de:"Dieser Laptop ist teurer, aber besser.", en:"compare products and prices"},
+  ],
+  grammar:[
+    {title:"Adjective endings — Nominative & Accusative first", teach:"After der/die/das, descriptive adjectives take an ending. Master Nominative and Accusative before touching Dative — trying to learn all three at once is the single biggest cause of A2 overwhelm.", table:[["der neue Laptop","nominative, masc."],["den neuen Laptop","accusative, masc."],["die neue Kamera","nom./acc., fem."],["das neue Handy","nom./acc., neuter"]], examples:["Der neue Laptop ist teuer.","Ich kaufe den neuen Laptop."]},
+    {title:"Adjective endings — Dative (once Accusative feels solid)", teach:"Only move on to this once Accusative endings feel automatic. In the Dative, masculine and neuter both take -en, feminine takes -en too, and plural nouns add -n if they don't already end in one.", table:[["dem neuen Laptop","dative, masc./neut."],["der neuen Kamera","dative, fem."],["den neuen Schuhen","dative, plural"]], examples:["Ich gebe dem neuen Kollegen den Laptop."]},
+    {title:"obwohl — concessive clauses", teach:"obwohl means 'although' and, like weil, sends the verb to the end of its clause.", table:null, examples:["Ich kaufe es, obwohl es teuer ist.","Obwohl es kaputt war, hat er es nicht zurückgeschickt."]},
+    {title:"Verbs with accusative + dative objects", teach:"Verbs like geben, zeigen and erklären often have two objects: a person (dative) and a thing (accusative). With noun objects, the dative person usually comes first.", table:null, examples:["Ich gebe dem Kunden die Rechnung.","Ich zeige dir das Produkt.","Ich erkläre ihm den Fehler."]},
+  ],
+  drills:[
+    {q:"Ich kaufe den ___ Laptop. (neu, accusative)", options:["neuen","neue","neues","neuer"], answer:"neuen"},
+    {q:"Das ist die ___ Kamera. (neu, nominative)", options:["neue","neuen","neues","neuer"], answer:"neue"},
+    {q:"Ich gebe ___ Kunden die Rechnung. (dative)", options:["dem","den","der","die"], answer:"dem"},
+    {q:"Ich kaufe es, ___ es teuer ist.", options:["obwohl","weil","deshalb","dass"], answer:"obwohl"},
+    {q:"Ich zeige ___ das Produkt. (to you)", options:["dir","du","dich","dein"], answer:"dir"},
+  ],
+  comingLater:["Genitive adjective endings","Complex warranty legal terms","Stock market / investment vocabulary"]
+},
+{
+  id:4, titleDe:"Reisen & Verkehr", titleEn:"Travel & Transport", quota:60,
+  goal:"By the end of this chapter you can handle travel delays, book accommodation, and describe a past trip.",
+  categories:[
+    {name:"Airport & Train Station", scope:"Core travel-hub vocabulary", items:[{de:"das Gate",en:"gate"},{de:"die Verspätung",en:"delay"},{de:"der Bahnsteig",en:"platform"},{de:"die Bordkarte",en:"boarding pass"},{de:"das Gepäck",en:"luggage"},{de:"der Zoll",en:"customs"},{de:"der Check-in",en:"check-in"},{de:"die Ankunft",en:"arrival"},{de:"die Abfahrt",en:"departure"},{de:"der Anschlussflug",en:"connecting flight"},{de:"das Ticket",en:"ticket"},{de:"die Sicherheitskontrolle",en:"security check"},{de:"der Koffer",en:"suitcase"},{de:"die Passkontrolle",en:"passport control"},{de:"der Terminal",en:"terminal"}]},
+    {name:"Accommodation & Booking", scope:"Core hotel/booking vocabulary", items:[{de:"die Reservierung",en:"reservation"},{de:"die Rezeption",en:"reception"},{de:"das Einzelzimmer",en:"single room"},{de:"das Doppelzimmer",en:"double room"},{de:"die Halbpension",en:"half board"},{de:"die Vollpension",en:"full board"},{de:"das Frühstück",en:"breakfast"},{de:"der Aufenthalt",en:"stay"},{de:"die Buchung",en:"booking"},{de:"die Unterkunft",en:"accommodation"},{de:"der Schlüssel",en:"key"},{de:"stornieren",en:"to cancel"}]},
+    {name:"Travel problems & solutions", scope:"Disruptions and how to deal with them", items:[{de:"der verpasste Anschluss",en:"missed connection"},{de:"der Streik",en:"strike"},{de:"der verlorene Pass",en:"lost passport"},{de:"die Versicherung",en:"insurance"},{de:"die Verzögerung",en:"delay"},{de:"der Ausfall",en:"cancellation"},{de:"die Ersatzverbindung",en:"replacement connection"},{de:"die Beschwerde",en:"complaint"},{de:"die Entschädigung",en:"compensation"},{de:"der Notfall",en:"emergency"},{de:"die Umleitung",en:"diversion"},{de:"der Stau",en:"traffic jam"},{de:"die Panne",en:"breakdown"},{de:"die Reparatur",en:"repair"},{de:"der Ersatz",en:"replacement"}]},
+    {name:"Geography & landscapes", scope:"Core landscape words", items:[{de:"die Küste",en:"coast"},{de:"die Berge",en:"mountains"},{de:"der Wald",en:"forest"},{de:"die Grenze",en:"border"},{de:"der Fluss",en:"river"},{de:"das Tal",en:"valley"},{de:"die Insel",en:"island"},{de:"die Wüste",en:"desert"}]},
+    {name:"Travel chunks", scope:"Fixed phrases for check-in & delays", items:[{de:"Der Flug hat Verspätung.",en:"the flight is delayed"},{de:"Mein Koffer ist weg.",en:"my suitcase is missing"},{de:"Ist das Frühstück im Preis inbegriffen?",en:"is breakfast included in the price?"},{de:"Wo ist der Check-in?",en:"where's check-in?"},{de:"Ich habe eine Reservierung.",en:"I have a reservation"},{de:"Der Zug fällt aus.",en:"the train is cancelled"},{de:"Wie komme ich zum Gate?",en:"how do I get to the gate?"},{de:"Ich habe meinen Anschluss verpasst.",en:"I missed my connection"},{de:"Gibt es eine Ersatzverbindung?",en:"is there a replacement connection?"},{de:"Wir haben Verspätung wegen …",en:"we're delayed because of …"}]},
+  ],
+  functions:[
+    {de:"Der Flug hat Verspätung.", en:"handle travel disruptions"},
+    {de:"Mein Koffer ist weg.", en:"handle travel disruptions"},
+    {de:"Ist das Frühstück im Preis inbegriffen?", en:"book accommodation and ask about amenities"},
+  ],
+  grammar:[
+    {title:"wegen, trotz, während + Genitive", teach:"These prepositions technically take the Genitive in formal writing. In everyday spoken German, though, it's completely normal — and accepted at this level — to use von + Dative instead. You just need to recognise the Genitive form when you read it.", table:null, examples:["Wegen des Streiks fällt der Zug aus. (formal, Genitive)","Wegen dem Streik fällt der Zug aus. (spoken, accepted)"]},
+    {title:"als vs. wenn — the past-tense trap", teach:"als is for one single completed event in the past. wenn is for the present, the future, or anything repeated in the past. Mixing these two up is extremely common — and easy to fix once you know the rule.", table:null, examples:["Als ich in Berlin war, habe ich das Museum besucht. (one time, past)","Wenn ich Zeit habe, gehe ich ins Kino. (present/future)","Immer wenn es regnete, blieb ich zu Hause. (repeated, past)"]},
+    {title:"Past Perfect — recognise it, don't produce it yet", teach:"You'll sometimes see hatte/war + participle used to show one past event happened before another past event. At A2 you only need to recognise this in a text — you're not expected to produce it yourself.", table:null, examples:["Nachdem der Zug abgefahren war, kam ich am Bahnhof an. (recognise only)"]},
+  ],
+  drills:[
+    {q:"___ des Streiks fällt der Zug aus.", options:["Wegen","Trotz","Während","Seit"], answer:"Wegen"},
+    {q:"___ ich in Berlin war, habe ich das Museum besucht.", options:["Als","Wenn","Trotzdem","Weil"], answer:"Als"},
+    {q:"___ ich Zeit habe, gehe ich ins Kino.", options:["Wenn","Als","Ob","Dass"], answer:"Wenn"},
+    {q:"Der Flug hat ___.", options:["Verspätung","Verspätete","verspätet","Verspätungen"], answer:"Verspätung"},
+    {q:"Mein Koffer ist ___.", options:["weg","weit","weiter","wegen"], answer:"weg"},
+  ],
+  comingLater:["Complex visa/immigration legalities","Active production of full Genitive noun declension","Plusquamperfekt production"]
+},
+{
+  id:5, titleDe:"Wohnen & Nachbarschaft", titleEn:"Living & Neighborhood", quota:55,
+  goal:"By the end of this chapter you can discuss house rules, complain politely about a housing problem, and describe moving house.",
+  categories:[
+    {name:"House rules & chores", scope:"Core house-rule vocabulary", items:[{de:"der Putzplan",en:"cleaning roster"},{de:"die Ruhezeit",en:"quiet hours"},{de:"der Müll",en:"trash"},{de:"das Recycling",en:"recycling"},{de:"das Haustier",en:"pet"},{de:"die Hausordnung",en:"house rules"},{de:"der Mülleimer",en:"bin"},{de:"die Mülltrennung",en:"waste separation"},{de:"die Waschküche",en:"laundry room"},{de:"das Treppenhaus",en:"stairwell"},{de:"die Reinigung",en:"cleaning"},{de:"die Pflicht",en:"duty"}]},
+    {name:"Neighborhood & community", scope:"Core neighbourhood vocabulary", items:[{de:"der Vermieter / die Vermieterin",en:"landlord/landlady"},{de:"der Nachbar / die Nachbarin",en:"neighbour"},{de:"der Lärm",en:"noise"},{de:"der Parkplatz",en:"parking space"},{de:"der Spielplatz",en:"playground"},{de:"die Gemeinschaft",en:"community"},{de:"das Viertel",en:"neighbourhood/district"},{de:"die Hausversammlung",en:"tenants' meeting"},{de:"der Hausmeister",en:"caretaker"},{de:"die Beschwerde",en:"complaint"},{de:"die Miete",en:"rent"},{de:"der Briefkasten",en:"mailbox"}]},
+    {name:"Moving & housing market", scope:"Core moving-house vocabulary", items:[{de:"die Umzugsfirma",en:"moving company"},{de:"die Kartons",en:"boxes"},{de:"die Kaution",en:"deposit"},{de:"die Wohnungssuche",en:"flat hunting"},{de:"die Besichtigung",en:"viewing"},{de:"der Umzug",en:"move"},{de:"der Mietvertrag",en:"rental contract"},{de:"die Nebenkosten",en:"utility costs"},{de:"das Inserat",en:"listing/ad"},{de:"der Makler / die Maklerin",en:"estate agent"},{de:"die Anzahlung",en:"down payment"},{de:"der Einzug",en:"moving in"}]},
+    {name:"Housing problems", scope:"Core problem vocabulary", items:[{de:"das Leck",en:"leak"},{de:"der Schimmel",en:"mould"},{de:"die kaputte Heizung",en:"broken heating"},{de:"die Zugluft",en:"draught"},{de:"der Wasserschaden",en:"water damage"},{de:"der Defekt",en:"defect"},{de:"die Störung",en:"fault/disruption"},{de:"der Stromausfall",en:"power outage"},{de:"undicht",en:"leaky"}]},
+    {name:"Housing chunks", scope:"Fixed phrases for complaints & neighbours", items:[{de:"Die Heizung funktioniert nicht.",en:"the heating isn't working"},{de:"Es ist zu laut.",en:"it's too loud"},{de:"Wir haben eine Hausversammlung.",en:"we have a tenants' meeting"},{de:"Können Sie das reparieren?",en:"can you fix that?"},{de:"Ich möchte mich beschweren.",en:"I'd like to make a complaint"},{de:"Die Kaution beträgt …",en:"the deposit is …"},{de:"Wann ist der Einzug?",en:"when's the move-in date?"},{de:"Es gibt Schimmel im Bad.",en:"there's mould in the bathroom"},{de:"Bitte beachten Sie die Ruhezeiten.",en:"please observe the quiet hours"},{de:"Der Nachbar ist sehr laut.",en:"the neighbour is very loud"}]},
+  ],
+  functions:[
+    {de:"Die Heizung funktioniert nicht.", en:"complain politely about a housing problem"},
+    {de:"Es ist zu laut.", en:"complain politely to a neighbor or landlord"},
+    {de:"Wir müssen die Hausordnung beachten.", en:"discuss house rules"},
+  ],
+  grammar:[
+    {title:"Relative clauses — Nominative & Accusative", teach:"A relative clause adds extra information about a noun, using der/die/das as a connector, with the verb pushed to the end. Use Nominative when that pronoun is the subject of its own clause, Accusative when it's the object — only the masculine form changes (der → den).", table:null, examples:["Der Mann, der hier wohnt, ist mein Nachbar. (nominative)","Der Nachbar, den ich kenne, ist nett. (accusative)","Das Auto, das ich kaufe, ist neu."]},
+    {title:"Modal verbs in the Präteritum", teach:"Modal verbs almost always appear in the Präteritum, even in speech — it actually sounds more natural than the Perfekt here. These four are worth memorising as a set.", table:[["ich wollte","I wanted to"],["ich musste","I had to"],["ich konnte","I could"],["ich durfte","I was allowed to"]], examples:["Ich musste die Miete zahlen.","Ich konnte gestern nicht kommen."]},
+    {title:"indem — describing how something is done", teach:"indem introduces the method or means by which something happens — 'by doing X'. Like other subordinate connectors, it sends the verb to the end.", table:null, examples:["Man spart Energie, indem man das Licht ausschaltet.","Er lernte Deutsch, indem er viel las."]},
+  ],
+  drills:[
+    {q:"Der Mann, ___ hier wohnt, ist mein Nachbar.", options:["der","den","dem","die"], answer:"der"},
+    {q:"Der Nachbar, ___ ich kenne, ist nett.", options:["den","der","dem","die"], answer:"den"},
+    {q:"Ich ___ die Miete zahlen. (müssen, Präteritum)", options:["musste","muss","gemusst","müsste"], answer:"musste"},
+    {q:"Man spart Energie, ___ man das Licht ausschaltet.", options:["indem","obwohl","weil","damit"], answer:"indem"},
+    {q:"Ich ___ gestern nicht kommen. (können, Präteritum)", options:["konnte","kann","gekonnt","könnte"], answer:"konnte"},
+  ],
+  comingLater:["Real estate investment vocabulary","Relative clauses in Genitive","Complex construction/renovation terminology"]
+},
+{
+  id:6, titleDe:"Essen, Restaurants & Kultur", titleEn:"Food, Restaurants & Culture", quota:60,
+  goal:"By the end of this chapter you can order and complain in a restaurant, follow a simple recipe, and talk about a cultural event.",
+  categories:[
+    {name:"Restaurant & Dining", scope:"Core dining vocabulary", items:[{de:"die Vorspeise",en:"starter"},{de:"das Hauptgericht",en:"main course"},{de:"die Nachspeise",en:"dessert"},{de:"das Trinkgeld",en:"tip"},{de:"der Service",en:"service"},{de:"die Reservierung",en:"reservation"},{de:"der Kellner / die Kellnerin",en:"waiter/waitress"},{de:"die Speisekarte",en:"menu"},{de:"der Tisch für zwei",en:"table for two"},{de:"die Bedienung",en:"service/waitstaff"},{de:"die Rechnung",en:"bill"},{de:"das Gedeck",en:"place setting"},{de:"die Bestellung",en:"order"},{de:"der Gastraum",en:"dining room"},{de:"die Küche",en:"kitchen/cuisine"}]},
+    {name:"Cooking & Recipes", scope:"Core cooking vocabulary", items:[{de:"die Zutat",en:"ingredient"},{de:"schneiden",en:"to cut"},{de:"rühren",en:"to stir"},{de:"kochen",en:"to cook/boil"},{de:"backen",en:"to bake"},{de:"der Ofen",en:"oven"},{de:"die Pfanne",en:"pan"},{de:"der Topf",en:"pot"},{de:"braten",en:"to fry/roast"},{de:"würzen",en:"to season"},{de:"schälen",en:"to peel"},{de:"die Prise",en:"a pinch"},{de:"der Herd",en:"stove"},{de:"die Küchenmaschine",en:"food processor"},{de:"das Rezept",en:"recipe"}]},
+    {name:"Cultural events", scope:"Core cultural-event vocabulary", items:[{de:"die Ausstellung",en:"exhibition"},{de:"das Konzert",en:"concert"},{de:"die Bühne",en:"stage"},{de:"das Publikum",en:"audience"},{de:"die Kasse",en:"ticket office"},{de:"die Vorstellung",en:"performance"},{de:"die Vernissage",en:"exhibition opening"},{de:"das Festival",en:"festival"},{de:"die Karte",en:"ticket"},{de:"die Aufführung",en:"performance/staging"},{de:"der Applaus",en:"applause"},{de:"der Künstler / die Künstlerin",en:"artist"}]},
+    {name:"Food evaluation adjectives", scope:"Core taste words", items:[{de:"scharf",en:"spicy"},{de:"salzig",en:"salty"},{de:"süß",en:"sweet"},{de:"eklig",en:"disgusting"},{de:"lecker",en:"delicious"},{de:"roh",en:"raw"},{de:"zart",en:"tender"},{de:"würzig",en:"spicy/flavourful"}]},
+    {name:"Dining/Culture chunks", scope:"Fixed phrases for ordering & reviewing", items:[{de:"Die Suppe ist kalt.",en:"the soup is cold"},{de:"Das ist nicht medium.",en:"this isn't medium"},{de:"Man muss das Wasser kochen.",en:"you have to boil the water"},{de:"Das Konzert war langweilig.",en:"the concert was boring"},{de:"Ich hätte gern die Rechnung.",en:"I'd like the bill, please"},{de:"Können wir einen Tisch reservieren?",en:"can we reserve a table?"},{de:"Wie schmeckt es Ihnen?",en:"how do you like it?"},{de:"Das Essen war köstlich.",en:"the food was delicious"},{de:"Die Ausstellung beginnt um …",en:"the exhibition starts at …"},{de:"Guten Appetit!",en:"enjoy your meal!"}]},
+  ],
+  functions:[
+    {de:"Die Suppe ist kalt.", en:"complain politely in a restaurant"},
+    {de:"Man muss das Wasser kochen.", en:"give and follow a simple recipe"},
+    {de:"Das Konzert war langweilig.", en:"discuss cultural events and express opinions"},
+  ],
+  grammar:[
+    {title:"lassen — 'to let' and 'to have something done'", teach:"lassen has two everyday uses: allowing something to happen, or arranging for someone else to do something for you. Both use lassen + infinitive, with lassen conjugated normally.", table:null, examples:["Lass mich in Ruhe! — Let me be! (allowing)","Ich lasse mir die Haare schneiden. — I'm having my hair cut. (having done)"]},
+    {title:"brauchen + zu — 'don't need to'", teach:"Combined with nicht or kein, brauchen + zu + infinitive is the everyday way to say you don't need to do something.", table:null, examples:["Du brauchst das nicht zu machen. — You don't need to do that.","Wir brauchen keine Karten zu kaufen."]},
+    {title:"Comparative & superlative — including the irregulars", teach:"Add -er for the comparative and am -sten for the superlative — but a handful of very common adjectives are irregular and need to be memorised outright.", table:[["gut → besser → am besten","good → better → best"],["gern → lieber → am liebsten","gladly → rather → most of all"],["groß → größer → am größten","big → bigger → biggest"],["viel → mehr → am meisten","much → more → most"]], examples:["Dieses Restaurant ist besser als das andere.","Das war das beste Essen."]},
+  ],
+  drills:[
+    {q:"Ich lasse mir die Haare ___.", options:["schneiden","geschnitten","schneide","schnitt"], answer:"schneiden"},
+    {q:"Du ___ das nicht zu machen.", options:["brauchst","brauche","gebraucht","bräuchtest"], answer:"brauchst"},
+    {q:"Dieses Restaurant ist ___ als das andere. (gut)", options:["besser","gutter","guter","best"], answer:"besser"},
+    {q:"Das war das ___ Essen. (gut, superlative)", options:["beste","besser","gut","guteste"], answer:"beste"},
+    {q:"Man muss das Wasser ___.", options:["kochen","gekocht","kocht","kochte"], answer:"kochen"},
+  ],
+  comingLater:["Michelin-star / haute cuisine vocabulary","Complex dietary science / macros","lassen as a passive substitute"]
+},
+{
+  id:7, titleDe:"Gesundheit, Fitness & Wellness", titleEn:"Health, Fitness & Wellness", quota:50,
+  goal:"By the end of this chapter you can give health and lifestyle advice, discuss a fitness routine, and ask about medication.",
+  categories:[
+    {name:"Fitness & Lifestyle", scope:"Core fitness vocabulary", items:[{de:"das Fitnessstudio",en:"gym"},{de:"die Muskeln",en:"muscles"},{de:"die Ernährung",en:"diet/nutrition"},{de:"der Stress",en:"stress"},{de:"sich entspannen",en:"to relax"},{de:"das Yoga",en:"yoga"},{de:"das Training",en:"training"},{de:"die Ausdauer",en:"endurance"},{de:"die Bewegung",en:"exercise/movement"},{de:"abnehmen",en:"to lose weight"},{de:"zunehmen",en:"to gain weight"},{de:"die Balance",en:"balance"}]},
+    {name:"Hospital & Pharmacy", scope:"Core clinical vocabulary", items:[{de:"die Station",en:"ward"},{de:"die Operation",en:"operation"},{de:"der Verband",en:"bandage"},{de:"die Salbe",en:"ointment"},{de:"die Nebenwirkung",en:"side effect"},{de:"die Spritze",en:"injection"},{de:"der Gips",en:"cast"},{de:"die Untersuchung",en:"examination"},{de:"das Rezept",en:"prescription"},{de:"die Überweisung",en:"referral"},{de:"die Notaufnahme",en:"emergency room"},{de:"die Behandlung",en:"treatment"}]},
+    {name:"Alternative health", scope:"Core wellness vocabulary", items:[{de:"der Tee",en:"tea"},{de:"die Ruhe",en:"rest"},{de:"die frische Luft",en:"fresh air"},{de:"die Massage",en:"massage"},{de:"die Meditation",en:"meditation"},{de:"die Akupunktur",en:"acupuncture"},{de:"die Entspannungstechnik",en:"relaxation technique"},{de:"die Naturheilkunde",en:"natural medicine"}]},
+    {name:"Symptoms (advanced)", scope:"Core advanced-symptom vocabulary", items:[{de:"die Verletzung",en:"injury"},{de:"die Allergie",en:"allergy"},{de:"der Blutdruck",en:"blood pressure"},{de:"die Infektion",en:"infection"},{de:"die Entzündung",en:"inflammation"},{de:"der Schwindel",en:"dizziness"},{de:"die Erschöpfung",en:"exhaustion"},{de:"die Verstauchung",en:"sprain"}]},
+    {name:"Health chunks", scope:"Fixed phrases for advice & pharmacy", items:[{de:"Du solltest weniger Stress haben.",en:"you should have less stress"},{de:"Ich gehe dreimal pro Woche ins Fitnessstudio.",en:"I go to the gym three times a week"},{de:"Macht das Medikament müde?",en:"does this medicine make you tired?"},{de:"Ich fühle mich schwindelig.",en:"I feel dizzy"},{de:"Ich habe eine Allergie gegen …",en:"I have an allergy to …"},{de:"Wie oft soll ich das nehmen?",en:"how often should I take this?"},{de:"Ich brauche einen Termin beim Arzt.",en:"I need a doctor's appointment"},{de:"Es tut hier weh.",en:"it hurts here"},{de:"Ich habe mir den Fuß verstaucht.",en:"I've sprained my foot"},{de:"Gute Besserung!",en:"get well soon!"}]},
+  ],
+  functions:[
+    {de:"Du solltest weniger Stress haben.", en:"give detailed lifestyle and health advice"},
+    {de:"Ich gehe dreimal pro Woche ins Fitnessstudio.", en:"discuss fitness routines and diets"},
+    {de:"Macht das Medikament müde?", en:"ask about medication side effects"},
+  ],
+  grammar:[
+    {title:"Konjunktiv II — advice and politeness", teach:"This 'softer' verb form is used constantly for advice and polite suggestions. A handful of forms cover almost everything you'll need at this level.", table:[["ich hätte","I would have"],["ich wäre","I would be"],["ich würde","I would"],["ich könnte","I could"],["ich sollte","I should"]], examples:["Du solltest weniger Stress haben.","An deiner Stelle würde ich mehr schlafen."]},
+    {title:"denn — an easier way to give a reason", teach:"denn means 'because', but unlike weil it doesn't send the verb to the end — it behaves like und or aber, so the word order after it stays completely normal. Many people prefer it in speech for exactly that reason.", table:null, examples:["Ich bin müde, denn ich habe schlecht geschlafen.","(compare: …, weil ich schlecht geschlafen habe. — verb final)"]},
+    {title:"anstatt…zu / ohne…zu", teach:"anstatt…zu means 'instead of doing something'; ohne…zu means 'without doing something'. Both are followed by an infinitive, not a conjugated verb.", table:null, examples:["Anstatt ins Fitnessstudio zu gehen, bleibe ich zu Hause.","Er ging, ohne sich zu verabschieden."]},
+  ],
+  drills:[
+    {q:"Du ___ weniger Stress haben. (sollen, Konjunktiv II)", options:["solltest","sollst","solltet","sollte"], answer:"solltest"},
+    {q:"Ich bin müde, ___ ich habe schlecht geschlafen.", options:["denn","weil","dass","deshalb"], answer:"denn"},
+    {q:"Anstatt ins Fitnessstudio ___ gehen, bleibe ich zu Hause.", options:["zu","um","ohne","an"], answer:"zu"},
+    {q:"Er ging, ___ sich zu verabschieden.", options:["ohne","anstatt","um","mit"], answer:"ohne"},
+    {q:"An deiner Stelle ___ ich mehr schlafen. (werden, Konjunktiv II)", options:["würde","werde","wurde","würdest"], answer:"würde"},
+  ],
+  comingLater:["Surgical procedures / deep medical science","Psychiatric diagnoses","Konjunktiv II in the past tense"]
+},
+{
+  id:8, titleDe:"Ausbildung & Lernen", titleEn:"Education & Learning", quota:45,
+  goal:"By the end of this chapter you can compare school systems, talk about learning a language, and describe your upbringing.",
+  categories:[
+    {name:"School & University", scope:"Core education vocabulary", items:[{de:"der Abschluss",en:"degree/qualification"},{de:"die Vorlesung",en:"lecture"},{de:"die Prüfung",en:"exam"},{de:"durchfallen",en:"to fail"},{de:"bestehen",en:"to pass"},{de:"das Fach",en:"subject"},{de:"die Universität",en:"university"},{de:"das Semester",en:"semester"},{de:"die Note",en:"grade"},{de:"das Studium",en:"studies"},{de:"der Studiengang",en:"degree programme"},{de:"das Seminar",en:"seminar"}]},
+    {name:"Language learning", scope:"Core language-learning vocabulary", items:[{de:"die Grammatik",en:"grammar"},{de:"der Wortschatz",en:"vocabulary"},{de:"die Aussprache",en:"pronunciation"},{de:"fließend",en:"fluent"},{de:"üben",en:"to practise"},{de:"die Übung",en:"exercise"},{de:"der Fehler",en:"mistake"},{de:"verbessern",en:"to improve"},{de:"wiederholen",en:"to repeat/review"},{de:"der Fortschritt",en:"progress"}]},
+    {name:"Childhood & upbringing", scope:"Core upbringing vocabulary", items:[{de:"der Kindergarten",en:"kindergarten"},{de:"streng",en:"strict"},{de:"bestrafen",en:"to punish"},{de:"belohnen",en:"to reward"},{de:"die Kindheit",en:"childhood"},{de:"erziehen",en:"to raise/bring up"},{de:"die Erziehung",en:"upbringing"},{de:"gehorchen",en:"to obey"},{de:"die Regel",en:"rule"},{de:"die Geduld",en:"patience"}]},
+    {name:"Learning adjectives", scope:"Core evaluative adjectives", items:[{de:"schwierig",en:"difficult"},{de:"einfach",en:"easy"},{de:"nützlich",en:"useful"},{de:"notwendig",en:"necessary"},{de:"anspruchsvoll",en:"demanding"}]},
+    {name:"Education chunks", scope:"Fixed phrases for discussing learning", items:[{de:"Ich habe Angst vor der Prüfung.",en:"I'm afraid of the exam"},{de:"Wie war die Schule in deinem Land?",en:"what was school like in your country?"},{de:"Ich muss noch üben.",en:"I still need to practise"},{de:"Das Fach ist sehr schwierig.",en:"the subject is very difficult"},{de:"Ich habe die Prüfung bestanden.",en:"I passed the exam"},{de:"Ich bin durchgefallen.",en:"I failed"},{de:"Übung macht den Meister.",en:"practice makes perfect"},{de:"Ich wurde streng erzogen.",en:"I was raised strictly"}]},
+  ],
+  functions:[
+    {de:"Ich habe Angst vor der Prüfung.", en:"talk about language learning struggles and successes"},
+    {de:"Wie war die Schule in deinem Land?", en:"compare school systems in different countries"},
+    {de:"Ich wurde streng erzogen.", en:"describe childhood education and rules"},
+  ],
+  grammar:[
+    {title:"Infinitiv mit zu vs. dass-clauses", teach:"Use an infinitive with zu when the subject is the same in both parts of the sentence. Use a dass-clause when the two parts have different subjects, or when you want to report a full statement.", table:null, examples:["Ich habe vor, nach Deutschland zu ziehen. (same subject)","Ich glaube, dass Deutsch schwierig ist. (reporting a statement)"]},
+    {title:"sodass — expressing a result", teach:"sodass links a cause to its result — 'so that, with the result that'. Like other subordinate connectors, the verb goes to the end of its clause.", table:null, examples:["Ich habe viel gelernt, sodass ich die Prüfung bestanden habe."]},
+    {title:"Reflexive verbs — accusative vs. dative", teach:"Some reflexive verbs simply take an accusative pronoun (sich waschen — to wash oneself). But when there's also a direct object, like a body part, the reflexive pronoun switches to dative and the body part becomes accusative.", table:null, examples:["Ich wasche mich. (accusative — the whole action)","Ich wasche mir die Hände. (dative + accusative object)"]},
+  ],
+  drills:[
+    {q:"Ich habe vor, nach Deutschland ___ ziehen.", options:["zu","um","dass","ohne"], answer:"zu"},
+    {q:"Ich glaube, ___ Deutsch schwierig ist.", options:["dass","ob","zu","weil"], answer:"dass"},
+    {q:"Ich habe viel gelernt, ___ ich die Prüfung bestanden habe.", options:["sodass","obwohl","weil","damit"], answer:"sodass"},
+    {q:"Ich wasche ___ die Hände. (dative)", options:["mir","mich","mein","meine"], answer:"mir"},
+    {q:"Ich wasche ___. (myself, accusative)", options:["mich","mir","mein","ich"], answer:"mich"},
+  ],
+  comingLater:["Academic thesis / dissertation vocabulary","Complex pedagogical theory","Noun-verb expressions (Nomen-Verb-Verbindungen)"]
+},
+{
+  id:9, titleDe:"Umwelt & Natur", titleEn:"Environment & Nature", quota:50,
+  goal:"By the end of this chapter you can discuss environmental problems and solutions, and describe how something is made.",
+  categories:[
+    {name:"Environment & Climate", scope:"Core environment vocabulary", items:[{de:"die Umweltverschmutzung",en:"pollution"},{de:"der Klimawandel",en:"climate change"},{de:"der Müll",en:"waste"},{de:"die Energie",en:"energy"},{de:"recyceln",en:"to recycle"},{de:"die Erderwärmung",en:"global warming"},{de:"die Emission",en:"emission"},{de:"die Nachhaltigkeit",en:"sustainability"},{de:"der CO2-Ausstoß",en:"CO2 emissions"},{de:"die Ressource",en:"resource"},{de:"der Treibhauseffekt",en:"greenhouse effect"},{de:"der Umweltschutz",en:"environmental protection"}]},
+    {name:"Nature & Animals", scope:"Core nature vocabulary", items:[{de:"der Wald",en:"forest"},{de:"der Fluss",en:"river"},{de:"das Wildtier",en:"wild animal"},{de:"das Insekt",en:"insect"},{de:"schützen",en:"to protect"},{de:"zerstören",en:"to destroy"},{de:"die Natur",en:"nature"},{de:"die Pflanze",en:"plant"},{de:"der Lebensraum",en:"habitat"},{de:"das Ökosystem",en:"ecosystem"},{de:"die Artenvielfalt",en:"biodiversity"},{de:"die Wildnis",en:"wilderness"}]},
+    {name:"Natural disasters", scope:"Core disaster vocabulary", items:[{de:"die Flut",en:"flood"},{de:"der Sturm",en:"storm"},{de:"das Erdbeben",en:"earthquake"},{de:"das Feuer",en:"fire"},{de:"die Dürre",en:"drought"},{de:"die Überschwemmung",en:"flooding"},{de:"der Hurrikan",en:"hurricane"},{de:"die Naturkatastrophe",en:"natural disaster"}]},
+    {name:"Eco-friendly actions", scope:"Core eco-action vocabulary", items:[{de:"Wasser sparen",en:"to save water"},{de:"ausschalten",en:"to switch off"},{de:"wiederverwenden",en:"to reuse"},{de:"öffentliche Verkehrsmittel",en:"public transport"},{de:"Energie sparen",en:"to save energy"},{de:"Müll trennen",en:"to sort waste"},{de:"weniger Plastik benutzen",en:"to use less plastic"},{de:"zu Fuß gehen",en:"to go on foot"}]},
+    {name:"Environment chunks", scope:"Fixed phrases for eco-habits & problems", items:[{de:"Wir müssen Plastik vermeiden.",en:"we need to avoid plastic"},{de:"Man sollte den Müll trennen.",en:"you should sort the rubbish"},{de:"Es gibt immer mehr Naturkatastrophen.",en:"there are more and more natural disasters"},{de:"Wir sollten öffentliche Verkehrsmittel benutzen.",en:"we should use public transport"},{de:"Das Klima ändert sich schnell.",en:"the climate is changing fast"},{de:"Schalte das Licht aus, wenn du gehst.",en:"switch off the light when you leave"},{de:"Wir müssen die Umwelt schützen.",en:"we need to protect the environment"},{de:"Es hat eine Überschwemmung gegeben.",en:"there has been a flood"},{de:"Je mehr wir sparen, desto besser.",en:"the more we save, the better"},{de:"Jeder kann etwas tun.",en:"everyone can do something"}]},
+  ],
+  functions:[
+    {de:"Wir müssen Plastik vermeiden.", en:"discuss basic environmental problems and solutions"},
+    {de:"Es hat eine Überschwemmung gegeben.", en:"describe weather extremes and natural disasters"},
+    {de:"Man sollte den Müll trennen.", en:"give instructions on recycling and saving energy"},
+  ],
+  grammar:[
+    {title:"Vorgangspassiv — the process passive", teach:"German's passive voice (werden + past participle) shifts focus onto the action itself rather than who does it — perfect for describing rules and processes.", table:[["Präsens: der Müll wird abgeholt","the rubbish gets collected"],["Präteritum: der Müll wurde abgeholt","the rubbish was collected"]], examples:["Der Müll wird jeden Montag abgeholt.","Die Regeln wurden letztes Jahr geändert."]},
+    {title:"je … desto / umso — 'the more … the more'", teach:"This pairs two comparatives together. The je-clause sends its verb to the end (like a subordinate clause); the desto-clause keeps normal verb-second order.", table:null, examples:["Je mehr wir sparen, desto besser für die Umwelt.","Je später, umso müder."]},
+    {title:"man — the impersonal 'you/one/people'", teach:"man is a handy active alternative to the passive voice — it's always used with a 3rd person singular verb and refers to people in general.", table:null, examples:["Man kann hier Flaschen recyceln.","(compare passive: Hier werden Flaschen recycelt.)"]},
+  ],
+  drills:[
+    {q:"Der Müll ___ jeden Montag abgeholt. (present passive)", options:["wird","wurde","worden","ist"], answer:"wird"},
+    {q:"Der Kaffee ___ gestern gemacht. (Präteritum passive)", options:["wurde","wird","worden","war"], answer:"wurde"},
+    {q:"Je mehr wir sparen, ___ besser für die Umwelt.", options:["desto","dass","wenn","obwohl"], answer:"desto"},
+    {q:"___ kann hier Flaschen recyceln.", options:["Man","Er","Es","Sie"], answer:"Man"},
+    {q:"Hier ___ Flaschen recycelt. (passive, present)", options:["werden","wird","worden","sind"], answer:"werden"},
+  ],
+  comingLater:["Zustandspassiv (state passive)","Perfect Passive for active production","Complex political/UN climate treaty vocabulary"]
+},
+{
+  id:10, titleDe:"Beziehungen & Biografie", titleEn:"Relationships & Life Events", quota:55,
+  goal:"By the end of this chapter you can tell your life story, describe someone's character, and apologise for a mistake.",
+  categories:[
+    {name:"Relationships & Dating", scope:"Core relationship vocabulary", items:[{de:"der Partner / die Partnerin",en:"partner"},{de:"Single",en:"single"},{de:"heiraten",en:"to marry"},{de:"sich scheiden lassen",en:"to get divorced"},{de:"sich streiten",en:"to argue"},{de:"vertrauen",en:"to trust"},{de:"die Beziehung",en:"relationship"},{de:"verliebt",en:"in love"},{de:"die Hochzeit",en:"wedding"},{de:"die Trennung",en:"breakup"},{de:"die Verabredung",en:"date"},{de:"die Freundschaft",en:"friendship"}]},
+    {name:"Life events", scope:"Core life-event vocabulary", items:[{de:"die Geburt",en:"birth"},{de:"auswandern",en:"to emigrate"},{de:"in Rente gehen",en:"to retire"},{de:"feiern",en:"to celebrate"},{de:"der Umzug",en:"move"},{de:"der Schulabschluss",en:"school graduation"},{de:"der Ruhestand",en:"retirement"},{de:"die Volljährigkeit",en:"coming of age"},{de:"der Todesfall",en:"death/bereavement"},{de:"die Lebensveränderung",en:"life change"},{de:"die Beerdigung",en:"funeral"},{de:"das Jubiläum",en:"anniversary"}]},
+    {name:"Emotions & conflicts", scope:"Core emotion vocabulary", items:[{de:"eifersüchtig",en:"jealous"},{de:"enttäuscht",en:"disappointed"},{de:"sich entschuldigen",en:"to apologise"},{de:"verzeihen",en:"to forgive"},{de:"unterstützen",en:"to support"},{de:"wütend",en:"angry"},{de:"verletzt",en:"hurt"},{de:"stolz",en:"proud"},{de:"dankbar",en:"grateful"},{de:"einsam",en:"lonely"},{de:"überfordert",en:"overwhelmed"},{de:"erleichtert",en:"relieved"}]},
+    {name:"Character traits", scope:"Core personality vocabulary", items:[{de:"ehrlich",en:"honest"},{de:"stur",en:"stubborn"},{de:"zuverlässig",en:"reliable"},{de:"lustig",en:"funny"},{de:"arrogant",en:"arrogant"},{de:"geduldig",en:"patient"},{de:"großzügig",en:"generous"},{de:"schüchtern",en:"shy"},{de:"neugierig",en:"curious"}]},
+    {name:"Relationship chunks", scope:"Fixed phrases for apologising & describing", items:[{de:"Es tut mir leid, dass ich …",en:"I'm sorry that I …"},{de:"Er ist sehr zuverlässig, aber manchmal stur.",en:"he's very reliable, but sometimes stubborn"},{de:"Zuerst habe ich … Dann bin ich …",en:"first I … then I …"},{de:"Können wir darüber reden?",en:"can we talk about it?"},{de:"Ich vermisse dich.",en:"I miss you"},{de:"Wir haben uns gestritten.",en:"we had an argument"},{de:"Ich verzeihe dir.",en:"I forgive you"},{de:"Wir haben uns getrennt.",en:"we broke up"},{de:"Herzlichen Glückwunsch zur Hochzeit!",en:"congratulations on your wedding!"},{de:"Das war nicht meine Absicht.",en:"that wasn't my intention"}]},
+  ],
+  functions:[
+    {de:"Zuerst habe ich … Dann bin ich …", en:"tell a biographical story in the past"},
+    {de:"Er ist sehr zuverlässig, aber manchmal stur.", en:"describe character traits and relationship dynamics"},
+    {de:"Es tut mir leid, dass ich …", en:"apologize and resolve conflicts"},
+  ],
+  grammar:[
+    {title:"Präteritum vs. Perfekt — which one, when?", teach:"Perfekt is the everyday choice for speaking. Präteritum feels more natural in writing and storytelling — especially with sein, haben and modal verbs, which almost always appear in Präteritum even in speech.", table:null, examples:["Spoken: Ich habe ihn letztes Jahr getroffen.","Written: Ich traf ihn letztes Jahr."]},
+    {title:"nachdem — 'after', with a tense shift", teach:"nachdem tells you one thing happened before another. At this level, keep the pattern simple: put the nachdem-clause in the Perfekt and the main clause in the Präsens, to show one action finishing just before the next starts.", table:null, examples:["Nachdem ich gegessen habe, gehe ich spazieren.","Nachdem wir angekommen sind, rufen wir dich an."]},
+    {title:"einander & reflexive relationship verbs", teach:"einander means 'each other'. Many verbs describing mutual relationships are reflexive: sich streiten (to argue), sich trennen (to break up), sich verlieben (to fall in love).", table:null, examples:["Wir haben uns gestritten.","Sie lieben einander.","Sie haben sich vor zwei Jahren verliebt."]},
+  ],
+  drills:[
+    {q:"Nachdem ich ___, gehe ich spazieren. (essen, Perfekt)", options:["gegessen habe","esse","aß","gegessen hatte"], answer:"gegessen habe"},
+    {q:"Wir haben uns ___. (streiten)", options:["gestritten","streiten","stritt","streite"], answer:"gestritten"},
+    {q:"Sie lieben ___. (each other)", options:["einander","sich","ihnen","sie"], answer:"einander"},
+    {q:"Er ist sehr zuverlässig, aber manchmal ___.", options:["stur","sturer","Sturheit","sture"], answer:"stur"},
+    {q:"Es tut mir leid, ___ ich zu spät bin.", options:["dass","weil","ob","wenn"], answer:"dass"},
+  ],
+  comingLater:["Legal divorce/custody proceedings","Deep psychological trauma vocabulary","Plusquamperfekt (Past Perfect) with nachdem"]
+},
+{
+  id:11, titleDe:"Medien, Unterhaltung & Kunst", titleEn:"Media, Entertainment & Arts", quota:55,
+  goal:"By the end of this chapter you can review a film or book, discuss the news, and agree or disagree in a conversation.",
+  categories:[
+    {name:"Cinema & TV", scope:"Core film/TV vocabulary", items:[{de:"der Regisseur / die Regisseurin",en:"director"},{de:"der Schauspieler / die Schauspielerin",en:"actor/actress"},{de:"die Handlung",en:"plot"},{de:"die Serie",en:"series"},{de:"die Dokumentation",en:"documentary"},{de:"der Bildschirm",en:"screen"},{de:"die Filmkritik",en:"film review"},{de:"die Fortsetzung",en:"sequel"},{de:"die Hauptrolle",en:"lead role"},{de:"der Nebendarsteller",en:"supporting actor"},{de:"der Untertitel",en:"subtitle"},{de:"die Synchronisation",en:"dubbing"}]},
+    {name:"Literature & Music", scope:"Core literature/music vocabulary", items:[{de:"der Roman",en:"novel"},{de:"der Autor / die Autorin",en:"author"},{de:"der Liedtext",en:"song lyrics"},{de:"das Instrument",en:"instrument"},{de:"das Konzert",en:"concert"},{de:"die Band",en:"band"},{de:"das Album",en:"album"},{de:"die Melodie",en:"melody"},{de:"der Verlag",en:"publisher"},{de:"die Kurzgeschichte",en:"short story"},{de:"der Dichter / die Dichterin",en:"poet"},{de:"das Gedicht",en:"poem"}]},
+    {name:"News & Journalism", scope:"Core journalism vocabulary", items:[{de:"die Schlagzeile",en:"headline"},{de:"die Falschmeldung",en:"fake news"},{de:"die Quelle",en:"source"},{de:"der Bericht",en:"report"},{de:"das Interview",en:"interview"},{de:"der Journalist / die Journalistin",en:"journalist"},{de:"die Nachrichten",en:"the news"},{de:"die Zeitung",en:"newspaper"},{de:"die Reportage",en:"news feature"},{de:"die Pressekonferenz",en:"press conference"}]},
+    {name:"Art & Museums", scope:"Core art vocabulary", items:[{de:"das Gemälde",en:"painting"},{de:"die Skulptur",en:"sculpture"},{de:"die Ausstellung",en:"exhibition"},{de:"modern",en:"modern"},{de:"klassisch",en:"classical"},{de:"die Galerie",en:"gallery"},{de:"das Kunstwerk",en:"work of art"},{de:"der Künstler / die Künstlerin",en:"artist"}]},
+    {name:"Media chunks", scope:"Fixed phrases for reviewing & discussing", items:[{de:"Der Film war spannend, aber das Ende war langweilig.",en:"the film was exciting, but the ending was boring"},{de:"Ich lese jeden Morgen die Nachrichten.",en:"I read the news every morning"},{de:"Ich stimme dir zu.",en:"I agree with you"},{de:"Ich stimme dir nicht zu.",en:"I don't agree with you"},{de:"Worauf wartest du?",en:"what are you waiting for?"},{de:"Ich interessiere mich für …",en:"I'm interested in …"},{de:"Ich habe Angst vor …",en:"I'm afraid of …"},{de:"Das Buch handelt von …",en:"the book is about …"},{de:"Die Ausstellung ist sehenswert.",en:"the exhibition is worth seeing"},{de:"Was hältst du davon?",en:"what do you think of that?"},{de:"Ich habe eine andere Meinung.",en:"I have a different opinion"},{de:"Das war eine tolle Vorstellung.",en:"that was a great performance"},{de:"Wer hat den Film gemacht?",en:"who made the film?"}]},
+  ],
+  functions:[
+    {de:"Der Film war spannend, aber das Ende war langweilig.", en:"review a movie, book, or concert"},
+    {de:"Ich lese jeden Morgen die Nachrichten.", en:"discuss media habits and news consumption"},
+    {de:"Ich stimme dir nicht zu.", en:"express agreement and disagreement in discussions"},
+  ],
+  grammar:[
+    {title:"Relative clauses in the Dative", teach:"Use the Dative relative pronoun when it's an indirect object or follows a preposition that takes the Dative.", table:[["dem","masc./neut."],["der","fem."],["denen","plural"]], examples:["Die Frau, mit der ich spreche, ist meine Kollegin.","Der Autor, dem ich geschrieben habe, hat geantwortet."]},
+    {title:"weder…noch / entweder…oder / zwar…aber", teach:"These paired connectors link two ideas closely together: weder…noch (neither…nor), entweder…oder (either…or), zwar…aber (indeed…but, for a concession).", table:null, examples:["Der Film war zwar spannend, aber zu lang.","Ich mag weder Krimis noch Dokumentationen.","Wir gehen entweder ins Kino oder ins Theater."]},
+    {title:"Verbs & adjectives with fixed prepositions", teach:"Certain verbs and adjectives always pair with one specific preposition, in a way that often doesn't match English logically — so these are best memorised as fixed units, not worked out from the meaning.", table:null, examples:["Ich warte auf den Bus.","Ich interessiere mich für Kunst.","Ich habe Angst vor Prüfungen."]},
+  ],
+  drills:[
+    {q:"Die Frau, mit ___ ich spreche, ist meine Kollegin.", options:["der","die","dem","den"], answer:"der"},
+    {q:"Der Film war ___ spannend, aber zu lang.", options:["zwar","weder","entweder","sowohl"], answer:"zwar"},
+    {q:"Ich mag ___ Krimis noch Dokumentationen.", options:["weder","entweder","zwar","sowohl"], answer:"weder"},
+    {q:"Ich interessiere mich ___ Kunst.", options:["für","an","auf","von"], answer:"für"},
+    {q:"Ich warte ___ den Bus.", options:["auf","für","an","bei"], answer:"auf"},
+  ],
+  comingLater:["Film production technicalities (lighting, CGI)","Art history periods (Baroque, Renaissance)","Relative clauses with prepositions in Genitive"]
+},
+{
+  id:12, titleDe:"Zukunft & Träume", titleEn:"Future Plans & Dreams", quota:50,
+  goal:"By the end of this chapter you can talk about your future plans, express hypothetical wishes, and weigh the pros and cons of a big life change.",
+  categories:[
+    {name:"Life goals & dreams", scope:"Core goal vocabulary", items:[{de:"der Traum",en:"dream"},{de:"das Ziel",en:"goal"},{de:"erreichen",en:"to achieve"},{de:"scheitern",en:"to fail"},{de:"hoffen",en:"to hope"},{de:"der Plan",en:"plan"},{de:"verwirklichen",en:"to realise/make happen"},{de:"die Hoffnung",en:"hope"},{de:"der Wunsch",en:"wish"},{de:"die Zukunftsangst",en:"fear of the future"},{de:"die Motivation",en:"motivation"},{de:"der Erfolg",en:"success"}]},
+    {name:"Future & Predictions", scope:"Core prediction vocabulary", items:[{de:"die Zukunft",en:"future"},{de:"vielleicht",en:"maybe"},{de:"bestimmt",en:"definitely"},{de:"wahrscheinlich",en:"probably"},{de:"sich verändern",en:"to change"},{de:"voraussagen",en:"to predict"},{de:"die Entwicklung",en:"development"},{de:"die Chance",en:"chance/opportunity"},{de:"das Risiko",en:"risk"},{de:"unsicher",en:"uncertain"}]},
+    {name:"Moving & Starting over", scope:"Core relocation vocabulary", items:[{de:"auswandern",en:"to emigrate"},{de:"der Neuanfang",en:"fresh start"},{de:"der Kulturschock",en:"culture shock"},{de:"vermissen",en:"to miss"},{de:"sich anpassen",en:"to adapt"},{de:"die Heimat",en:"homeland"},{de:"das Ausland",en:"abroad"},{de:"die Fremde",en:"foreign place"},{de:"die Integration",en:"integration"},{de:"sich eingewöhnen",en:"to settle in"}]},
+    {name:"Wishes & Regrets", scope:"Core wish/regret vocabulary", items:[{de:"bereuen",en:"to regret"},{de:"wünschen",en:"to wish"},{de:"wenn nur",en:"if only"},{de:"die Fantasie",en:"imagination"},{de:"die Reue",en:"regret"},{de:"die Sehnsucht",en:"longing"},{de:"die Illusion",en:"illusion"},{de:"verpassen",en:"to miss out on"}]},
+    {name:"Future chunks", scope:"Fixed phrases for future & hypotheticals", items:[{de:"In fünf Jahren werde ich in Berlin wohnen.",en:"in five years I'll be living in Berlin"},{de:"Wenn ich reich wäre, würde ich ein Haus kaufen.",en:"if I were rich, I'd buy a house"},{de:"Ich hoffe, dass …",en:"I hope that …"},{de:"Was würdest du machen, wenn …?",en:"what would you do if …?"},{de:"Ich habe große Pläne für die Zukunft.",en:"I have big plans for the future"},{de:"Vielleicht ziehe ich ins Ausland.",en:"maybe I'll move abroad"},{de:"Ich bereue, dass ich nicht …",en:"I regret that I didn't …"},{de:"Mein größter Traum ist …",en:"my biggest dream is …"},{de:"Ich glaube, dass sich vieles ändern wird.",en:"I think a lot will change"},{de:"Falls es klappt, …",en:"if it works out, …"}]},
+  ],
+  functions:[
+    {de:"In fünf Jahren werde ich in Berlin wohnen.", en:"talk about life goals and predictions"},
+    {de:"Wenn ich reich wäre, würde ich ein Haus kaufen.", en:"express hypothetical wishes"},
+    {de:"Ich habe große Pläne für die Zukunft.", en:"discuss the pros and cons of moving abroad"},
+  ],
+  grammar:[
+    {title:"Futur I vs. Präsens for the future", teach:"werden + infinitive is the 'textbook' future tense, often used for predictions or promises. In everyday speech, though, the Präsens plus a time word (morgen, nächstes Jahr) is just as common — sometimes even more natural.", table:[["ich werde wohnen","du wirst wohnen"],["er/sie/es wird wohnen","wir werden wohnen"]], examples:["Ich werde in Berlin wohnen. (Futur I)","Ich wohne nächstes Jahr in Berlin. (Präsens, same meaning)"]},
+    {title:"Konjunktiv II (past) — just the basics", teach:"hätte/wäre + participle express regret about the past — 'would have…'. At this level, keep to a small handful of fixed high-frequency phrases rather than trying to master the whole system.", table:null, examples:["Ich hätte das anders gemacht.","Ich wäre gern mitgekommen."]},
+    {title:"wenn vs. falls", teach:"Both introduce a condition. wenn is the everyday, general word for 'if/when'. falls leans more towards 'in case' — a less certain, more contingent condition.", table:null, examples:["Wenn ich reich wäre, würde ich reisen.","Falls es regnet, bleiben wir zu Hause."]},
+  ],
+  drills:[
+    {q:"Ich ___ in Berlin wohnen. (werden, Futur I)", options:["werde","wird","wirst","würde"], answer:"werde"},
+    {q:"Wenn ich reich ___, würde ich reisen.", options:["wäre","war","bin","sei"], answer:"wäre"},
+    {q:"Ich ___ das anders gemacht. (regret)", options:["hätte","habe","hatte","würde"], answer:"hätte"},
+    {q:"___ es regnet, bleiben wir zu Hause. (in case)", options:["Falls","Wenn","Als","Ob"], answer:"Falls"},
+    {q:"Ich wäre gern ___. (mitkommen)", options:["mitgekommen","mitkommen","mitgekommt","mitkam"], answer:"mitgekommen"},
+  ],
+  comingLater:["Futur II (wird gemacht haben)","Complex philosophical debates about destiny","Full mastery of past Konjunktiv II"]
+},
+];
+
+const LEVELS = [
+  { code:"a1", label:"A1", title:"Beginner", blurb:"First words, present tense, basic questions.", words:"600 active words", chapters: CHAPTERS_A1, passive: PASSIVE_VOCAB_A1, available:true },
+  { code:"a2", label:"A2", title:"Elementary", blurb:"Storytelling, past tense, complaints, opinions.", words:"645 new words · 1,245 total", chapters: CHAPTERS_A2, passive: null, available:true },
+  { code:"b1", label:"B1", title:"Intermediate", blurb:"Independent, connected speech on familiar topics.", words:"coming soon", chapters:null, passive:null, available:false },
+  { code:"b2", label:"B2", title:"Upper Intermediate", blurb:"Fluent, spontaneous interaction; abstract topics.", words:"coming soon", chapters:null, passive:null, available:false },
+  { code:"c1", label:"C1", title:"Advanced", blurb:"Flexible, effective use for social/academic life.", words:"coming soon", chapters:null, passive:null, available:false },
+  { code:"c2", label:"C2", title:"Mastery", blurb:"Precise, nuanced expression in any context.", words:"coming soon", chapters:null, passive:null, available:false },
+];
+function getLevel(code){ return LEVELS.find(l=>l.code===code); }
+
 </script>
 <script id="app-script">
 /* ---------------- State ---------------- */
 const state = {
-  view: "home",
+  level: null,        // null = CEFR picker | "a1" | "a2" | ...
+  view: "home",        // "home" | chapterId (within a level)
   subtab: "vocab",
-  progress: {},
-  quiz: null,        // vocab quiz session
-  drillQuiz: null     // grammar drill quiz session
+  progress: {},         // progress[levelCode][chapterId] = {...}
+  quiz: null,
+  drillQuiz: null
 };
-CHAPTERS.forEach(c => { state.progress[c.id] = { quizPct: null, drillPct: null, checklist: {} }; });
+function ensureProgress(levelCode){
+  if(!state.progress[levelCode]){
+    state.progress[levelCode] = {};
+    const lvl = getLevel(levelCode);
+    if(lvl && lvl.chapters){
+      lvl.chapters.forEach(c=>{ state.progress[levelCode][c.id] = { quizPct:null, drillPct:null, checklist:{} }; });
+    }
+  }
+  return state.progress[levelCode];
+}
 
 function shuffle(arr){
   const a = arr.slice();
@@ -1093,26 +1504,23 @@ function shuffle(arr){
 function pick(arr,n){ return shuffle(arr).slice(0,n); }
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
-/* ---------------- Sidebar ---------------- */
-function renderSidebar(){
-  const list = document.getElementById("tabList");
-  let html = `<li><button class="tab-item home ${state.view==='home'?'active':''}" onclick="goHome()"><span class="num">⌂</span>Übersicht</button></li>`;
-  CHAPTERS.forEach(c=>{
-    html += `<li><button class="tab-item ${state.view===c.id?'active':''}" onclick="goChapter(${c.id})">
-      <span class="num">${String(c.id).padStart(2,'0')}</span>${esc(c.titleDe)}
-    </button></li>`;
-  });
-  list.innerHTML = html;
-}
-
 /* ---------------- Navigation ---------------- */
+function goCEFR(){ state.level=null; state.quiz=null; state.drillQuiz=null; render(); window.scrollTo(0,0); }
+function goLevel(code){
+  const lvl = getLevel(code);
+  if(!lvl || !lvl.available) return;
+  state.level = code; state.view = "home"; state.quiz=null; state.drillQuiz=null;
+  ensureProgress(code);
+  render(); window.scrollTo(0,0);
+}
 function goHome(){ state.view="home"; render(); }
 function goChapter(id){ state.view=id; state.subtab="vocab"; state.quiz=null; state.drillQuiz=null; render(); window.scrollTo(0,0); }
 function setSubtab(t){ state.subtab=t; state.quiz=null; state.drillQuiz=null; render(); }
 
 /* ---------------- Progress helpers ---------------- */
-function chapterProgressPct(c){
-  const p = state.progress[c.id];
+function chapterProgressPct(levelCode, c){
+  const p = ensureProgress(levelCode)[c.id];
+  if(!p) return 0;
   const checklistTotal = c.functions.length;
   const checklistDone = Object.values(p.checklist).filter(Boolean).length;
   const checklistPct = checklistTotal ? (checklistDone/checklistTotal) : 0;
@@ -1121,12 +1529,58 @@ function chapterProgressPct(c){
   return Math.round(((checklistPct*0.34)+(quizPct*0.33)+(drillPct*0.33))*100);
 }
 
-/* ---------------- Home ---------------- */
-function renderHome(){
-  const totalItems = CHAPTERS.reduce((s,c)=>s+c.categories.reduce((a,cat)=>a+cat.items.length,0),0);
-  const avgProgress = Math.round(CHAPTERS.reduce((s,c)=>s+chapterProgressPct(c),0)/CHAPTERS.length);
-  let cards = CHAPTERS.map(c=>{
-    const pct = chapterProgressPct(c);
+/* ---------------- Sidebar ---------------- */
+function renderSidebar(){
+  const sidebar = document.getElementById("sidebar");
+  if(state.level===null){
+    sidebar.innerHTML = `<div class="brand">Sprachheft <small>Deutsch Trainer A1–C2</small></div>`;
+    return;
+  }
+  const lvl = getLevel(state.level);
+  let html = `<div class="brand">Sprachheft <small>${esc(lvl.label)} · ${esc(lvl.title)}</small></div>`;
+  html += `<ul class="tab-list">`;
+  html += `<li><button class="tab-item back-level" onclick="goCEFR()"><span class="num">◂</span>CEFR-Stufen</button></li>`;
+  html += `<li><button class="tab-item home ${state.view==='home'?'active':''}" onclick="goHome()"><span class="num">⌂</span>Übersicht</button></li>`;
+  lvl.chapters.forEach(c=>{
+    html += `<li><button class="tab-item ${state.view===c.id?'active':''}" onclick="goChapter(${c.id})">
+      <span class="num">${String(c.id).padStart(2,'0')}</span>${esc(c.titleDe)}
+    </button></li>`;
+  });
+  html += `</ul>`;
+  sidebar.innerHTML = html;
+}
+
+/* ---------------- CEFR picker (true home page) ---------------- */
+function renderCEFRPicker(){
+  const cards = LEVELS.map(l=>{
+    const disabled = !l.available;
+    return `<button class="cefr-card ${disabled?'disabled':''}" ${disabled?'':`onclick="goLevel('${l.code}')"`}>
+      <span class="cefr-letter">${esc(l.label)}</span>
+      <span class="cefr-title">${esc(l.title)}</span>
+      <span class="cefr-blurb">${esc(l.blurb)}</span>
+      <span class="cefr-foot">
+        <span class="cefr-words">${esc(l.words)}</span>
+        <span class="cefr-badge ${disabled?'soon':'go'}">${disabled?'Coming soon':'Start →'}</span>
+      </span>
+    </button>`;
+  }).join("");
+  document.getElementById("main").innerHTML = `
+    <div class="home-header">
+      <h1>Willkommen bei Sprachheft</h1>
+      <p>Choose your level to begin. Each level has its own chapters, vocabulary, grammar lessons and practice quizzes — and builds on the one before it.</p>
+    </div>
+    <div class="cefr-grid">${cards}</div>
+    <footer class="appfoot">Sprachheft · Deutsch Trainer · your progress is saved for this session</footer>
+  `;
+}
+
+/* ---------------- Level home (chapter overview within a level) ---------------- */
+function renderLevelHome(){
+  const lvl = getLevel(state.level);
+  const totalItems = lvl.chapters.reduce((s,c)=>s+c.categories.reduce((a,cat)=>a+cat.items.length,0),0);
+  const avgProgress = Math.round(lvl.chapters.reduce((s,c)=>s+chapterProgressPct(state.level,c),0)/lvl.chapters.length);
+  let cards = lvl.chapters.map(c=>{
+    const pct = chapterProgressPct(state.level, c);
     const stampClass = pct>=80?'done':(pct>0?'mid':'');
     return `<button class="chapter-card" onclick="goChapter(${c.id})">
       <span class="cnum">Kapitel ${String(c.id).padStart(2,'0')}</span>
@@ -1138,36 +1592,42 @@ function renderHome(){
       </span>
     </button>`;
   }).join("");
+  let passiveBlock = "";
+  if(lvl.passive){
+    passiveBlock = `
+      <div class="section-title">Words you'll meet but don't need to produce</div>
+      <p class="section-note">These show up in listening or reading, just so nothing feels totally unfamiliar — you're never tested on them.</p>
+      <div class="excl-box" style="border-color:var(--ink-soft); background:var(--paper-raised); border-style:solid;">
+        <ul style="columns:2;">
+          ${lvl.passive.map(p=>`<li style="color:var(--ink-soft);"><strong style="font-family:var(--mono); color:var(--ink);">${esc(p.de)}</strong> — ${esc(p.en)}</li>`).join("")}
+        </ul>
+      </div>`;
+  }
   document.getElementById("main").innerHTML = `
     <div class="home-header">
-      <h1>Willkommen bei Sprachheft</h1>
-      <p>Your German A1 course: 12 chapters that build on each other. In every chapter you'll learn new words, get a short grammar lesson with practice, and check off what you can already say.</p>
+      <h1>${esc(lvl.label)} — ${esc(lvl.title)}</h1>
+      <p>${esc(lvl.blurb)}</p>
       <div class="home-stats">
-        <div class="stat"><span class="n">${totalItems}</span><span class="l">words to learn</span></div>
-        <div class="stat"><span class="n">12</span><span class="l">chapters</span></div>
+        <div class="stat"><span class="n">${totalItems}</span><span class="l">words in this level</span></div>
+        <div class="stat"><span class="n">${lvl.chapters.length}</span><span class="l">chapters</span></div>
         <div class="stat"><span class="n">${avgProgress}%</span><span class="l">your progress</span></div>
       </div>
     </div>
-    <div class="section-title">Words you'll meet but don't need to produce</div>
-    <p class="section-note">These show up in listening or reading, just so nothing feels totally unfamiliar — you're never tested on them.</p>
-    <div class="excl-box" style="border-color:var(--ink-soft); background:var(--paper-raised); border-style:solid;">
-      <ul style="columns:2;">
-        ${PASSIVE_VOCAB.map(p=>`<li style="color:var(--ink-soft);"><strong style="font-family:var(--mono); color:var(--ink);">${esc(p.de)}</strong> — ${esc(p.en)}</li>`).join("")}
-      </ul>
-    </div>
+    ${passiveBlock}
     <div class="section-title">Chapters</div>
     <div class="chapter-grid">${cards}</div>
-    <footer class="appfoot">Sprachheft · A1 Deutsch Trainer · your progress is saved for this session</footer>
+    <footer class="appfoot">Sprachheft · ${esc(lvl.label)} Deutsch Trainer</footer>
   `;
 }
 
 /* ---------------- Chapter shell ---------------- */
 function renderChapter(){
-  const c = CHAPTERS.find(x=>x.id===state.view);
+  const lvl = getLevel(state.level);
+  const c = lvl.chapters.find(x=>x.id===state.view);
   const main = document.getElementById("main");
   main.innerHTML = `
     <div class="chapter-head">
-      <div class="chapter-eyebrow">Kapitel ${String(c.id).padStart(2,'0')} · ${c.quota} Wörter</div>
+      <div class="chapter-eyebrow">${esc(lvl.label)} · Kapitel ${String(c.id).padStart(2,'0')} · ${c.quota} Wörter</div>
       <h1>${esc(c.titleDe)}</h1>
       <div class="sub">${esc(c.titleEn)}</div>
       <p class="goal-line">${esc(c.goal)}</p>
@@ -1254,12 +1714,12 @@ function renderDrillQuiz(c){
   const q = state.drillQuiz;
   if(q.index >= q.questions.length){
     const pct = Math.round((q.score/q.questions.length)*100);
-    state.progress[c.id].drillPct = pct;
+    ensureProgress(state.level)[c.id].drillPct = pct;
     area.innerHTML = `
       <div class="quiz-box quiz-result">
         <div class="big-stamp"><span>${pct}%</span>GRAMMATIK</div>
         <p>${q.score} von ${q.questions.length} richtig.</p>
-        <button onclick="state.drillQuiz=buildDrillQuiz(CHAPTERS.find(x=>x.id===${c.id})); renderDrillQuiz(CHAPTERS.find(x=>x.id===${c.id}))">Nochmal üben</button>
+        <button onclick="state.drillQuiz=buildDrillQuiz(getLevel(state.level).chapters.find(x=>x.id===${c.id})); renderDrillQuiz(getLevel(state.level).chapters.find(x=>x.id===${c.id}))">Nochmal üben</button>
       </div>`;
     return;
   }
@@ -1293,7 +1753,7 @@ function answerDrill(cid, btnEl){
   document.getElementById("drillNextBtn").style.display="inline-block";
 }
 function nextDrillQuestion(cid){
-  const c = CHAPTERS.find(x=>x.id===cid);
+  const c = getLevel(state.level).chapters.find(x=>x.id===cid);
   state.drillQuiz.index++;
   state.drillQuiz.answered = false;
   renderDrillQuiz(c);
@@ -1301,18 +1761,19 @@ function nextDrillQuestion(cid){
 
 /* ---------------- Practice tab (vocab quiz + can-do checklist) ---------------- */
 function practiceHTML(c){
+  const p = ensureProgress(state.level)[c.id];
   return `
     <div class="section-title">Wortschatz-Quiz</div>
     <p class="section-note">Multiple choice on this chapter's vocabulary.</p>
     <div class="practice-menu">
-      <button class="primary" id="startQuizBtn">Quiz starten (${Math.round(c.categories.reduce((s,ca)=>s+ca.items.length,0)*0.6)} Fragen)</button>
+      <button class="primary" id="startQuizBtn">Quiz starten (${Math.round(c.categories.reduce((s,ca)=>s+ca.items.length,0)*0.5)} Fragen)</button>
     </div>
     <div id="quizArea"></div>
     <div class="checklist">
       <div class="section-title">Was du jetzt sagen kannst</div>
       <p class="section-note">Tick these off as you get comfortable saying them.</p>
       ${c.functions.map((f,i)=>{
-        const checked = !!state.progress[c.id].checklist[i];
+        const checked = !!p.checklist[i];
         return `<div class="check-item">
           <input type="checkbox" id="chk-${c.id}-${i}" ${checked?'checked':''} onchange="toggleCheck(${c.id},${i},this.checked)">
           <label for="chk-${c.id}-${i}"><span style="font-family:var(--mono); font-size:0.88rem;">${esc(f.de)}</span> — ${esc(f.en)}</label>
@@ -1322,13 +1783,13 @@ function practiceHTML(c){
   `;
 }
 function toggleCheck(cid,i,val){
-  state.progress[cid].checklist[i]=val;
+  ensureProgress(state.level)[cid].checklist[i]=val;
 }
 
 /* ---------------- Vocab quiz engine ---------------- */
 function buildQuiz(c){
   const allItems = c.categories.flatMap(cat=>cat.items);
-  const qCount = Math.max(6, Math.round(allItems.length*0.6));
+  const qCount = Math.max(6, Math.round(allItems.length*0.5));
   const chosen = pick(allItems, Math.min(qCount, allItems.length));
   const questions = chosen.map(it=>{
     const wrongPool = allItems.filter(x=>x.en!==it.en);
@@ -1348,12 +1809,12 @@ function renderQuiz(c){
   const q = state.quiz;
   if(q.index >= q.questions.length){
     const pct = Math.round((q.score/q.questions.length)*100);
-    state.progress[c.id].quizPct = pct;
+    ensureProgress(state.level)[c.id].quizPct = pct;
     area.innerHTML = `
       <div class="quiz-box quiz-result">
         <div class="big-stamp"><span>${pct}%</span>KAPITEL ${String(c.id).padStart(2,'0')}</div>
         <p>${q.score} von ${q.questions.length} richtig.</p>
-        <button onclick="state.quiz=buildQuiz(CHAPTERS.find(x=>x.id===${c.id})); renderQuiz(CHAPTERS.find(x=>x.id===${c.id}))">Nochmal üben</button>
+        <button onclick="state.quiz=buildQuiz(getLevel(state.level).chapters.find(x=>x.id===${c.id})); renderQuiz(getLevel(state.level).chapters.find(x=>x.id===${c.id}))">Nochmal üben</button>
       </div>
     `;
     return;
@@ -1389,7 +1850,7 @@ function answerQuiz(cid, btnEl){
   document.getElementById("nextBtn").style.display="inline-block";
 }
 function nextQuizQuestion(cid){
-  const c = CHAPTERS.find(x=>x.id===cid);
+  const c = getLevel(state.level).chapters.find(x=>x.id===cid);
   state.quiz.index++;
   state.quiz.answered = false;
   renderQuiz(c);
@@ -1398,15 +1859,16 @@ function nextQuizQuestion(cid){
 /* ---------------- Render root ---------------- */
 function render(){
   renderSidebar();
-  if(state.view==="home") renderHome();
-  else renderChapter();
+  if(state.level===null){ renderCEFRPicker(); return; }
+  if(state.view==="home"){ renderLevelHome(); return; }
+  renderChapter();
 }
 render();
 
 /* ---------------- PWA: register service worker ---------------- */
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{ /* offline install optional, fails gracefully on file:// */ });
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
   });
 }
 
