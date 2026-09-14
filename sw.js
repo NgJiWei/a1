@@ -1,9 +1,11 @@
-const CACHE_NAME = "sprachheft-v1";
+const CACHE_NAME = "sprachheft-v3";
 const ASSETS = [
-  "./index.html",
-  "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "/index.html",
+  "/manifest.json",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png",
+  "/icons/icon-192-maskable.png",
+  "/icons/icon-512-maskable.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -31,7 +33,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse.clone()));
           return networkResponse;
         })
-        .catch(() => cached);
+        .catch(() => cached || (event.request.mode === "navigate" ? caches.match("/index.html") : undefined));
       return cached || fetchPromise;
     })
   );
