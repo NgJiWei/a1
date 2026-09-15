@@ -1629,17 +1629,6 @@ const CHAPTERS_B1 = [
   comingLater:["Deep art history periods (Baroque, Romanticism)","Obscure literary theory"]
 },
 ];
-
-
-const LEVELS=[
-{code:"a1",label:"A1",title:"Beginner",blurb:"First words, present tense, basic questions.",words:"600 active words",accent:"#12A98C",chapters:CHAPTERS_A1,passive:PASSIVE_VOCAB_A1,available:true},
-{code:"a2",label:"A2",title:"Elementary",blurb:"Storytelling, past tense, complaints, opinions.",words:"645 new words · 1,245 total",accent:"#3D6BFF",chapters:CHAPTERS_A2,passive:null,available:true},
-{code:"b1",label:"B1",title:"Intermediate",blurb:"Argumentation, abstract topics, bureaucracy, authentic media.",words:"855 new words · 2,100 total",accent:"#F59E0B",chapters:CHAPTERS_B1,passive:null,available:true},
-{code:"b2",label:"B2",title:"Upper Intermediate",blurb:"Fluent, spontaneous interaction; abstract topics, formal register, argumentation.",words:"900 new words · 3,000 total",accent:"#F4634E",chapters:CHAPTERS_B2,passive:null,available:true},
-{code:"c1",label:"C1",title:"Advanced",blurb:"Flexible, effective use for social/academic life.",words:"coming soon",accent:"#8B5CF6",chapters:null,passive:null,available:false},
-{code:"c2",label:"C2",title:"Mastery",blurb:"Precise, nuanced expression in any context.",words:"coming soon",accent:"#EC4899",chapters:null,passive:null,available:false},
-];
-function getLevel(code){return LEVELS.find(l=>l.code===code)}
 const CHAPTERS_B2 = [
 {
   id:1, titleDe:"Arbeitswelt im Wandel", titleEn:"The Changing World of Work", quota:80,
@@ -2246,6 +2235,17 @@ const CHAPTERS_B2 = [
   comingLater:["Full mastery of Konjunktiv I in all tenses","Detailed linguistic theory (pragmatics, discourse analysis)","Rhetoric at a near-native level of sophistication"]
 }
 ];
+
+const LEVELS=[
+{code:"a1",label:"A1",title:"Beginner",blurb:"First words, present tense, basic questions.",words:"600 active words",accent:"#12A98C",chapters:CHAPTERS_A1,passive:PASSIVE_VOCAB_A1,available:true},
+{code:"a2",label:"A2",title:"Elementary",blurb:"Storytelling, past tense, complaints, opinions.",words:"645 new words · 1,245 total",accent:"#3D6BFF",chapters:CHAPTERS_A2,passive:null,available:true},
+{code:"b1",label:"B1",title:"Intermediate",blurb:"Argumentation, abstract topics, bureaucracy, authentic media.",words:"855 new words · 2,100 total",accent:"#F59E0B",chapters:CHAPTERS_B1,passive:null,available:true},
+{code:"b2",label:"B2",title:"Upper Intermediate",blurb:"Fluent, spontaneous interaction; abstract topics, formal register, argumentation.",words:"900 new words · 3,000 total",accent:"#F4634E",chapters:CHAPTERS_B2,passive:null,available:true},
+{code:"c1",label:"C1",title:"Advanced",blurb:"Flexible, effective use for social/academic life.",words:"coming soon",accent:"#8B5CF6",chapters:null,passive:null,available:false},
+{code:"c2",label:"C2",title:"Mastery",blurb:"Precise, nuanced expression in any context.",words:"coming soon",accent:"#EC4899",chapters:null,passive:null,available:false},
+];
+function getLevel(code){return LEVELS.find(l=>l.code===code)}
+
 </script>
 
 <script id="app-script">
