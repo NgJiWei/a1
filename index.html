@@ -1635,12 +1635,617 @@ const LEVELS=[
 {code:"a1",label:"A1",title:"Beginner",blurb:"First words, present tense, basic questions.",words:"600 active words",accent:"#12A98C",chapters:CHAPTERS_A1,passive:PASSIVE_VOCAB_A1,available:true},
 {code:"a2",label:"A2",title:"Elementary",blurb:"Storytelling, past tense, complaints, opinions.",words:"645 new words · 1,245 total",accent:"#3D6BFF",chapters:CHAPTERS_A2,passive:null,available:true},
 {code:"b1",label:"B1",title:"Intermediate",blurb:"Argumentation, abstract topics, bureaucracy, authentic media.",words:"855 new words · 2,100 total",accent:"#F59E0B",chapters:CHAPTERS_B1,passive:null,available:true},
-{code:"b2",label:"B2",title:"Upper Intermediate",blurb:"Fluent, spontaneous interaction; abstract topics.",words:"coming soon",accent:"#F4634E",chapters:null,passive:null,available:false},
+{code:"b2",label:"B2",title:"Upper Intermediate",blurb:"Fluent, spontaneous interaction; abstract topics, formal register, argumentation.",words:"900 new words · 3,000 total",accent:"#F4634E",chapters:CHAPTERS_B2,passive:null,available:true},
 {code:"c1",label:"C1",title:"Advanced",blurb:"Flexible, effective use for social/academic life.",words:"coming soon",accent:"#8B5CF6",chapters:null,passive:null,available:false},
 {code:"c2",label:"C2",title:"Mastery",blurb:"Precise, nuanced expression in any context.",words:"coming soon",accent:"#EC4899",chapters:null,passive:null,available:false},
 ];
 function getLevel(code){return LEVELS.find(l=>l.code===code)}
-
+const CHAPTERS_B2 = [
+{
+  id:1, titleDe:"Arbeitswelt im Wandel", titleEn:"The Changing World of Work", quota:80,
+  goal:"By the end of this chapter you can discuss how work is changing, express regret about past career decisions, and talk about processes using the passive with modals.",
+  categories:[
+    {name:"Employment & work models", scope:"Core employment vocabulary", items:[
+      {de:"die Vollzeitstelle",en:"full-time position"},{de:"die Teilzeitbeschäftigung",en:"part-time employment"},
+      {de:"die Zeitarbeit",en:"temp work"},{de:"die Leiharbeit",en:"agency work"},
+      {de:"der Werkvertrag",en:"contract for work"},{de:"die freiberufliche Tätigkeit",en:"freelance work"},
+      {de:"die Kurzarbeit",en:"short-time work"},{de:"das Homeoffice",en:"home office"},
+      {de:"die Gleitzeit",en:"flexitime"},{de:"die Betriebsvereinbarung",en:"works agreement"}
+    ]},
+    {name:"Change & upheaval", scope:"Core transformation vocabulary", items:[
+      {de:"der Umbruch",en:"upheaval"},{de:"der Wandel",en:"change, transformation"},
+      {de:"die Umstrukturierung",en:"restructuring"},{de:"der Stellenabbau",en:"job cuts"},
+      {de:"die Automatisierung",en:"automation"},{de:"der Fachkräftemangel",en:"skilled labour shortage"},
+      {de:"die Digitalisierung",en:"digitalisation"},{de:"die Weiterbildung",en:"further training"},
+      {de:"die Umschulung",en:"retraining"},{de:"sich wandeln",en:"to transform"}
+    ]},
+    {name:"Skills & qualifications", scope:"Core skills vocabulary", items:[
+      {de:"die Schlüsselqualifikation",en:"key qualification"},{de:"die Fachkompetenz",en:"professional expertise"},
+      {de:"die Sozialkompetenz",en:"social skills"},{de:"die Eigenverantwortung",en:"personal responsibility"},
+      {de:"die Lernbereitschaft",en:"willingness to learn"},{de:"die Belastbarkeit",en:"resilience under pressure"},
+      {de:"die Flexibilität",en:"flexibility"},{de:"die Berufserfahrung",en:"professional experience"}
+    ]},
+    {name:"Workplace chunks", scope:"Fixed phrases for discussing work trends", items:[
+      {de:"Der Arbeitsmarkt hat sich stark verändert.",en:"the job market has changed a lot"},
+      {de:"Viele Stellen werden durch Maschinen ersetzt werden.",en:"many jobs will be replaced by machines"},
+      {de:"Man hätte früher reagieren müssen.",en:"people should have reacted earlier"},
+      {de:"Ich hätte damals anders entscheiden sollen.",en:"I should have decided differently back then"},
+      {de:"Es wird viel von Arbeitnehmern verlangt.",en:"a lot is demanded of employees"},
+      {de:"Die Firma wurde letztes Jahr umstrukturiert.",en:"the company was restructured last year"}
+    ]}
+  ],
+  functions:[
+    {de:"Der Arbeitsmarkt hat sich in den letzten Jahren stark gewandelt.",en:"describe trends in the world of work"},
+    {de:"Ich hätte damals eine andere Ausbildung machen sollen.",en:"express regret about past career choices"},
+    {de:"Viele Aufgaben werden inzwischen automatisch erledigt.",en:"talk about processes in the passive voice"}
+  ],
+  grammar:[
+    {title:"Konjunktiv II der Vergangenheit — regret and hindsight", teach:"To say what should have, would have or could have happened, use hätte/wäre + past participle, then the modal or main verb at the end. This is the single most useful form for reflecting on the past.", table:[["ich hätte machen sollen","I should have done"],["ich wäre gegangen","I would have gone"],["ich hätte kommen können","I could have come"]], examples:["Ich hätte damals anders entscheiden sollen.","Wir hätten früher reagieren müssen."]},
+    {title:"Passiv mit Modalverben in der Vergangenheit", teach:"For 'had to be done', 'could be done' in the past, use hat/hatte + Partizip + werden + Modalverb at the very end. The modal verb is the conjugated one and always sits last.", table:null, examples:["Die Stelle hat besetzt werden müssen.","Das Problem hätte früher gelöst werden können."]},
+    {title:"Funktionsverbgefüge — verb phrases as fixed units", teach:"Formal German loves turning simple verbs into a noun plus a light verb. These must be learned as fixed chunks, not built from logic.", table:[["zur Verfügung stellen","to make available"],["in Anspruch nehmen","to make use of"],["in Frage stellen","to question"],["zur Anwendung kommen","to be applied"]], examples:["Die Firma stellt uns neue Geräte zur Verfügung.","Diese Regel kommt hier nicht zur Anwendung."]}
+  ],
+  drills:[
+    {q:"Ich ___ damals anders entscheiden sollen.", options:["hätte","habe","hatte","würde"], answer:"hätte"},
+    {q:"Wir ___ früher reagieren müssen.", options:["hätten","haben","hatten","würden"], answer:"hätten"},
+    {q:"Die Stelle hat besetzt ___ müssen.", options:["werden","geworden","worden","wurde"], answer:"werden"},
+    {q:"Die Firma ___ uns neue Geräte zur Verfügung.", options:["stellt","macht","nimmt","gibt"], answer:"stellt"},
+    {q:"Diese Regel kommt hier nicht zur ___.", options:["Anwendung","Benutzung","Verwendung","Handlung"], answer:"Anwendung"}
+  ],
+  comingLater:["Detailed economic theory of labour markets","Sector-specific jargon (metal industry, logistics)","Konjunktiv II in highly formal business register"]
+},
+{
+  id:2, titleDe:"Politik & gesellschaftliches Engagement", titleEn:"Politics & Civic Engagement", quota:75,
+  goal:"By the end of this chapter you can report what someone said without vouching for it, discuss political debates, and describe civic involvement.",
+  categories:[
+    {name:"Politics & elections", scope:"Core political vocabulary", items:[
+      {de:"die Wahl",en:"election"},{de:"der Wahlkampf",en:"election campaign"},
+      {de:"die Partei",en:"party"},{de:"der Kandidat / die Kandidatin",en:"candidate"},
+      {de:"das Parlament",en:"parliament"},{de:"die Regierung",en:"government"},
+      {de:"die Opposition",en:"opposition"},{de:"die Koalition",en:"coalition"},
+      {de:"die Mehrheit",en:"majority"},{de:"die Stimme abgeben",en:"to cast a vote"}
+    ]},
+    {name:"Social debates", scope:"Core debate vocabulary", items:[
+      {de:"die Debatte",en:"debate"},{de:"das Thema ansprechen",en:"to raise the topic"},
+      {de:"der Standpunkt",en:"point of view"},{de:"der Kompromiss",en:"compromise"},
+      {de:"die Kritik",en:"criticism"},{de:"die Forderung",en:"demand"},
+      {de:"der Vorschlag",en:"proposal"},{de:"die Maßnahme",en:"measure"}
+    ]},
+    {name:"Civic engagement", scope:"Core civic vocabulary", items:[
+      {de:"sich engagieren",en:"to get involved"},{de:"die Initiative",en:"initiative"},
+      {de:"die Petition",en:"petition"},{de:"die Demonstration",en:"demonstration"},
+      {de:"der Verein",en:"association, club"},{de:"das Ehrenamt",en:"voluntary office"},
+      {de:"die Bürgerbeteiligung",en:"citizen participation"},{de:"die Zivilgesellschaft",en:"civil society"}
+    ]},
+    {name:"Political chunks", scope:"Fixed phrases for reporting and debating", items:[
+      {de:"Der Minister sagte, die Lage sei ernst.",en:"the minister said the situation was serious"},
+      {de:"Sie behauptet, sie habe nichts davon gewusst.",en:"she claims she knew nothing about it"},
+      {de:"Laut einer Umfrage wollen die meisten Bürger …",en:"according to a survey, most citizens want …"},
+      {de:"Es wird gefordert, dass die Regierung handelt.",en:"there are calls for the government to act"},
+      {de:"Diese Entscheidung wird heftig kritisiert.",en:"this decision is being heavily criticised"},
+      {de:"Die Mehrheit hat für den Vorschlag gestimmt.",en:"the majority voted for the proposal"}
+    ]}
+  ],
+  functions:[
+    {de:"Der Politiker sagte, er werde sich für Reformen einsetzen.",en:"report what someone said in a neutral way"},
+    {de:"Ich finde, dass diese Maßnahme zu kurz greift.",en:"express an opinion on a political measure"},
+    {de:"Man kann sich auf viele Weisen ehrenamtlich engagieren.",en:"talk about civic engagement"}
+  ],
+  grammar:[
+    {title:"Konjunktiv I — indirect speech", teach:"When you report what someone else said, German marks this with a special set of verb forms (Konjunktiv I) so the listener knows you're not vouching for the statement yourself. This is standard in journalism. The most common forms are sein → sei, haben → habe, werden → werde, and the -e ending on other verbs.", table:[["er sei","he is (reportedly)"],["sie habe","she has (reportedly)"],["er werde","he will (reportedly)"],["sie könne","she can (reportedly)"]], examples:["Der Minister sagte, die Lage sei ernst.","Sie behauptet, sie habe nichts gewusst."]},
+    {title:"Konjunktiv I vs. Konjunktiv II — when forms look the same", teach:"If the Konjunktiv I form looks identical to the normal present tense (e.g. ich komme → ich komme), German switches to Konjunktiv II to keep the reporting clear: ich käme. This avoids ambiguity.", table:null, examples:["Er sagte, er komme morgen. (I-form distinct)","Er sagte, er käme morgen. (I-form same, so II used)"]},
+    {title:"Nominalisierung — turning verbs into nouns", teach:"Formal political and journalistic German prefers noun-heavy style. Turning a verb into a noun lets you compress a whole clause into a phrase — the trick is knowing how to unpack it back into a normal clause when reading.", table:null, examples:["Nach der Ankunft des Ministers … = Nachdem der Minister angekommen war …","Bei der Abstimmung … = Als abgestimmt wurde …"]}
+  ],
+  drills:[
+    {q:"Der Minister sagte, die Lage ___ ernst.", options:["sei","ist","war","wäre"], answer:"sei"},
+    {q:"Sie behauptet, sie ___ nichts gewusst.", options:["habe","hat","hatte","hätte"], answer:"habe"},
+    {q:"Er sagte, er ___ morgen. (avoid ambiguity)", options:["käme","komme","kommt","kam"], answer:"käme"},
+    {q:"Nach ___ des Ministers begann die Sitzung.", options:["der Ankunft","die Ankunft","dem Ankunft","den Ankunft"], answer:"der Ankunft"},
+    {q:"Es ___ gefordert, dass die Regierung handelt.", options:["wird","werden","worden","ist"], answer:"wird"}
+  ],
+  comingLater:["Party-political ideology terminology","Constitutional law","Kanzlerdeutsch — highly formal government register"]
+},
+{
+  id:3, titleDe:"Wissenschaft & Forschung", titleEn:"Science & Research", quota:80,
+  goal:"By the end of this chapter you can summarise research findings, describe scientific processes, and unpack dense academic German.",
+  categories:[
+    {name:"Research & methods", scope:"Core research vocabulary", items:[
+      {de:"die Studie",en:"study"},{de:"das Experiment",en:"experiment"},
+      {de:"die Hypothese",en:"hypothesis"},{de:"die Methode",en:"method"},
+      {de:"die Stichprobe",en:"sample"},{de:"das Ergebnis",en:"result"},
+      {de:"die Auswertung",en:"evaluation, analysis"},{de:"die Datenlage",en:"state of the data"},
+      {de:"die empirische Forschung",en:"empirical research"},{de:"die Peer-Review",en:"peer review"}
+    ]},
+    {name:"Academic careers", scope:"Core academic vocabulary", items:[
+      {de:"der Lehrstuhl",en:"professorial chair"},{de:"die Promotion",en:"doctorate"},
+      {de:"die Habilitation",en:"post-doctoral qualification"},{de:"das Stipendium",en:"scholarship"},
+      {de:"die Fachzeitschrift",en:"academic journal"},{de:"der Forschungsauftrag",en:"research grant"},
+      {de:"die Zitierung",en:"citation"},{de:"die Publikation",en:"publication"}
+    ]},
+    {name:"Ethics in research", scope:"Core research-ethics vocabulary", items:[
+      {de:"die Ethikkommission",en:"ethics committee"},{de:"die Einwilligung",en:"consent"},
+      {de:"der Datenschutz",en:"data protection"},{de:"die Reproduzierbarkeit",en:"reproducibility"},
+      {de:"der Interessenkonflikt",en:"conflict of interest"},{de:"die Fälschung",en:"falsification"},
+      {de:"das Plagiat",en:"plagiarism"},{de:"die Verantwortung der Wissenschaft",en:"the responsibility of science"}
+    ]},
+    {name:"Academic chunks", scope:"Fixed phrases for reporting findings", items:[
+      {de:"Die Ergebnisse legen nahe, dass …",en:"the results suggest that …"},
+      {de:"Es konnte nachgewiesen werden, dass …",en:"it was possible to prove that …"},
+      {de:"Die Studie wurde von … durchgeführt.",en:"the study was conducted by …"},
+      {de:"Die Daten wurden statistisch ausgewertet.",en:"the data were statistically analysed"},
+      {de:"Es wird davon ausgegangen, dass …",en:"it is assumed that …"},
+      {de:"Die in der Zeitschrift veröffentlichte Studie …",en:"the study published in the journal …"}
+    ]}
+  ],
+  functions:[
+    {de:"Die Studie zeigt, dass regelmäßiger Sport das Risiko senkt.",en:"summarise research findings"},
+    {de:"Die Proben wurden im Labor untersucht.",en:"describe scientific processes using the passive"},
+    {de:"Es konnte nachgewiesen werden, dass der Effekt messbar ist.",en:"report results in formal academic register"}
+  ],
+  grammar:[
+    {title:"Passiv in allen Zeitformen — a full review", teach:"The passive appears in every tense at B2, and academic German relies on it heavily. Drill all four forms together so you can switch between them automatically.", table:[["Präsens: das wird gemacht","present passive"],["Präteritum: das wurde gemacht","past passive"],["Perfekt: das ist gemacht worden","perfect passive"],["Futur: das wird gemacht werden","future passive"]], examples:["Die Daten werden regelmäßig überprüft.","Die Ergebnisse sind veröffentlicht worden.","Die Studie wird nächstes Jahr abgeschlossen werden."]},
+    {title:"Partizipialattribute — unpacking dense noun phrases", teach:"Academic German often packs an entire relative clause in front of a noun as a participle phrase. You don't need to produce these; you need to unpack them when reading. Move the phrase back after the noun and turn it into a relative clause.", table:null, examples:["die in der Zeitschrift veröffentlichte Studie = die Studie, die in der Zeitschrift veröffentlicht wurde","das von Forschern entwickelte Modell = das Modell, das von Forschern entwickelt wurde"]},
+    {title:"Nominalstil vs. Verbalstil", teach:"Formal writing prefers nouns; clear writing prefers verbs. Recognising when a text has been 'nominalised' lets you unpack it into plain sentences to check whether you've understood.", table:null, examples:["Nach Durchführung der Analyse … (nominal) = Nachdem die Analyse durchgeführt worden war … (verbal)"]}
+  ],
+  drills:[
+    {q:"Die Daten ___ regelmäßig überprüft.", options:["werden","wird","worden","sind"], answer:"werden"},
+    {q:"Die Ergebnisse sind veröffentlicht ___.", options:["worden","geworden","wurden","werden"], answer:"worden"},
+    {q:"Die Studie wird nächstes Jahr abgeschlossen ___.", options:["werden","worden","wurde","wird"], answer:"werden"},
+    {q:"'die in der Zeitschrift veröffentlichte Studie' = die Studie, die in der Zeitschrift ___ wurde.", options:["veröffentlicht","veröffentlichen","veröffentlichend","veröffentlichte"], answer:"veröffentlicht"},
+    {q:"Es konnte ___ werden, dass der Effekt messbar ist.", options:["nachgewiesen","nachweisen","nachweisend","nachwies"], answer:"nachgewiesen"}
+  ],
+  comingLater:["Field-specific terminology (medicine, physics, linguistics)","Full active mastery of left-branching participle phrases","Academic citation conventions (APA, MLA)"]
+},
+{
+  id:4, titleDe:"Medien, Meinungsbildung & Manipulation", titleEn:"Media, Opinion-Forming & Manipulation", quota:75,
+  goal:"By the end of this chapter you can analyse how media shape opinion, distance yourself from claims you're reporting, and judge the credibility of a source.",
+  categories:[
+    {name:"Media landscape", scope:"Core media vocabulary", items:[
+      {de:"die Tageszeitung",en:"daily newspaper"},{de:"das Boulevardblatt",en:"tabloid"},
+      {de:"die Wochenzeitschrift",en:"weekly magazine"},{de:"der öffentlich-rechtliche Rundfunk",en:"public broadcasting"},
+      {de:"die Nachrichtenagentur",en:"news agency"},{de:"die Pressefreiheit",en:"freedom of the press"},
+      {de:"die Medienlandschaft",en:"media landscape"},{de:"die Auflage",en:"circulation"}
+    ]},
+    {name:"Opinion-forming", scope:"Core opinion vocabulary", items:[
+      {de:"die öffentliche Meinung",en:"public opinion"},{de:"die Berichterstattung",en:"news coverage"},
+      {de:"die Agenda",en:"agenda"},{de:"der Diskurs",en:"discourse"},
+      {de:"die Meinungsmache",en:"opinion-making, spin"},{de:"das Framing",en:"framing"},
+      {de:"die Polarisierung",en:"polarisation"},{de:"beeinflussen",en:"to influence"}
+    ]},
+    {name:"Manipulation & propaganda", scope:"Core manipulation vocabulary", items:[
+      {de:"die Manipulation",en:"manipulation"},{de:"die Propaganda",en:"propaganda"},
+      {de:"die Desinformation",en:"disinformation"},{de:"die Falschmeldung",en:"fake news"},
+      {de:"das Gerücht",en:"rumour"},{de:"die Verschwörungstheorie",en:"conspiracy theory"},
+      {de:"die Filterblase",en:"filter bubble"},{de:"die Echo-Kammer",en:"echo chamber"}
+    ]},
+    {name:"Media chunks", scope:"Fixed phrases for media analysis", items:[
+      {de:"Der Artikel suggeriert, dass …",en:"the article suggests that …"},
+      {de:"Die Zeitung berichtet, der Politiker sei zurückgetreten.",en:"the paper reports the politician has resigned"},
+      {de:"Es heißt, die Lage sei unter Kontrolle.",en:"it's said the situation is under control"},
+      {de:"Diese Aussage wird bewusst aus dem Kontext gerissen.",en:"this statement is deliberately taken out of context"},
+      {de:"Man sollte die Quelle kritisch prüfen.",en:"one should check the source critically"},
+      {de:"Die Nachricht stellte sich als falsch heraus.",en:"the news turned out to be false"}
+    ]}
+  ],
+  functions:[
+    {de:"Die Zeitung berichtet, der Minister sei zurückgetreten.",en:"report claims you don't personally vouch for"},
+    {de:"Diese Schlagzeile ist bewusst reißerisch formuliert.",en:"analyse the style and intent of a headline"},
+    {de:"Er soll angeblich davon gewusst haben.",en:"express distance from a claim using subjective modals"}
+  ],
+  grammar:[
+    {title:"Konjunktiv I in journalistic register", teach:"News reports mark distance from a claim by using Konjunktiv I throughout. This is the same form you met in Chapter 2, but at B2 you need to recognise it instantly in a paragraph and know the writer is not asserting the claim is true.", table:null, examples:["Der Zeuge sagte aus, er habe den Mann gesehen.","Die Firma teilte mit, sie werde Stellen abbauen."]},
+    {title:"Subjektive Modalverben — expressing distance and hearsay", teach:"sollen reports what 'people say'. wollen reports what the subject themselves claims — often with a hint of doubt. müssen expresses a strong logical conclusion. können expresses a possibility.", table:[["Er soll krank sein.","People say he's sick."],["Er will nichts gewusst haben.","He claims he knew nothing."],["Er muss es gewusst haben.","He must have known."],["Das kann stimmen.","That may be true."]], examples:["Der Zeuge will den Mann gesehen haben.","Sie soll sehr talentiert sein."]},
+    {title:"Hedges and distancing expressions", teach:"These small phrases let you report something without asserting it yourself — an essential skill in a critical B2 register.", table:null, examples:["Angeblich hat er das gesagt.","Es heißt, die Lage sei unter Kontrolle.","Man munkelt, dass …"]}
+  ],
+  drills:[
+    {q:"Die Zeitung berichtet, der Minister ___ zurückgetreten.", options:["sei","ist","war","wäre"], answer:"sei"},
+    {q:"Er ___ nichts gewusst haben. (he claims)", options:["will","soll","muss","kann"], answer:"will"},
+    {q:"Sie ___ sehr talentiert sein. (people say)", options:["soll","will","muss","kann"], answer:"soll"},
+    {q:"Er ___ es gewusst haben. (strong conclusion)", options:["muss","soll","will","kann"], answer:"muss"},
+    {q:"___ hat er das gesagt.", options:["Angeblich","Anscheinend","Offenbar","Wahrscheinlich"], answer:"Angeblich"}
+  ],
+  comingLater:["Detailed media-science terminology (framing theory, agenda-setting)","Political propaganda analysis of historical regimes","Statistical literacy in journalism"]
+},
+{
+  id:5, titleDe:"Migration, Identität & Zugehörigkeit", titleEn:"Migration, Identity & Belonging", quota:80,
+  goal:"By the end of this chapter you can discuss questions of identity and belonging in depth, use who/where relative clauses naturally, and use genitive prepositions in formal writing.",
+  categories:[
+    {name:"Migration & flight", scope:"Core migration vocabulary", items:[
+      {de:"die Einwanderung",en:"immigration"},{de:"die Auswanderung",en:"emigration"},
+      {de:"die Flucht",en:"flight, escape"},{de:"der Asylant",en:"asylum seeker"},
+      {de:"die Aufenthaltsgenehmigung",en:"residence permit"},{de:"die Abschiebung",en:"deportation"},
+      {de:"das Einwanderungsgesetz",en:"immigration law"},{de:"die Einbürgerung",en:"naturalisation"}
+    ]},
+    {name:"Integration & belonging", scope:"Core integration vocabulary", items:[
+      {de:"die Integration",en:"integration"},{de:"die Zugehörigkeit",en:"belonging"},
+      {de:"die Teilhabe",en:"participation"},{de:"die Anerkennung",en:"recognition"},
+      {de:"die Ausgrenzung",en:"exclusion"},{de:"die Assimilation",en:"assimilation"},
+      {de:"der interkulturelle Dialog",en:"intercultural dialogue"},{de:"die Chancengleichheit",en:"equal opportunity"}
+    ]},
+    {name:"Cultural identity", scope:"Core identity vocabulary", items:[
+      {de:"die Herkunft",en:"origin"},{de:"die Wurzeln",en:"roots"},
+      {de:"die Muttersprache",en:"native language"},{de:"die Zweisprachigkeit",en:"bilingualism"},
+      {de:"die Hybridität",en:"hybridity"},{de:"der Identitätskonflikt",en:"identity conflict"},
+      {de:"der kulturelle Wandel",en:"cultural change"},{de:"die Mehrfachzugehörigkeit",en:"multiple belonging"}
+    ]},
+    {name:"Migration chunks", scope:"Fixed phrases for identity discussions", items:[
+      {de:"Wer migriert, muss sich oft neu erfinden.",en:"those who migrate often have to reinvent themselves"},
+      {de:"Was mich geprägt hat, war meine Kindheit im Ausland.",en:"what shaped me was my childhood abroad"},
+      {de:"Angesichts der wachsenden Migration stellt sich die Frage, …",en:"in view of growing migration the question arises …"},
+      {de:"Aufgrund meiner Herkunft werde ich oft anders wahrgenommen.",en:"because of my origin I'm often perceived differently"},
+      {de:"Man fühlt sich manchmal zwischen zwei Welten zerrissen.",en:"sometimes you feel torn between two worlds"},
+      {de:"Hinsichtlich der Integration gibt es noch viel zu tun.",en:"regarding integration, there's still a lot to do"}
+    ]}
+  ],
+  functions:[
+    {de:"Was mich am stärksten geprägt hat, war meine Kindheit im Ausland.",en:"talk about identity and what shaped you"},
+    {de:"Angesichts der aktuellen Lage brauchen wir mehr Dialog.",en:"use genitive prepositions in a formal register"},
+    {de:"Wer seine Wurzeln kennt, kann offener auf andere zugehen.",en:"discuss belonging using who/where relative clauses"}
+  ],
+  grammar:[
+    {title:"Relativsätze mit wer, was und wo", teach:"wer means 'whoever' or 'the person who', was means 'what' or 'that which', and wo can mean 'where'. Unlike normal relative pronouns, wer and was are not tied to an antecedent — they bring their own.", table:[["wer … , der …","whoever … , he/that person …"],["was … , das …","what … , that …"],["da, wo …","there, where …"]], examples:["Wer migriert, muss sich oft neu erfinden.","Was mich geprägt hat, war meine Kindheit im Ausland.","Da, wo ich aufgewachsen bin, spricht man zwei Sprachen."]},
+    {title:"Genitivpräpositionen — auf Grund, angesichts, hinsichtlich, bezüglich", teach:"These formal prepositions take the genitive and are the standard register in essays, reports and official writing. Learn them as a set — they all mean something close to 'regarding / because of / in view of'.", table:[["aufgrund / wegen","because of"],["angesichts","in view of"],["hinsichtlich","regarding"],["bezüglich","concerning"]], examples:["Aufgrund meiner Herkunft werde ich oft anders wahrgenommen.","Angesichts der wachsenden Migration stellt sich die Frage …","Hinsichtlich der Integration gibt es noch viel zu tun."]},
+    {title:"Nominalisierung in formal statements", teach:"Dense nominal phrases are typical of formal writing about migration and society. Recognise them by asking which underlying verb or clause they compress.", table:null, examples:["Bei der Ankunft in einem neuen Land … = Als man in einem neuen Land ankommt …"]}
+  ],
+  drills:[
+    {q:"___ migriert, muss sich oft neu erfinden.", options:["Wer","Was","Wo","Der"], answer:"Wer"},
+    {q:"___ mich geprägt hat, war meine Kindheit.", options:["Was","Wer","Wo","Das"], answer:"Was"},
+    {q:"___ meiner Herkunft werde ich anders wahrgenommen.", options:["Aufgrund","Angesichts","Hinsichtlich","Bezüglich"], answer:"Aufgrund"},
+    {q:"___ der wachsenden Migration stellt sich die Frage.", options:["Angesichts","Aufgrund","Bezüglich","Hinsichtlich"], answer:"Angesichts"},
+    {q:"___ der Integration gibt es noch viel zu tun.", options:["Hinsichtlich","Angesichts","Aufgrund","Wegen"], answer:"Hinsichtlich"}
+  ],
+  comingLater:["Detailed asylum-law terminology","Postcolonial theory and its vocabulary","Fully active mastery of all genitive prepositions in speech"]
+},
+{
+  id:6, titleDe:"Wirtschaft, Handel & Globalisierung", titleEn:"Economy, Trade & Globalisation", quota:80,
+  goal:"By the end of this chapter you can discuss economic questions, express real and unreal conditions, and analyse globalisation's costs and benefits.",
+  categories:[
+    {name:"Economy & trade", scope:"Core economic vocabulary", items:[
+      {de:"der Handel",en:"trade"},{de:"der Export",en:"export"},
+      {de:"der Import",en:"import"},{de:"der Zoll",en:"customs, tariff"},
+      {de:"die Handelsbeziehung",en:"trade relationship"},{de:"der Binnenmarkt",en:"internal market"},
+      {de:"die Lieferkette",en:"supply chain"},{de:"die Wirtschaftsleistung",en:"economic output"}
+    ]},
+    {name:"Globalisation", scope:"Core globalisation vocabulary", items:[
+      {de:"die Globalisierung",en:"globalisation"},{de:"die Vernetzung",en:"interconnection"},
+      {de:"die Standortverlagerung",en:"offshoring"},{de:"der Wettbewerbsdruck",en:"competitive pressure"},
+      {de:"die Liberalisierung",en:"liberalisation"},{de:"die Regulierung",en:"regulation"},
+      {de:"die wirtschaftliche Abhängigkeit",en:"economic dependency"},{de:"der Wohlstand",en:"prosperity"}
+    ]},
+    {name:"Crisis & cycle", scope:"Core crisis vocabulary", items:[
+      {de:"die Rezession",en:"recession"},{de:"die Inflation",en:"inflation"},
+      {de:"die Konjunktur",en:"economic cycle"},{de:"der Aufschwung",en:"upswing"},
+      {de:"der Abschwung",en:"downturn"},{de:"die Staatsverschuldung",en:"national debt"},
+      {de:"die Finanzkrise",en:"financial crisis"},{de:"die Subvention",en:"subsidy"}
+    ]},
+    {name:"Economy chunks", scope:"Fixed phrases for economic argument", items:[
+      {de:"Sofern die Nachfrage steigt, steigen auch die Preise.",en:"provided demand rises, prices rise too"},
+      {de:"Solange der Staat subventioniert, bleibt der Preis stabil.",en:"as long as the state subsidises, the price stays stable"},
+      {de:"Es sei denn, es gibt neue Regeln, wird sich nichts ändern.",en:"unless there are new rules, nothing will change"},
+      {de:"Falls die Krise sich verschärft, muss die Regierung handeln.",en:"if the crisis worsens, the government must act"},
+      {de:"Wäre der Handel freier, gäbe es mehr Wohlstand.",en:"if trade were freer, there would be more prosperity"},
+      {de:"Hätte man früher reguliert, wäre die Krise milder gewesen.",en:"if there had been regulation earlier, the crisis would have been milder"}
+    ]}
+  ],
+  functions:[
+    {de:"Sofern die Nachfrage weiter steigt, wird der Preis steigen.",en:"express a real condition in an economic argument"},
+    {de:"Wäre der Handel freier, gäbe es mehr Wohlstand.",en:"express an unreal condition"},
+    {de:"Die Globalisierung hat sowohl Gewinner als auch Verlierer.",en:"weigh up the costs and benefits of globalisation"}
+  ],
+  grammar:[
+    {title:"Reale Bedingungssätze mit sofern, solange, falls, es sei denn", teach:"These four connectors express real conditions — things that could actually happen. Each has its own nuance: sofern (provided that), solange (as long as), falls (in case), es sei denn (unless). Es sei denn is a fixed subjunctive form and introduces an exception.", table:null, examples:["Sofern die Nachfrage steigt, steigen die Preise.","Solange der Staat subventioniert, bleibt der Preis stabil.","Es sei denn, es gibt neue Regeln, wird sich nichts ändern."]},
+    {title:"Irreale Bedingungssätze — Konjunktiv II in the present", teach:"When the condition contradicts reality, use Konjunktiv II: wäre, hätte, würde + infinitive, plus the Konjunktiv II of any other verb you need. The wenn-clause sends its verb to the end.", table:null, examples:["Wäre der Handel freier, gäbe es mehr Wohlstand.","Wenn ich mehr Zeit hätte, würde ich das genauer untersuchen."]},
+    {title:"Irreale Bedingungssätze in der Vergangenheit", teach:"To say what would have happened if something had been different in the past, combine hätte/wäre + past participle in both clauses. This is one of the most advanced structures you'll produce at B2.", table:null, examples:["Hätte man früher reguliert, wäre die Krise milder gewesen.","Wenn wir mehr investiert hätten, hätten wir jetzt keine Probleme."]}
+  ],
+  drills:[
+    {q:"___ die Nachfrage steigt, steigen die Preise.", options:["Sofern","Solange","Es sei denn","Damit"], answer:"Sofern"},
+    {q:"___ der Staat subventioniert, bleibt der Preis stabil.", options:["Solange","Sofern","Es sei denn","Falls"], answer:"Solange"},
+    {q:"Es sei ___, es gibt neue Regeln, wird sich nichts ändern.", options:["denn","denn nicht","dennoch","denn doch"], answer:"denn"},
+    {q:"___ der Handel freier, gäbe es mehr Wohlstand.", options:["Wäre","Ist","War","Sei"], answer:"Wäre"},
+    {q:"Hätte man früher reguliert, ___ die Krise milder gewesen.", options:["wäre","würde","ist","war"], answer:"wäre"}
+  ],
+  comingLater:["Detailed macroeconomics (monetary policy, fiscal theory)","Trade law and WTO terminology","Full passive with Konjunktiv II in past"]
+},
+{
+  id:7, titleDe:"Psychologie, Resilienz & Wohlbefinden", titleEn:"Psychology, Resilience & Wellbeing", quota:75,
+  goal:"By the end of this chapter you can discuss mental health in a nuanced way, compare how someone appears with how they really are, and speak with sensitivity about psychological topics.",
+  categories:[
+    {name:"Mental health", scope:"Core mental-health vocabulary", items:[
+      {de:"die psychische Gesundheit",en:"mental health"},{de:"die Depression",en:"depression"},
+      {de:"die Angststörung",en:"anxiety disorder"},{de:"das Trauma",en:"trauma"},
+      {de:"die Belastung",en:"strain, burden"},{de:"die Bewältigung",en:"coping"},
+      {de:"das Wohlbefinden",en:"wellbeing"},{de:"die Selbstwahrnehmung",en:"self-perception"}
+    ]},
+    {name:"Stress & burnout", scope:"Core stress vocabulary", items:[
+      {de:"das Burnout",en:"burnout"},{de:"die Erschöpfung",en:"exhaustion"},
+      {de:"der Leistungsdruck",en:"performance pressure"},{de:"die Überforderung",en:"being overwhelmed"},
+      {de:"die Grenze setzen",en:"to set a boundary"},{de:"die Entspannung",en:"relaxation"},
+      {de:"die Achtsamkeit",en:"mindfulness"},{de:"die Selbstfürsorge",en:"self-care"}
+    ]},
+    {name:"Resilience & therapy", scope:"Core resilience vocabulary", items:[
+      {de:"die Resilienz",en:"resilience"},{de:"die Bewältigungsstrategie",en:"coping strategy"},
+      {de:"die Therapie",en:"therapy"},{de:"der Therapeut / die Therapeutin",en:"therapist"},
+      {de:"die Verhaltenstherapie",en:"cognitive behavioural therapy"},{de:"das soziale Netzwerk",en:"social network"},
+      {de:"die Unterstützung",en:"support"},{de:"die Selbstwirksamkeit",en:"self-efficacy"}
+    ]},
+    {name:"Wellbeing chunks", scope:"Fixed phrases for psychological topics", items:[
+      {de:"Es sieht so aus, als ob er unter großem Druck stünde.",en:"it looks as though he's under great pressure"},
+      {de:"Sie tut so, als wäre alles in Ordnung.",en:"she acts as if everything were fine"},
+      {de:"Er wirkt erschöpft, obwohl er das nicht zugeben würde.",en:"he seems exhausted, although he wouldn't admit it"},
+      {de:"Wenn man früh Hilfe sucht, kann man vieles abwenden.",en:"if you seek help early, you can prevent a lot"},
+      {de:"Es wäre besser gewesen, früher mit jemandem zu sprechen.",en:"it would have been better to talk to someone earlier"},
+      {de:"Man sollte professionelle Hilfe nicht scheuen.",en:"one shouldn't shy away from professional help"}
+    ]}
+  ],
+  functions:[
+    {de:"Es sieht so aus, als ob er unter großem Druck stünde.",en:"compare appearance with reality"},
+    {de:"Es wäre besser gewesen, früher mit jemandem zu sprechen.",en:"express regret about the past in a sensitive context"},
+    {de:"Wenn man früh Hilfe sucht, kann man vieles abwenden.",en:"discuss prevention and coping strategies"}
+  ],
+  grammar:[
+    {title:"Irreale Vergleichssätze mit als ob / als wenn / als", teach:"To say how something appears versus how it really is, use als ob or als wenn + Konjunktiv II. The verb goes to the end of the clause. You can also drop ob/wenn and start with the verb right after als, which sounds more literary.", table:null, examples:["Er tut so, als ob er alles wüsste.","Sie tut so, als wäre alles in Ordnung. (als + verb, no ob)","Es sieht so aus, als wenn er müde wäre."]},
+    {title:"Konjunktiv II in cautious statements", teach:"In sensitive contexts, Konjunktiv II lets you soften what you say — 'it would seem', 'one could say', 'it might be'. This is exactly the register you need for psychological and personal topics.", table:null, examples:["Man könnte sagen, dass …","Es wäre denkbar, dass …","Ich würde vermuten, dass …"]},
+    {title:"Weil, obwohl, sodass — a quick review in a new context", teach:"Subordinate connectors behave the same way in psychological texts as anywhere else: they send the conjugated verb to the end. Recognising this lets you parse longer, more complex sentences about causes, contrasts and results.", table:null, examples:["Er wirkt erschöpft, obwohl er das nicht zugeben würde.","Sie arbeitet weniger, sodass sie sich besser erholen kann."]}
+  ],
+  drills:[
+    {q:"Er tut so, als ob er alles ___.", options:["wüsste","weiß","wusste","gewusst"], answer:"wüsste"},
+    {q:"Sie tut so, als ___ alles in Ordnung.", options:["wäre","ist","war","sei"], answer:"wäre"},
+    {q:"Es sieht so aus, als ___ er müde.", options:["wenn","ob","dass","wie"], answer:"wenn"},
+    {q:"Man ___ sagen, dass er überfordert ist.", options:["könnte","kann","konnte","könne"], answer:"könnte"},
+    {q:"Es ___ denkbar, dass er Hilfe braucht.", options:["wäre","ist","war","sei"], answer:"wäre"}
+  ],
+  comingLater:["Clinical diagnostic terminology","Psychopharmacology","Fully active mastery of all forms of als ob with different tenses"]
+},
+{
+  id:8, titleDe:"Recht, Gerechtigkeit & Verantwortung", titleEn:"Law, Justice & Responsibility", quota:75,
+  goal:"By the end of this chapter you can discuss legal questions, use passive substitutes naturally, and understand formal legal German in the news.",
+  categories:[
+    {name:"Legal system", scope:"Core legal vocabulary", items:[
+      {de:"das Gericht",en:"court"},{de:"der Richter / die Richterin",en:"judge"},
+      {de:"die Anklage",en:"charge, prosecution"},{de:"die Verteidigung",en:"defence"},
+      {de:"das Urteil",en:"verdict"},{de:"die Strafe",en:"punishment"},
+      {de:"die Berufung",en:"appeal"},{de:"das Verfahren",en:"proceedings"}
+    ]},
+    {name:"Crime & punishment", scope:"Core crime vocabulary", items:[
+      {de:"die Straftat",en:"criminal offence"},{de:"der Diebstahl",en:"theft"},
+      {de:"der Betrug",en:"fraud"},{de:"die Körperverletzung",en:"bodily harm"},
+      {de:"die Geldstrafe",en:"fine"},{de:"die Freiheitsstrafe",en:"prison sentence"},
+      {de:"die Bewährung",en:"probation"},{de:"die Verurteilung",en:"conviction"}
+    ]},
+    {name:"Rights & duties", scope:"Core rights vocabulary", items:[
+      {de:"das Grundrecht",en:"fundamental right"},{de:"die Meinungsfreiheit",en:"freedom of speech"},
+      {de:"die Menschenwürde",en:"human dignity"},{de:"die Gleichheit vor dem Gesetz",en:"equality before the law"},
+      {de:"die Pflicht",en:"duty"},{de:"die Haftung",en:"liability"},
+      {de:"der Anspruch",en:"entitlement, claim"},{de:"die Verantwortung",en:"responsibility"}
+    ]},
+    {name:"Legal chunks", scope:"Fixed phrases for legal topics", items:[
+      {de:"Der Angeklagte wurde zu einer Geldstrafe verurteilt.",en:"the defendant was sentenced to a fine"},
+      {de:"Das Urteil lässt sich nicht so leicht anfechten.",en:"the verdict can't be appealed so easily"},
+      {de:"Der Vertrag ist bis Ende des Jahres zu erfüllen.",en:"the contract is to be fulfilled by the end of the year"},
+      {de:"Diese Forderung ist nicht durchsetzbar.",en:"this claim cannot be enforced"},
+      {de:"Der Sachverhalt muss noch geklärt werden.",en:"the facts still need to be clarified"},
+      {de:"Es wird davon ausgegangen, dass er unschuldig ist.",en:"it is assumed that he is innocent"}
+    ]}
+  ],
+  functions:[
+    {de:"Der Angeklagte wurde zu einer Geldstrafe verurteilt.",en:"describe legal procedures using the passive"},
+    {de:"Diese Forderung lässt sich nicht durchsetzen.",en:"use passive substitutes for legal statements"},
+    {de:"Es wird davon ausgegangen, dass er unschuldig ist.",en:"report a legal position in neutral register"}
+  ],
+  grammar:[
+    {title:"Passiv mit Modalverben in allen Zeitformen", teach:"Legal and formal German relies on this pattern constantly. Drill it as a single block so the three tenses stay separate in your head.", table:[["Präsens: muss geklärt werden","has to be clarified"],["Präteritum: musste geklärt werden","had to be clarified"],["Perfekt: hat geklärt werden müssen","has had to be clarified"]], examples:["Der Sachverhalt muss noch geklärt werden.","Die Unterlagen haben eingereicht werden müssen."]},
+    {title:"Passiversatzformen — the three main alternatives", teach:"German often prefers an active-sounding substitute over a heavy passive. Three go-to forms cover almost all cases: sich lassen + infinitive, sein + zu + infinitive, and the Zustandspassiv (sein + past participle).", table:[["Das lässt sich klären.","It can be clarified."],["Das ist zu klären.","It is to be clarified."],["Das ist geklärt.","It is clarified (state)."]], examples:["Diese Forderung lässt sich nicht durchsetzen.","Der Vertrag ist bis Ende des Jahres zu erfüllen.","Der Fall ist bereits abgeschlossen."]},
+    {title:"Funktionsverbgefüge im Recht", teach:"Legal German is full of fixed verb+noun combinations. Learn these as chunks — they rarely translate word-for-word.", table:[["einen Antrag stellen","to file an application"],["einen Einspruch einlegen","to lodge an objection"],["zur Verantwortung ziehen","to hold to account"],["in Kraft treten","to come into force"]], examples:["Der Anwalt legte Einspruch ein.","Das Gesetz trat letzte Woche in Kraft."]}
+  ],
+  drills:[
+    {q:"Der Sachverhalt muss noch ___ werden.", options:["geklärt","klären","klärte","klärend"], answer:"geklärt"},
+    {q:"Diese Forderung ___ sich nicht durchsetzen.", options:["lässt","lasst","ließ","gelassen"], answer:"lässt"},
+    {q:"Der Vertrag ist bis Ende des Jahres ___. (zu-form)", options:["zu erfüllen","erfüllt","erfülle","erfüllend"], answer:"zu erfüllen"},
+    {q:"Der Anwalt legte ___ ein.", options:["Einspruch","Widerspruch","Klage","Antrag"], answer:"Einspruch"},
+    {q:"Das Gesetz trat letzte Woche in ___ .", options:["Kraft","Macht","Wirkung","Geltung"], answer:"Kraft"}
+  ],
+  comingLater:["Detailed procedural law","Constitutional court jurisprudence","Full active production of all Funktionsverbgefüge"]
+},
+{
+  id:9, titleDe:"Kunst, Literatur & Interpretation", titleEn:"Art, Literature & Interpretation", quota:75,
+  goal:"By the end of this chapter you can interpret a text or artwork, unpack dense literary German, and write a structured literary analysis.",
+  categories:[
+    {name:"Literature & interpretation", scope:"Core literature vocabulary", items:[
+      {de:"die Erzählperspektive",en:"narrative perspective"},{de:"die Erzählweise",en:"narrative style"},
+      {de:"die Symbolik",en:"symbolism"},{de:"das Motiv",en:"motif"},
+      {de:"die Metapher",en:"metaphor"},{de:"die Ironie",en:"irony"},
+      {de:"der Subtext",en:"subtext"},{de:"die Deutung",en:"interpretation"}
+    ]},
+    {name:"Art & society", scope:"Core art-in-society vocabulary", items:[
+      {de:"die Kunstfreiheit",en:"freedom of art"},{de:"die Zensur",en:"censorship"},
+      {de:"die Rezeption",en:"reception"},{de:"das Publikum",en:"audience"},
+      {de:"die Kritik",en:"criticism"},{de:"die Wirkung",en:"effect, impact"},
+      {de:"der Künstler / die Künstlerin",en:"artist"},{de:"die Institution",en:"institution"}
+    ]},
+    {name:"Aesthetics & effect", scope:"Core aesthetic vocabulary", items:[
+      {de:"ästhetisch",en:"aesthetic"},{de:"provokant",en:"provocative"},
+      {de:"subtil",en:"subtle"},{de:"vielschichtig",en:"multi-layered"},
+      {de:"vordergründig",en:"superficial, on the surface"},{de:"hintergründig",en:"with hidden depth"},
+      {de:"anspielungsreich",en:"full of allusions"},{de:"experimentell",en:"experimental"}
+    ]},
+    {name:"Interpretation chunks", scope:"Fixed phrases for literary analysis", items:[
+      {de:"Die in diesem Roman dargestellte Gesellschaft …",en:"the society depicted in this novel …"},
+      {de:"Der vom Autor gewählte Ton ist ironisch.",en:"the tone chosen by the author is ironic"},
+      {de:"Es lässt sich argumentieren, dass die Figur …",en:"it can be argued that the character …"},
+      {de:"Auf den ersten Blick wirkt das harmlos, doch …",en:"at first glance this seems harmless, but …"},
+      {de:"Man könnte den Text auch als Kritik an … lesen.",en:"one could also read the text as a critique of …"},
+      {de:"Was der Autor damit sagen wollte, bleibt offen.",en:"what the author intended by it remains open"}
+    ]}
+  ],
+  functions:[
+    {de:"Die in diesem Roman dargestellte Gesellschaft ist stark hierarchisch.",en:"describe and interpret a work in formal register"},
+    {de:"Es lässt sich argumentieren, dass die Hauptfigur ambivalent bleibt.",en:"develop a literary argument"},
+    {de:"Was der Autor damit sagen wollte, bleibt offen.",en:"express interpretive uncertainty"}
+  ],
+  grammar:[
+    {title:"Erweiterte Partizipialattribute auflösen", teach:"Literary and academic German packs entire relative clauses in front of nouns as extended participle phrases. The skill is unpacking them — move the phrase after the noun and turn it into a relative clause to work out what it means.", table:null, examples:["die in diesem Roman dargestellte Gesellschaft = die Gesellschaft, die in diesem Roman dargestellt wird","der vom Autor gewählte Ton = der Ton, den der Autor gewählt hat"]},
+    {title:"Genitivattribute", teach:"Formal literary German uses the genitive heavily for possession and description. Learn to spot it, and to swap it for a von-phrase when speaking — both mean the same thing, in different registers.", table:null, examples:["die Sprache des Autors = die Sprache von dem Autor","die Wirkung des Textes = die Wirkung von dem Text"]},
+    {title:"Konjunktiv II für vorsichtige Interpretation", teach:"Literary interpretation is full of hedged claims. Konjunktiv II keeps you honest — you're proposing an interpretation, not asserting a fact.", table:null, examples:["Man könnte den Text als Kritik lesen.","Es ließe sich argumentieren, dass …","Das wäre eine mögliche Deutung."]}
+  ],
+  drills:[
+    {q:"'die in diesem Roman dargestellte Gesellschaft' = die Gesellschaft, die in diesem Roman ___ wird.", options:["dargestellt","darstellen","darstellend","darstellte"], answer:"dargestellt"},
+    {q:"'der vom Autor gewählte Ton' = der Ton, den der Autor ___ hat.", options:["gewählt","wählen","wählend","wählte"], answer:"gewählt"},
+    {q:"Man ___ den Text als Kritik lesen.", options:["könnte","kann","konnte","könne"], answer:"könnte"},
+    {q:"Es ___ sich argumentieren, dass …", options:["ließe","lässt","ließ","gelassen"], answer:"ließe"},
+    {q:"Das ___ eine mögliche Deutung.", options:["wäre","ist","war","sei"], answer:"wäre"}
+  ],
+  comingLater:["Detailed literary theory (structuralism, deconstruction)","Art-history period terminology","Full active production of long extended participle phrases"]
+},
+{
+  id:10, titleDe:"Technik, Digitalisierung & Zukunft", titleEn:"Technology, Digitalisation & the Future", quota:75,
+  goal:"By the end of this chapter you can speculate about the future, express how certain you are of predictions, and discuss technology in a balanced, critical register.",
+  categories:[
+    {name:"Technological developments", scope:"Core tech vocabulary", items:[
+      {de:"die künstliche Intelligenz",en:"artificial intelligence"},{de:"das maschinelle Lernen",en:"machine learning"},
+      {de:"die Automatisierung",en:"automation"},{de:"der Algorithmus",en:"algorithm"},
+      {de:"die Schnittstelle",en:"interface"},{de:"die Vernetzung",en:"interconnection"},
+      {de:"die Datenverarbeitung",en:"data processing"},{de:"der technologische Fortschritt",en:"technological progress"}
+    ]},
+    {name:"Digitalisation", scope:"Core digitalisation vocabulary", items:[
+      {de:"die digitale Transformation",en:"digital transformation"},{de:"die Plattformökonomie",en:"platform economy"},
+      {de:"die Fernwartung",en:"remote maintenance"},{de:"die Cybersicherheit",en:"cybersecurity"},
+      {de:"der Datenschutz",en:"data protection"},{de:"die Überwachung",en:"surveillance"},
+      {de:"die Anonymität",en:"anonymity"},{de:"die Zugänglichkeit",en:"accessibility"}
+    ]},
+    {name:"Future scenarios", scope:"Core future-scenario vocabulary", items:[
+      {de:"das Szenario",en:"scenario"},{de:"die Prognose",en:"forecast"},
+      {de:"absehbar",en:"foreseeable"},{de:"unabsehbar",en:"unforeseeable"},
+      {de:"die Wahrscheinlichkeit",en:"probability"},{de:"die Unsicherheit",en:"uncertainty"},
+      {de:"der Wendepunkt",en:"turning point"},{de:"die Weichenstellung",en:"course-setting"}
+    ]},
+    {name:"Future chunks", scope:"Fixed phrases for speculating about the future", items:[
+      {de:"In zehn Jahren wird sich vieles verändert haben.",en:"in ten years much will have changed"},
+      {de:"Bis 2050 wird die Hälfte der Berufe automatisiert sein.",en:"by 2050 half of all jobs will have been automated"},
+      {de:"Es ist davon auszugehen, dass die Technik weiter voranschreitet.",en:"it can be assumed that technology will keep advancing"},
+      {de:"Höchstwahrscheinlich wird sich das Tempo noch erhöhen.",en:"most likely the pace will increase further"},
+      {de:"Das lässt sich heute noch nicht mit Sicherheit sagen.",en:"that can't yet be said with certainty today"},
+      {de:"Man kann nur spekulieren, wohin das führen wird.",en:"one can only speculate where this will lead"}
+    ]}
+  ],
+  functions:[
+    {de:"Bis 2050 wird die Hälfte der Berufe automatisiert sein.",en:"make a prediction using Futur II"},
+    {de:"Es ist davon auszugehen, dass die Technik weiter voranschreitet.",en:"express a well-founded assumption"},
+    {de:"Man kann nur spekulieren, wohin das führen wird.",en:"express degrees of uncertainty about the future"}
+  ],
+  grammar:[
+    {title:"Futur I und Futur II", teach:"Futur I (werden + infinitive) is the standard future. Futur II (werden + past participle + haben/sein) expresses what will already have happened by a point in the future. At B2 you should be comfortable recognising Futur II and producing it in predictions.", table:[["Futur I: ich werde arbeiten","I will work"],["Futur II: ich werde gearbeitet haben","I will have worked"]], examples:["In zehn Jahren werde ich in einem anderen Beruf arbeiten.","Bis 2050 wird die Hälfte der Berufe automatisiert sein."]},
+    {title:"Konjunktiv II in Spekulationen über die Vergangenheit", teach:"To speculate about what could have happened differently in the past, combine hätte/wäre + past participle with a modal at the end.", table:null, examples:["Man hätte früher reagieren können.","Das hätte anders laufen können."]},
+    {title:"Subjektive Modalverben für Prognosen", teach:"Use sollen for what people predict, dürfte for what is likely, and müsste for what logically should follow. These subtle differences in certainty are exactly what B2 expects.", table:[["Das dürfte stimmen.","That's probably right."],["Das müsste eigentlich funktionieren.","That should logically work."],["Das soll 2030 marktreif sein.","It's said to be market-ready by 2030."]], examples:["Das dürfte in zehn Jahren Standard sein.","Das müsste sich eigentlich leicht umsetzen lassen."]}
+  ],
+  drills:[
+    {q:"Bis 2050 wird die Hälfte der Berufe automatisiert ___.", options:["sein","werden","haben","worden"], answer:"sein"},
+    {q:"In zehn Jahren ___ ich in einem anderen Beruf arbeiten.", options:["werde","würde","bin","habe"], answer:"werde"},
+    {q:"Das ___ in zehn Jahren Standard sein. (probability)", options:["dürfte","müsste","soll","will"], answer:"dürfte"},
+    {q:"Das ___ eigentlich funktionieren. (logical conclusion)", options:["müsste","dürfte","soll","will"], answer:"müsste"},
+    {q:"Man hätte früher reagieren ___.", options:["können","gekonnt","kann","konnte"], answer:"können"}
+  ],
+  comingLater:["Detailed AI-research terminology","Digital ethics and governance theory","Active production of extended Futur II in speech"]
+},
+{
+  id:11, titleDe:"Umwelt, Klimapolitik & Nachhaltigkeit", titleEn:"Environment, Climate Policy & Sustainability", quota:80,
+  goal:"By the end of this chapter you can analyse climate policy, argue about responsibility, and use nominal style in formal writing.",
+  categories:[
+    {name:"Climate policy", scope:"Core climate-policy vocabulary", items:[
+      {de:"das Klimaabkommen",en:"climate agreement"},{de:"die CO2-Bilanz",en:"carbon footprint"},
+      {de:"der Emissionshandel",en:"emissions trading"},{de:"die Klimaneutralität",en:"climate neutrality"},
+      {de:"das Ziel der Nachhaltigkeit",en:"sustainability goal"},{de:"die Anpassung",en:"adaptation"},
+      {de:"die Minderung",en:"mitigation"},{de:"die Verantwortung der Staaten",en:"state responsibility"}
+    ]},
+    {name:"Environmental movements", scope:"Core movement vocabulary", items:[
+      {de:"die Umweltbewegung",en:"environmental movement"},{de:"der Aktivismus",en:"activism"},
+      {de:"der Protest",en:"protest"},{de:"die Klimademonstration",en:"climate demonstration"},
+      {de:"der ziviler Ungehorsam",en:"civil disobedience"},{de:"die Petition",en:"petition"},
+      {de:"die Aufklärung",en:"awareness-raising"},{de:"der Wandel des Bewusstseins",en:"shift in consciousness"}
+    ]},
+    {name:"Sustainable economy", scope:"Core sustainable-economy vocabulary", items:[
+      {de:"die Kreislaufwirtschaft",en:"circular economy"},{de:"die erneuerbaren Energien",en:"renewable energies"},
+      {de:"die Ressourcenschonung",en:"conservation of resources"},{de:"die Dekarbonisierung",en:"decarbonisation"},
+      {de:"die grüne Technologie",en:"green technology"},{de:"der ökologische Umbau",en:"ecological restructuring"},
+      {de:"die Subvention erneuerbarer Energien",en:"subsidy of renewable energies"},{de:"die Investition",en:"investment"}
+    ]},
+    {name:"Climate chunks", scope:"Fixed phrases for climate debate", items:[
+      {de:"Angesichts der Klimakrise ist schnelles Handeln erforderlich.",en:"in view of the climate crisis, swift action is required"},
+      {de:"Die Reduzierung von Emissionen ist unerlässlich.",en:"the reduction of emissions is essential"},
+      {de:"Bei der Umsetzung der Maßnahmen gibt es noch Probleme.",en:"there are still problems with the implementation of the measures"},
+      {de:"Nach der Verabschiedung des Gesetzes …",en:"after the passing of the law …"},
+      {de:"Trotz aller Maßnahmen steigen die Emissionen weiter.",en:"despite all measures, emissions keep rising"},
+      {de:"Nur wenn alle Staaten mitziehen, lässt sich das Ziel erreichen.",en:"only if all states play along can the goal be reached"}
+    ]}
+  ],
+  functions:[
+    {de:"Angesichts der Klimakrise ist schnelles Handeln erforderlich.",en:"argue using genitive prepositions in formal register"},
+    {de:"Die Reduzierung von Emissionen ist unerlässlich.",en:"use nominal style to compress an argument"},
+    {de:"Nur wenn alle Staaten mitziehen, lässt sich das Ziel erreichen.",en:"express a condition and its consequence"}
+  ],
+  grammar:[
+    {title:"Nominalisierung in der Klimadebatte", teach:"Formal climate writing compresses clauses into dense noun phrases: Bei der Umsetzung, Nach der Verabschiedung, Angesichts der Reduzierung. The skill is unpacking them back into normal clauses so you're sure you've understood.", table:null, examples:["Bei der Umsetzung der Maßnahmen … = Als die Maßnahmen umgesetzt wurden …","Nach der Verabschiedung des Gesetzes … = Nachdem das Gesetz verabschiedet worden war …"]},
+    {title:"Passiv im Nominalstil", teach:"In formal writing, the passive often gets absorbed into a noun phrase completely — no werden, no participle in sight. Recognising that the underlying meaning is still passive is what matters.", table:null, examples:["Die Reduzierung von Emissionen … = Emissionen werden reduziert …","Die Umsetzung der Maßnahmen … = Die Maßnahmen werden umgesetzt …"]},
+    {title:"Konditionale Verknüpfungen", teach:"Use nur wenn … (only if), sofern … (provided that), and falls … (in case) to link a condition tightly to its consequence — essential for arguing policy positions.", table:null, examples:["Nur wenn alle Staaten mitziehen, lässt sich das Ziel erreichen.","Sofern die Subventionen bleiben, lohnt sich die Investition."]}
+  ],
+  drills:[
+    {q:"'Bei der Umsetzung der Maßnahmen' = ___ die Maßnahmen umgesetzt werden …", options:["als","wenn","ob","dass"], answer:"als"},
+    {q:"'Nach der Verabschiedung des Gesetzes' = Nachdem das Gesetz verabschiedet ___ war …", options:["worden","geworden","wurde","werden"], answer:"worden"},
+    {q:"___ wenn alle Staaten mitziehen, lässt sich das Ziel erreichen.", options:["Nur","Sofern","Falls","Wenn"], answer:"Nur"},
+    {q:"___ der Klimakrise ist schnelles Handeln erforderlich.", options:["Angesichts","Aufgrund","Hinsichtlich","Bezüglich"], answer:"Angesichts"},
+    {q:"Die Reduzierung von Emissionen ist ___.", options:["unerlässlich","unverlässlich","erlässlich","verlässlich"], answer:"unerlässlich"}
+  ],
+  comingLater:["UN climate treaty legalities","Detailed climate science terminology","Full active mastery of very long nominal phrases"]
+},
+{
+  id:12, titleDe:"Sprache, Rhetorik & Kommunikation", titleEn:"Language, Rhetoric & Communication", quota:70,
+  goal:"By the end of this chapter you can analyse how language is used to persuade, compare Konjunktiv I and II in detail, and speak about style and register.",
+  categories:[
+    {name:"Language varieties", scope:"Core register vocabulary", items:[
+      {de:"die Standardsprache",en:"standard language"},{de:"der Dialekt",en:"dialect"},
+      {de:"der Soziolekt",en:"sociolect"},{de:"die Umgangssprache",en:"colloquial language"},
+      {de:"die Fachsprache",en:"technical jargon"},{de:"die Jugendsprache",en:"youth language"},
+      {de:"das Register",en:"register"},{de:"die Sprachvarietät",en:"language variety"}
+    ]},
+    {name:"Rhetorical devices", scope:"Core rhetorical vocabulary", items:[
+      {de:"die Metapher",en:"metaphor"},{de:"die Ironie",en:"irony"},
+      {de:"die Übertreibung",en:"exaggeration"},{de:"die Wiederholung",en:"repetition"},
+      {de:"die rhetorische Frage",en:"rhetorical question"},{de:"der Dreiklang",en:"tricolon"},
+      {de:"die Anspielung",en:"allusion"},{de:"der Euphemismus",en:"euphemism"}
+    ]},
+    {name:"Communication strategies", scope:"Core communication vocabulary", items:[
+      {de:"die Argumentation",en:"argumentation"},{de:"die Schlussfolgerung",en:"conclusion"},
+      {de:"die Begründung",en:"justification"},{de:"das Gegenargument",en:"counter-argument"},
+      {de:"die Abschwächung",en:"mitigation, hedging"},{de:"die Verstärkung",en:"intensification"},
+      {de:"die Unterstellung",en:"insinuation"},{de:"das Missverständnis",en:"misunderstanding"}
+    ]},
+    {name:"Rhetoric chunks", scope:"Fixed phrases for stylistic analysis", items:[
+      {de:"Der Redner bedient sich zahlreicher Metaphern.",en:"the speaker uses numerous metaphors"},
+      {de:"Es handelt sich um eine bewusste Übertreibung.",en:"this is a deliberate exaggeration"},
+      {de:"Man könne argumentieren, dass …",en:"one could argue that …"},
+      {de:"Er habe gesagt, dass … — so lautet zumindest die Aussage.",en:"he reportedly said that … — at least, that's the claim"},
+      {de:"Diese Formulierung lässt sich unterschiedlich deuten.",en:"this phrasing can be interpreted in different ways"},
+      {de:"Durch geschickte Wortwahl wird der Hörer beeinflusst.",en:"through skilful wording the listener is influenced"}
+    ]}
+  ],
+  functions:[
+    {de:"Der Redner bedient sich zahlreicher Metaphern.",en:"analyse rhetorical style"},
+    {de:"Er habe gesagt, dass … — so lautet zumindest die Aussage.",en:"report a statement neutrally, using Konjunktiv I"},
+    {de:"Diese Formulierung lässt sich unterschiedlich deuten.",en:"express interpretive ambiguity"}
+  ],
+  grammar:[
+    {title:"Konjunktiv I und Konjunktiv II im direkten Vergleich", teach:"Konjunktiv I is for reporting what someone else said without vouching for it. Konjunktiv II is for unreal situations, hypotheticals, and polite requests. The forms often look similar, so it's worth drilling them side by side until the function, not the form, is what tells you which is which.", table:[["Konjunktiv I: er sagte, er sei krank","indirect speech — reporting"],["Konjunktiv II: wenn er krank wäre, …","unreal condition — hypothesising"]], examples:["Sie sagte, sie habe keine Zeit. (reporting)","Wenn sie Zeit hätte, würde sie kommen. (unreal)"]},
+    {title:"Redewiedergabe ohne Konjunktiv", teach:"In informal spoken German, people often just use dass + normal indicative instead of Konjunktiv I. Recognising both forms is essential — the choice depends on register and how much distance the speaker wants to signal.", table:null, examples:["Formal: Er sagte, er sei krank.","Informal: Er hat gesagt, dass er krank ist."]},
+    {title:"Stilmittel erkennen", teach:"At B2 you're not expected to produce polished rhetoric, but you are expected to identify it — metaphor, irony, exaggeration, rhetorical question, repetition. Naming a device is often the difference between a pass and a strong pass in a written exam.", table:null, examples:["'Ein Meer aus Tränen' — Metapher","'Willst du das wirklich?' — rhetorische Frage"]}
+  ],
+  drills:[
+    {q:"Sie sagte, sie ___ keine Zeit. (Konjunktiv I)", options:["habe","hat","hatte","hätte"], answer:"habe"},
+    {q:"Wenn sie Zeit ___, würde sie kommen. (Konjunktiv II)", options:["hätte","habe","hat","hatte"], answer:"hätte"},
+    {q:"Er hat gesagt, ___ er krank ist. (informal)", options:["dass","ob","wenn","weil"], answer:"dass"},
+    {q:"'Ein Meer aus Tränen' ist eine ___.", options:["Metapher","Ironie","Übertreibung","Wiederholung"], answer:"Metapher"},
+    {q:"'Willst du das wirklich?' ist eine ___.", options:["rhetorische Frage","Metapher","Übertreibung","Anspielung"], answer:"rhetorische Frage"}
+  ],
+  comingLater:["Full mastery of Konjunktiv I in all tenses","Detailed linguistic theory (pragmatics, discourse analysis)","Rhetoric at a near-native level of sophistication"]
+}
+];
 </script>
 
 <script id="app-script">
